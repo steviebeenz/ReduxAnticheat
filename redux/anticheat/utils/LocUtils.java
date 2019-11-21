@@ -264,9 +264,22 @@ public class LocUtils {
 		}
 		return false;
 	}
+	
+	public boolean isCollidedWeb(Location l, String string) {
+		for (double x = -0.5; x < 0.5; x += .2) {
+			for (double y = -0.9; y < 0.9; y += .2) {
+				for (double z = -0.5; z < 0.5; z += .2) {
+					if (l.clone().add(x, y, z).getBlock().getType().name().contains(string)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	public boolean isCollidedVertically(Location l, String string) {
-		for (double y = -0.9; y < 0.5; y += .2) {
+		for (double y = -0.9; y < 0.5; y += .1) {
 			if (l.clone().add(0, y, 0).getBlock().getType().name().contains(string)) {
 				return true;
 			}

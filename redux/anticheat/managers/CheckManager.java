@@ -31,6 +31,8 @@ import redux.anticheat.check.packets.movement.FlyC;
 import redux.anticheat.check.packets.movement.FlyD;
 import redux.anticheat.check.packets.movement.FlyE;
 import redux.anticheat.check.packets.movement.FlyF;
+import redux.anticheat.check.packets.movement.FlyH;
+import redux.anticheat.check.packets.movement.Glide;
 import redux.anticheat.check.packets.movement.Jesus;
 import redux.anticheat.check.packets.movement.LessY;
 import redux.anticheat.check.packets.movement.MoreJump;
@@ -100,6 +102,8 @@ public class CheckManager {
 		final BadPacketsH aj = new BadPacketsH();
 		final FastStairs ak = new FastStairs();
 		final NormalMovements al = new NormalMovements();
+		final FlyH am = new FlyH();
+		final Glide an = new Glide();
 		
 		checks.add(a);
 		checks.add(b);
@@ -137,6 +141,9 @@ public class CheckManager {
 		checks.add(aj);
 		checks.add(ak);
 		checks.add(al);
+		checks.add(ah);
+		checks.add(am);
+		checks.add(an);
 
 		loadCheckFiles();
 	}

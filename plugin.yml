@@ -1,0 +1,6 @@
+name: ReduxAnticheat
+version: 0.2.6
+author: _______________6
+main: redux.anticheat.Main
+depend: [ProtocolLib]
+load: STARTUP

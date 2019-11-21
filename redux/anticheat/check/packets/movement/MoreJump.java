@@ -36,6 +36,7 @@ public class MoreJump extends PacketCheck {
 
 		if (pd.getDeltaY() < 0) {
 			pd.isFalling = true;
+			pd.fallingTicks++;
 			if (pd.isRising) {
 				pd.isRising = false;
 				pd.wasFalling = false;
@@ -51,6 +52,10 @@ public class MoreJump extends PacketCheck {
 			if (pd.wasFalling) {
 				pd.wasFalling = false;
 			}
+			
+			if(pd.fallingTicks > 0) {
+				pd.fallingTicks--;
+			}
 
 			if (pd.isFalling) {
 				pd.wasFalling = true;
@@ -63,6 +68,9 @@ public class MoreJump extends PacketCheck {
 			}
 			if (pd.risingTicks > 0) {
 				pd.risingTicks--;
+			}
+			if(pd.fallingTicks > 0) {
+				pd.fallingTicks--;
 			}
 			if (pd.isFalling) {
 				pd.wasFalling = true;
@@ -124,6 +132,7 @@ public class MoreJump extends PacketCheck {
 			if (pd.isRising && pd.offGroundTicks > limit) {
 				if (pd.risingTicks > 4) {
 					flag(pd, pd.risingTicks + " > 4");
+					pd.risingTicks = 0;
 				}
 			}
 		} else {
@@ -138,6 +147,7 @@ public class MoreJump extends PacketCheck {
 					pd.jumpVl++;
 					if (pd.jumpVl > 2) {
 						flag(pd, pd.jumpVl + " > " + 2);
+						pd.jumpVl = 0;
 					}
 				} else {
 					if (pd.jumpVl > 0) {

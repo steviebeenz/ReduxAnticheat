@@ -52,7 +52,7 @@ public class PlayerManager {
 			if (load.isSet("violations")) {
 				pd.violations = load.getInt("violations");
 				pd.setAlerts(load.getBoolean("alerts"));
-				pd.severity = AlertSeverity.valueOf((String)load.get("severity"));
+				pd.severity = AlertSeverity.valueOf((String) load.get("severity"));
 				pd.setDelay(load.getLong("delay"));
 			}
 		}
@@ -83,16 +83,20 @@ public class PlayerManager {
 			plda.set("violations", pd.getViolations());
 			plda.set("alerts", pd.isAlerts());
 			plda.set("delay", pd.getDelay());
-			plda.set("severity", pd.severity.name());
+			if (pd.severity != null) {
+				plda.set("severity", pd.severity.name());
+			} else {
+				plda.set("severity", AlertSeverity.LOW.name());
+			}
 
 			try {
 				plda.save(player);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			for(PacketCheck c : Main.getInstance().getCheckManager().getChecks()) {
-				if(c.getViolations().containsKey(pd)) {
+
+			for (PacketCheck c : Main.getInstance().getCheckManager().getChecks()) {
+				if (c.getViolations().containsKey(pd)) {
 					c.getViolations().remove(pd);
 				}
 			}

@@ -21,7 +21,6 @@ public class BadInteraction extends PacketCheck {
 
 	@Override
 	public void listen(PacketEvent e) {
-		
 	}
 	
 	

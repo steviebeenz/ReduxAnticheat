@@ -56,7 +56,7 @@ public class Jesus extends PacketCheck {
 								&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())) {
 							if (!Main.getInstance().getLocUtils().isOnSmallBlock(pd.getNextLocation())) {
 								pd.jesus++;
-								if (pd.jesus >= 2) {
+								if (pd.jesus >= 3) {
 									flag(pd, pd.jesus + " >= 2");
 								}
 							}
@@ -67,6 +67,10 @@ public class Jesus extends PacketCheck {
 						}
 					}
 				}
+			}
+			
+			if(pd.jesus > 0) {
+				pd.jesus--;
 			}
 		}
 	}

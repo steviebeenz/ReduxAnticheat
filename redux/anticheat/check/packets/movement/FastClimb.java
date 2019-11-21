@@ -32,7 +32,9 @@ public class FastClimb extends PacketCheck {
 			if(pd.isRising) {
 				pd.ticksOnLadder++;
 				if(pd.ticksOnLadder > 7) {
-					double limit = 0.25;
+					double limit = 0.28;
+					
+					limit += Math.abs(pd.getVelocity()) * 0.12;
 					for(PotionEffect pe : p.getActivePotionEffects()) {
 						if(pe.getType().equals(PotionEffectType.JUMP)) {
 							limit *= 1 + (pe.getAmplifier() * 0.2);

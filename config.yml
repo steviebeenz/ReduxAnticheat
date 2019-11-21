@@ -1,0 +1,48 @@
+#############################################################################
+#               _                          _   _      _                _    #
+#              | |                        | | (_)    | |              | |   #
+#  _ __ ___  __| |_   ___  __   __ _ _ __ | |_ _  ___| |__   ___  __ _| |_  #
+# | '__/ _ \/ _` | | | \ \/ /  / _` | '_ \| __| |/ __| '_ \ / _ \/ _` | __| #
+# | | |  __/ (_| | |_| |>  <  | (_| | | | | |_| | (__| | | |  __/ (_| | |_  #
+# |_|  \___|\__,_|\__,_/_/\_\  \__,_|_| |_|\__|_|\___|_| |_|\___|\__,_|\__| #
+#                                                                           #
+#############################################################################
+
+# The current version of Redux Anticheat.
+# Do not change this version unless you want the config to be reset.
+version: 1.0
+
+messages:
+    # consolePrefix is the prefix that is used for console logging and information.
+    consolePrefix: "&7[&dRedux&7]"
+    
+    # messagePrefix is the prefix for Rdx in-game, so when someone is flagged.
+    messagePrefix: "&d&lRedux &7&l|"
+    
+    # removalMessage is the message that the player is kicked for or removed for.
+    removalMessage:
+      - "&8&l&m----------------------------------------------"
+      - "&d&lRedux &8> &7You were removed from the server for an unfair advantage"
+      - "&8&l&m----------------------------------------------"
+      
+# These settings are primarily meant to be for performance.
+settings:
+    # slowServer tells Redux to use memory-saving checks,
+    # this setting is advised for servers 1GB and below.
+    slowServer: false
+    
+    # sendToConsole will tell redux if it should send messages to console such as
+    # alerts or changes in checks
+    sendToConsole: true
+
+# Learning utilising data logging and checks for irregularities in combat &
+# movement, however if slowServer is enabled, Learning will be disabled.
+learning:
+    # Do you want to enable learning?
+    enabled: true
+    
+    # This enables learning about how a player attacks an entity
+    combat: true
+    
+    # This enables learning about how a player moves.
+    movement: true

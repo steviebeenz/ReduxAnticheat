@@ -23,8 +23,8 @@ public class FlyE extends PacketCheck {
 		super("Fly [E]", 1, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
 		this.setDescription("Checks if a player is moving faster than normal.");
-		settings.put("max_ground", 2.0776494873881725);
-		settings.put("min_ground", 0.00013415656465271);
+		settings.put("max_ground", 2.8076494873881725);
+		settings.put("min_ground", 0.00007115656465271);
 		settings.put("max_off_ground", 2.1959840585782076);
 		settings.put("min_off_ground", 0.00003077058958932);
 	}

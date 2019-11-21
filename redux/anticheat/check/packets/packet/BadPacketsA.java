@@ -50,6 +50,7 @@ public class BadPacketsA extends PacketCheck {
 
 			if (pd.getPackets() > trueLimit) {
 				flag(pd, pd.getPackets() + " > " + trueLimit);
+				pd.resetPackets();
 			}
 
 			final long delay = System.currentTimeMillis() - pd.lastFlyingA;

@@ -64,6 +64,7 @@ public class Nofall extends PacketCheck {
 							&& !Main.getInstance().getLocUtils().isUnderStairs(pd.getLastLocation())) {
 						if (++pd.nfVl >= 2) {
 							flag(pd, pd.nfVl + " >= " + 2 + ", deltaY: " + pd.getDeltaY());
+							pd.nfVl = 0;
 						}
 					} else {
 						pd.nfVl = 0;
@@ -83,7 +84,9 @@ public class Nofall extends PacketCheck {
 					if (pd.getDeltaY() <= 0 && pd.flyTicks == 0
 							&& (System.currentTimeMillis() - pd.getLastOnSlime()) > 1000 && pd.vehicleTicks < 10) {
 						if (++pd.nf2vl >= 8) {
-							flag(pd, pd.nf2vl + " >= " + 8);
+							flag(pd, pd.nf2vl + " >= " + 8 + " delta y: " + pd.getDeltaY());
+						
+							pd.nf2vl = 0;
 						}
 					} else {
 						pd.nf2vl = 0;

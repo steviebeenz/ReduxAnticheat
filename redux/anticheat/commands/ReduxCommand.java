@@ -10,6 +10,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 import redux.anticheat.Main;
+import redux.anticheat.check.PacketCheck;
 import redux.anticheat.player.AlertSeverity;
 import redux.anticheat.player.PlayerData;
 import redux.anticheat.utils.ReflectionUtils;
@@ -43,11 +44,18 @@ public class ReduxCommand extends BukkitCommand {
 					arg0.sendMessage("§d/redux menu" + "\n" + "§7Opens a menu.");
 					arg0.sendMessage("");
 					arg0.sendMessage("§d/redux ping <player>"  + "\n" + "§7Shows a players ping.");
+					arg0.sendMessage("");
+					arg0.sendMessage("§d/redux vl§7/§dvio§7/§dviolations <player> (clear)" + "\n" + "§7View or clear a player's violation");
 					return true;
 				}
 				if (args.length == 1) {
 					if(args[0].equalsIgnoreCase("menu")) {
 						Main.getInstance().getReduxMenu().open(p);
+						return true;
+					}
+					
+					if(args[0].equalsIgnoreCase("vio") || args[0].equalsIgnoreCase("violations") || args[0].equalsIgnoreCase("vl")) {
+						arg0.sendMessage(Main.getInstance().msgPrefix + "You need to enter a player.");
 						return true;
 					}
 					if (args[0].equalsIgnoreCase("alerts")) {
@@ -77,6 +85,19 @@ public class ReduxCommand extends BukkitCommand {
 					}
 				}
 				if (args.length == 2) {
+					if(args[0].equalsIgnoreCase("vio") || args[0].equalsIgnoreCase("violations") || args[0].equalsIgnoreCase("vl")) {
+						String player = args[1];
+						Player pl = Bukkit.getPlayer(player);
+						if(pl != null) {
+							PlayerData plPd = Main.getInstance().getPlayerManager().getPlayer(pl.getUniqueId());
+							arg0.sendMessage(Main.getInstance().msgPrefix + pl.getName() + " total violations: §d" + plPd.getViolations());
+							return true;
+						} else {
+							arg0.sendMessage(Main.getInstance().msgPrefix + "Could not find player.");
+							return true;
+						}
+					}
+					
 					if (args[0].equalsIgnoreCase("alerts")) {
 						if (args[1].equalsIgnoreCase("console")) {
 							if (Main.getInstance().logConsole) {
@@ -154,6 +175,30 @@ public class ReduxCommand extends BukkitCommand {
 							
 							return true;
 						}
+					} else if(args[0].equalsIgnoreCase("vio") || args[0].equalsIgnoreCase("violations") || args[0].equalsIgnoreCase("vl")) {
+						String player = args[1];
+						Player pl = Bukkit.getPlayer(player);
+						if(pl != null) {
+							PlayerData plPd = Main.getInstance().getPlayerManager().getPlayer(pl.getUniqueId());
+							if(args[2].equalsIgnoreCase("clear")) {
+								plPd.setViolations(0);
+								for(PacketCheck pc : Main.getInstance().getCheckManager().getChecks()) {
+									pc.getViolations().remove(plPd);
+								}
+								
+								arg0.sendMessage(Main.getInstance().msgPrefix + "You cleared " + pl.getName() + "'s violations.");
+								return true;
+							} else {
+								arg0.sendMessage(Main.getInstance().msgPrefix + "Invalid command.");
+								return true;
+							}
+						} else {
+							arg0.sendMessage(Main.getInstance().msgPrefix + "Could not find player.");
+							return true;
+						}
+						
+						
+						
 					}
 				}
 			}

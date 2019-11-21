@@ -119,6 +119,12 @@ public abstract class PacketCheck {
 	}
 
 	public void flag(PlayerData pd, String info) {
+		
+		if(pd.wasSetBack) {
+			pd.wasSetBack(false);
+			return;
+		}
+		
 		pd.setViolations((int) (pd.getViolations() + (1 * ((severity / 5) / 5))));
 		violations.put(pd, violations.getOrDefault(pd, 0) + 1);
 		

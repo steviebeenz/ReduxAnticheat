@@ -12,6 +12,7 @@ import com.comphenix.protocol.PacketType;
 import redux.anticheat.Main;
 import redux.anticheat.check.packets.combat.aim.AimA.HitData;
 import redux.anticheat.check.packets.movement.WeirdY.MoveData;
+import redux.anticheat.utils.ReflectionUtils;
 
 public class PlayerData {
 
@@ -88,6 +89,8 @@ public class PlayerData {
 	public int blockPlace;
 	public int position;
 	public int positionLook;
+	public boolean wasSetBack;
+	public int fallingTicks;
 
 	public void delete() {
 		hits.clear();
@@ -325,8 +328,10 @@ public class PlayerData {
 	}
 
 	public void setDown() {
+		wasSetBack(true);
+		
 		Block b = Main.getInstance().getLocUtils().getBlockUnder(lastLocation);
-		if (b != null) {
+		if (b != null && ReflectionUtils.getPing(player) <= 100) {
 			if (b.getType().isSolid()) {
 				if (!b.getType().name().contains("CACTUS")) {
 					Location newLoc = new Location(b.getWorld(), b.getLocation().getX(), b.getLocation().getY() + 1,
@@ -345,6 +350,10 @@ public class PlayerData {
 		this.setNextLocation(lastLocation);
 
 		teleportTicks = 0;
+	}
+
+	public void wasSetBack(boolean b) {
+		this.wasSetBack = b;
 	}
 
 	public double getVelocity() {
