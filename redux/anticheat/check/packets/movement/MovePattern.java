@@ -31,10 +31,7 @@ public class MovePattern extends PacketCheck {
 				return;
 			}
 
-			if (Main.getInstance().getLocUtils().isCollidedStairs(pd.getLastLocation(), pd.getNextLocation())
-					|| Main.getInstance().getLocUtils().isCollidedSlab(pd.getLastLocation(), pd.getNextLocation()) ||
-					Main.getInstance().getLocUtils().isCollidedWeb(pd.getLastLocation(), pd.getNextLocation()) || Main.getInstance().getLocUtils().isCollidedVertically(pd.getNextLocation(), "WEB") || Main.getInstance().getLocUtils().isCollidedVertically(pd.getNextLocation(), "WEB") 
-					|| Main.getInstance().getLocUtils().isCollidedWeb(pd.getNextLocation(), "WEB") || Main.getInstance().getLocUtils().isCollidedWeb(pd.getLastLocation(), "WEB")) {
+			if (Main.getInstance().getLocUtils().isCollidedWithWeirdBlock(pd.getLastLocation(), pd.getNextLocation())) {
 				pd.movePattern = 0;
 				return;
 			}
@@ -70,8 +67,7 @@ public class MovePattern extends PacketCheck {
 			}
 
 			if (pd.movePattern >= 3) {
-				flag(pd, pd.movePattern + " >= " + 3 + ", | inweb: " + Main.getInstance().getLocUtils().isCollidedWeb(pd.getNextLocation(), "WEB"));
-				p.sendMessage("no " +  Main.getInstance().getLocUtils().isCollidedWeb(pd.getNextLocation(), "WEB"));
+				flag(pd, pd.movePattern + " >= " + 3);
 			}
 
 			pd.curDelta = curDelta;

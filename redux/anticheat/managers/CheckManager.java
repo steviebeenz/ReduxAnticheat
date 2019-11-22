@@ -23,6 +23,7 @@ import redux.anticheat.check.packets.combat.NoSwing;
 import redux.anticheat.check.packets.combat.Reach;
 import redux.anticheat.check.packets.combat.aim.AimA;
 import redux.anticheat.check.packets.combat.aim.AimB;
+import redux.anticheat.check.packets.combat.aim.AimC;
 import redux.anticheat.check.packets.movement.FastClimb;
 import redux.anticheat.check.packets.movement.FastStairs;
 import redux.anticheat.check.packets.movement.Fly;
@@ -43,6 +44,7 @@ import redux.anticheat.check.packets.movement.NofallB;
 import redux.anticheat.check.packets.movement.NormalMovements;
 import redux.anticheat.check.packets.movement.Speed;
 import redux.anticheat.check.packets.movement.SpeedB;
+import redux.anticheat.check.packets.movement.SpeedC;
 import redux.anticheat.check.packets.movement.WeirdY;
 import redux.anticheat.check.packets.packet.BadPacketsA;
 import redux.anticheat.check.packets.packet.BadPacketsB;
@@ -104,6 +106,8 @@ public class CheckManager {
 		final NormalMovements al = new NormalMovements();
 		final FlyH am = new FlyH();
 		final Glide an = new Glide();
+		final SpeedC ao = new SpeedC();
+		final AimC ap = new AimC();
 		
 		checks.add(a);
 		checks.add(b);
@@ -144,6 +148,8 @@ public class CheckManager {
 		checks.add(ah);
 		checks.add(am);
 		checks.add(an);
+		checks.add(ao);
+		checks.add(ap);
 
 		loadCheckFiles();
 	}

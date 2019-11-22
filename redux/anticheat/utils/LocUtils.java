@@ -1,28 +1,116 @@
 package redux.anticheat.utils;
 
+import java.util.ArrayList;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+
+import redux.anticheat.player.PlayerData;
 
 public class LocUtils {
 
-	public boolean isOnGround(Player p) {
-		for (double x = -0.9; x < 0.9; x += .2) {
-			for (double y = -0.5; y < 1; y += 0.5) {
-				for (double z = -0.9; z < 0.9; z += 0.2) {
-					if (!isAir(p.getLocation().clone().add(x, y, z).getBlock().getType())) {
-						return true;
-					}
+	private static ArrayList<String> weirdBlocks = new ArrayList<String>();
+
+	static {
+		weirdBlocks.add("WEB");
+		weirdBlocks.add("SLAB");
+		weirdBlocks.add("SNOW");
+		weirdBlocks.add("STAIR");
+		weirdBlocks.add("DOOR");
+		weirdBlocks.add("TRAPDOOR");
+		weirdBlocks.add("FENCE");
+		weirdBlocks.add("SENSOR");
+		weirdBlocks.add("REPEATER");
+		weirdBlocks.add("COMPARATOR");
+		weirdBlocks.add("GATE");
+		weirdBlocks.add("CARPET");
+		weirdBlocks.add("BED");
+	}
+
+	public boolean isCollidedWithWeirdBlock(Location from, Location to) {
+		if (from == null || to == null) {
+			return false;
+		}
+
+		for (String s : weirdBlocks) {
+			if (this.isCollided(to, s)) {
+				return true;
+			} else {
+				if (this.isCollided(from, s)) {
+					return true;
+				} else {
+					continue;
 				}
 			}
 		}
 
 		return false;
 	}
+	
+	public int getDistanceFromMouse(PlayerData pd, final Entity entity) {
+		final float[] neededRotations = getRotationsNeeded(pd, entity);
+		if (neededRotations != null) {
+			final float neededYaw =  pd.getLastLocation().getYaw() - neededRotations[0];
+			final float neededPitch =  pd.getLastLocation().getPitch() - neededRotations[1];
+			final float distanceFromMouse = (float) Math.sqrt(neededYaw * neededYaw + neededPitch * neededPitch * 2.0f);
+			return (int) distanceFromMouse;
+		}
+		return -1;
+	}
+	
+	public float[] getRotationsNeeded(PlayerData pd, Entity entity) {
+	    if (entity == null) {
+	    	return null;
+	    }
+	    
+	    double diffX = entity.getLocation().getX() - pd.getLastLocation().getX();
+	    double diffZ = entity.getLocation().getZ() - pd.getLastLocation().getZ();
+	    double diffY;
+	    
+	    if ((entity instanceof LivingEntity))
+	    {
+	      LivingEntity entityLivingBase = (LivingEntity)entity;
+	      diffY = entityLivingBase.getLocation().getY() + entityLivingBase.getEyeHeight() - (pd.getLastLocation().getY() + pd.getPlayer().getEyeHeight());
+	    }
+	    else
+	    {
+	    	return new float[] { 0, 0 };
+	    }
+	    
+	    double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
+	    float yaw = (float)(Math.atan2(diffZ, diffX) * 180.0D / 3.141592653589793D) - 90.0F;
+	    float pitch = (float)-(Math.atan2(diffY, dist) * 180.0D / 3.141592653589793D);
+	    
+	    return new float[] { 
+	    		pd.getLastLocation().getYaw() + wrap(yaw - pd.getLastLocation().getYaw()), 
+	    		pd.getLastLocation().getPitch() + wrap(pitch - pd.getLastLocation().getPitch())
+	    };
+	}
+
+
+	 public static float wrap(float value)
+	    {
+	        value = value % 360.0F;
+
+	        if (value >= 180.0F)
+	        {
+	            value -= 360.0F;
+	        }
+
+	        if (value < -180.0F)
+	        {
+	            value += 360.0F;
+	        }
+
+	        return value;
+	    }
 
 	public double getHorizontalDistance(final Location from, final Location to) {
-		if(from == null || to == null) {
+		if (from == null || to == null) {
 			return 1;
 		}
 		final double deltaX = to.getX() - from.getX();
@@ -47,23 +135,24 @@ public class LocUtils {
 		return false;
 
 	}
-	
+
 	public boolean isCollidedWeb(Location oldLoc, Location newLoc) {
-		if(this.isCollided(oldLoc, "WEB") || this.isCollided(newLoc, "WEB")) {
+		if (this.isCollided(oldLoc, "WEB") || this.isCollided(newLoc, "WEB") || this.isCollidedWeb(oldLoc, "WEB")
+				|| this.isCollidedWeb(newLoc, "WEB")) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isCollidedStairs(Location oldLoc, Location newLoc) {
-		if(this.isCollided(oldLoc, "STAIRS") || this.isCollided(newLoc, "STAIRS")) {
+		if (this.isCollided(oldLoc, "STAIRS") || this.isCollided(newLoc, "STAIRS")) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isCollidedSlab(Location oldLoc, Location newLoc) {
-		if(this.isCollided(oldLoc, "SLAB") || this.isCollided(newLoc, "SLAB")) {
+		if (this.isCollided(oldLoc, "SLAB") || this.isCollided(newLoc, "SLAB")) {
 			return true;
 		}
 		return false;
@@ -264,8 +353,8 @@ public class LocUtils {
 		}
 		return false;
 	}
-	
-	public boolean isCollidedWeb(Location l, String string) {
+
+	private boolean isCollidedWeb(Location l, String string) {
 		for (double x = -0.5; x < 0.5; x += .2) {
 			for (double y = -0.9; y < 0.9; y += .2) {
 				for (double z = -0.5; z < 0.5; z += .2) {

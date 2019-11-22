@@ -23,23 +23,33 @@ public class FlyH extends PacketCheck {
 	public void listen(PacketEvent e) {
 		Player p = e.getPlayer();
 		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
-		
-		if(pd.teleportTicks > 0 || pd.flyTicks > 0 || p.isFlying()) {
+
+		if (pd.teleportTicks > 0 || pd.flyTicks > 0 || p.isFlying()) {
 			return;
 		}
-		
-		if(pd.offGroundTicks > 0) {
-			if(pd.getDeltaY() <= 0)  {
-				if(!Main.getInstance().getLocUtils().isCollidedStairs(pd.getNextLocation(), pd.getLastLocation()) && !Main.getInstance().getLocUtils().isCollidedSlab(pd.getLastLocation(), pd.getNextLocation()) && !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation()) && !Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation()) && !Main.getInstance().getLocUtils().isCollidedWeb(pd.getNextLocation(), pd.getLastLocation()) && !Main.getInstance().getLocUtils().canClimb(pd.getNextLocation()) && !Main.getInstance().getLocUtils().canClimb(pd.getLastLocation()) &&
-						Main.getInstance().getLocUtils().isCollidedWeb(pd.getNextLocation(), "WEB") && Main.getInstance().getLocUtils().isCollidedWeb(pd.getLastLocation(), "WEB")) {
-					if(Main.getInstance().getLocUtils().canClimb(pd.getNextLocation()) || Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())) {
+
+		if (pd.offGroundTicks > 0) {
+			if (pd.getDeltaY() <= 0) {
+				if (!Main.getInstance().getLocUtils().isCollidedWithWeirdBlock(pd.getLastLocation(),
+						pd.getNextLocation())) {
+					if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
+							|| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())) {
 						return;
 					}
-					if(pd.getDeltaY() > -0.078 && pd.risingTicks == 0 && !pd.wasFalling && !ReflectionUtils.getOnGround(p)) {
-						if(!pd.isFalling && !pd.wasFalling && !pd.isRising) {
+					if (pd.getDeltaY() > -0.078 && pd.risingTicks == 0 && !pd.wasFalling
+							&& !ReflectionUtils.getOnGround(p)) {
+						if (!pd.isFalling && !pd.wasFalling && !pd.isRising) {
 							return;
 						}
-						flag(pd, pd.getDeltaY() + " > " + -0.078 + " | rising: " + pd.isRising + ", falling: " + pd.isFalling + " wasFalling: " + pd.wasFalling);
+						vl++;
+						if (vl > 1) {
+							flag(pd, pd.getDeltaY() + " > " + -0.078 + " | rising: " + pd.isRising + ", falling: "
+									+ pd.isFalling + " wasFalling: " + pd.wasFalling);
+						}
+					} else {
+						if (vl > 0) {
+							vl -= 0.5;
+						}
 					}
 				}
 			}

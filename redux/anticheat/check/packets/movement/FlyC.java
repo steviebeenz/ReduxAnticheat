@@ -25,7 +25,7 @@ public class FlyC extends PacketCheck {
 	public void listen(PacketEvent e) {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
-		if (!Main.getInstance().getLocUtils().isOnGround(p) && Main.getInstance().getLocUtils().isCollided(p.getLocation(), Material.AIR)) {
+		if (Main.getInstance().getLocUtils().isCollided(p.getLocation(), Material.AIR)) {
 
 			if (p.isFlying()) {
 				pd.flyCvl = 0;

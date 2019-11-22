@@ -28,7 +28,7 @@ public class BadPacketsC extends PacketCheck {
 
 			if (Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), Material.AIR)
 					&& Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), Material.AIR)) {
-				if (!Main.getInstance().getLocUtils().isOnGround(p) && !Main.getInstance().getLocUtils().isOnSolidGround(p.getLocation())
+				if (!Main.getInstance().getLocUtils().isOnSolidGround(p.getLocation())
 						&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation()) && !Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation()) && !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())) {
 					if (ReflectionUtils.getOnGround(p)) {
 						if (!Main.getInstance().getLocUtils().canClimb(p) && !Main.getInstance().getLocUtils().isOnSmallBlock(pd.getNextLocation())

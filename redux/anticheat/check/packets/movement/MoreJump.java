@@ -42,9 +42,7 @@ public class MoreJump extends PacketCheck {
 				pd.wasFalling = false;
 			}
 			pd.lowFlyingInVl = 0;
-			if (pd.risingTicks > 0) {
-				pd.risingTicks--;
-			}
+			pd.risingTicks = 0;
 		} else if (pd.getDeltaY() > 0) {
 			pd.isRising = true;
 			pd.risingTicks++;
@@ -54,7 +52,7 @@ public class MoreJump extends PacketCheck {
 			}
 			
 			if(pd.fallingTicks > 0) {
-				pd.fallingTicks--;
+				pd.fallingTicks = 0;
 			}
 
 			if (pd.isFalling) {

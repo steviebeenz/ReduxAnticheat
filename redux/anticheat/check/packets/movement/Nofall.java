@@ -25,7 +25,7 @@ public class Nofall extends PacketCheck {
 	public void listen(PacketEvent e) {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
-		if (!Main.getInstance().getLocUtils().isOnGround(p) && Main.getInstance().getLocUtils().isCollided(p.getLocation(), Material.AIR)) {
+		if (!ReflectionUtils.getOnGround(p) && Main.getInstance().getLocUtils().isCollided(p.getLocation(), Material.AIR)) {
 
 			if (System.currentTimeMillis() - pd.getLastTeleported() < 1500) {
 				return;
@@ -57,7 +57,7 @@ public class Nofall extends PacketCheck {
 			final double diff = (pd.getDeltaY() - pd.getPreviousDeltaY());
 			if (diff != 0) {
 				if (diff < 0) {
-					if (!Main.getInstance().getLocUtils().isOnGround(p) && Main.getInstance().getLocUtils().isCollided(p.getLocation(), Material.AIR)
+					if (Main.getInstance().getLocUtils().isCollided(p.getLocation(), Material.AIR)
 							&& ReflectionUtils.getOnGround(p) && !Main.getInstance().getLocUtils().isInLiquid(p.getLocation())
 							&& !Main.getInstance().getLocUtils().isClimbable(p.getLocation().getBlock().getType())
 							&& !Main.getInstance().getLocUtils().isUnderStairs(p.getLocation()) && !Main.getInstance().getLocUtils().isUnderStairs(pd.getNextLocation())
@@ -74,7 +74,7 @@ public class Nofall extends PacketCheck {
 				}
 			}
 		} else {
-			if (Main.getInstance().getLocUtils().isOnGround(p) && !Main.getInstance().getLocUtils().isOnSlime(pd.getNextLocation())
+			if (!Main.getInstance().getLocUtils().isOnSlime(pd.getNextLocation())
 					&& !Main.getInstance().getLocUtils().isOnSlime(pd.getLastLocation()) && !ReflectionUtils.getOnGround(p)) {
 				if (pd.onGroundTicks == 0 && pd.offGroundTicks > 20
 						&& !Main.getInstance().getLocUtils().isClimbable(p.getLocation().getBlock().getType())

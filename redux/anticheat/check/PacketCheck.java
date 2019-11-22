@@ -37,6 +37,7 @@ public abstract class PacketCheck {
 	private double severity;
 	private PacketType[] types;
 	private String description;
+	public double vl = 0;
 
 	public HashMap<String, Object> settings = new HashMap<String, Object>();
 
@@ -104,6 +105,10 @@ public abstract class PacketCheck {
 
 	public void saveData() {
 		return;
+	}
+	
+	public double getVl() {
+		return this.vl;
 	}
 
 	public Entity getEntityFromPacket(PacketContainer pc, Player p) {

@@ -54,7 +54,7 @@ public class Killaura extends PacketCheck {
 						}
 					} else {
 						pd.nullEntity++;
-						if (pd.nullEntity > 1) {
+						if (pd.nullEntity > 2) {
 							setName("Killaura [Invalid]");
 							flag(pd, "invalid >= 2");
 							return;

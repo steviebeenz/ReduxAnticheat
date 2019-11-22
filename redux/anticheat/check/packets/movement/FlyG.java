@@ -1,0 +1,27 @@
+package redux.anticheat.check.packets.movement;
+
+import java.util.List;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketEvent;
+
+import redux.anticheat.check.Category;
+import redux.anticheat.check.PacketCheck;
+
+public class FlyG extends PacketCheck {
+
+	public FlyG(String name, int minViolations, int maxViolations, List<String> punishments, boolean canLearn,
+			boolean enabled, Category category, PacketType[] type, boolean setback, double severity) {
+		super(name, minViolations, maxViolations, punishments, canLearn, enabled, category, type, setback, severity);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void listen(PacketEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+}
