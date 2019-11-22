@@ -16,7 +16,7 @@ public class NoSlow extends PacketCheck {
 	public NoSlow() {
 		super("NoSlow", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 60);
-		this.setDescription("Checks if a player is not slowing down.");
+		setDescription("Checks if a player is not slowing down.");
 	}
 
 	@Override
@@ -45,13 +45,15 @@ public class NoSlow extends PacketCheck {
 			}
 		}
 
-		if(pd.teleportTicks > 0) {
+		if (pd.teleportTicks > 0) {
 			return;
 		}
-		
-		if (p.getOpenInventory().getType().equals(InventoryType.CHEST) || p.getOpenInventory().getType().equals(InventoryType.ENDER_CHEST)
-				|| p.getOpenInventory().getType().equals(InventoryType.FURNACE) || p.getOpenInventory().getType().equals(InventoryType.WORKBENCH) ||
-				p.getOpenInventory().getType().equals(InventoryType.PLAYER)) {
+
+		if (p.getOpenInventory().getType().equals(InventoryType.CHEST)
+				|| p.getOpenInventory().getType().equals(InventoryType.ENDER_CHEST)
+				|| p.getOpenInventory().getType().equals(InventoryType.FURNACE)
+				|| p.getOpenInventory().getType().equals(InventoryType.WORKBENCH)
+				|| p.getOpenInventory().getType().equals(InventoryType.PLAYER)) {
 			pd.inventoryTicks++;
 		} else {
 			if (pd.inventoryTicks > 0) {
@@ -100,10 +102,10 @@ public class NoSlow extends PacketCheck {
 				pd.sneakingTicks = 0;
 				return;
 			}
-			
+
 			final double times = Math.abs(1 - (pd.sneakingTicks / 1000));
 			double limit = 0.42 * times;
-			limit += ((double) pd.offGroundTicks / 100);
+			limit += (pd.offGroundTicks / 100);
 
 			final double iceTimes = 1 + ((double) pd.iceTicks / 70) + 0.3;
 			limit *= iceTimes;
@@ -124,23 +126,23 @@ public class NoSlow extends PacketCheck {
 				flag(pd, pd.getDeltaXZ() + " > " + limit);
 			}
 		}
-		
-		if(pd.inventoryTicks > 0) {
-			
-			if(pd.vehicleTicks > 0) {
+
+		if (pd.inventoryTicks > 0) {
+
+			if (pd.vehicleTicks > 0) {
 				pd.moreInventorySpeed = 0;
 				return;
 			}
-			
-			if(pd.getDeltaXZ() > 0.2 && pd.getDeltaY() >= 0) {
+
+			if (pd.getDeltaXZ() > 0.2 && pd.getDeltaY() >= 0) {
 				pd.moreInventorySpeed++;
 			} else {
-				if(pd.moreInventorySpeed > 0) {
+				if (pd.moreInventorySpeed > 0) {
 					pd.moreInventorySpeed--;
 				}
 			}
-			
-			if(pd.moreInventorySpeed > 14 && pd.offGroundTicks == 0) {
+
+			if (pd.moreInventorySpeed > 14 && pd.offGroundTicks == 0) {
 				flag(pd, pd.moreInventorySpeed + " > " + 14);
 			}
 		}

@@ -29,6 +29,8 @@ public class LocUtils {
 		weirdBlocks.add("GATE");
 		weirdBlocks.add("CARPET");
 		weirdBlocks.add("BED");
+		weirdBlocks.add("LAVA");
+		weirdBlocks.add("WATER");
 	}
 
 	public boolean isCollidedWithWeirdBlock(Location from, Location to) {
@@ -36,7 +38,7 @@ public class LocUtils {
 			return false;
 		}
 
-		for (String s : weirdBlocks) {
+		for (final String s : weirdBlocks) {
 			if (this.isCollided(to, s)) {
 				return true;
 			} else {
@@ -50,64 +52,56 @@ public class LocUtils {
 
 		return false;
 	}
-	
+
 	public int getDistanceFromMouse(PlayerData pd, final Entity entity) {
 		final float[] neededRotations = getRotationsNeeded(pd, entity);
 		if (neededRotations != null) {
-			final float neededYaw =  pd.getLastLocation().getYaw() - neededRotations[0];
-			final float neededPitch =  pd.getLastLocation().getPitch() - neededRotations[1];
+			final float neededYaw = pd.getLastLocation().getYaw() - neededRotations[0];
+			final float neededPitch = pd.getLastLocation().getPitch() - neededRotations[1];
 			final float distanceFromMouse = (float) Math.sqrt(neededYaw * neededYaw + neededPitch * neededPitch * 2.0f);
 			return (int) distanceFromMouse;
 		}
 		return -1;
 	}
-	
+
 	public float[] getRotationsNeeded(PlayerData pd, Entity entity) {
-	    if (entity == null) {
-	    	return null;
-	    }
-	    
-	    double diffX = entity.getLocation().getX() - pd.getLastLocation().getX();
-	    double diffZ = entity.getLocation().getZ() - pd.getLastLocation().getZ();
-	    double diffY;
-	    
-	    if ((entity instanceof LivingEntity))
-	    {
-	      LivingEntity entityLivingBase = (LivingEntity)entity;
-	      diffY = entityLivingBase.getLocation().getY() + entityLivingBase.getEyeHeight() - (pd.getLastLocation().getY() + pd.getPlayer().getEyeHeight());
-	    }
-	    else
-	    {
-	    	return new float[] { 0, 0 };
-	    }
-	    
-	    double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
-	    float yaw = (float)(Math.atan2(diffZ, diffX) * 180.0D / 3.141592653589793D) - 90.0F;
-	    float pitch = (float)-(Math.atan2(diffY, dist) * 180.0D / 3.141592653589793D);
-	    
-	    return new float[] { 
-	    		pd.getLastLocation().getYaw() + wrap(yaw - pd.getLastLocation().getYaw()), 
-	    		pd.getLastLocation().getPitch() + wrap(pitch - pd.getLastLocation().getPitch())
-	    };
+		if (entity == null) {
+			return null;
+		}
+
+		final double diffX = entity.getLocation().getX() - pd.getLastLocation().getX();
+		final double diffZ = entity.getLocation().getZ() - pd.getLastLocation().getZ();
+		double diffY;
+
+		if ((entity instanceof LivingEntity)) {
+			final LivingEntity entityLivingBase = (LivingEntity) entity;
+			diffY = entityLivingBase.getLocation().getY() + entityLivingBase.getEyeHeight()
+					- (pd.getLastLocation().getY() + pd.getPlayer().getEyeHeight());
+		} else {
+			return new float[] { 0, 0 };
+		}
+
+		final double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
+		final float yaw = (float) (Math.atan2(diffZ, diffX) * 180.0D / 3.141592653589793D) - 90.0F;
+		final float pitch = (float) -(Math.atan2(diffY, dist) * 180.0D / 3.141592653589793D);
+
+		return new float[] { pd.getLastLocation().getYaw() + wrap(yaw - pd.getLastLocation().getYaw()),
+				pd.getLastLocation().getPitch() + wrap(pitch - pd.getLastLocation().getPitch()) };
 	}
 
+	public static float wrap(float value) {
+		value = value % 360.0F;
 
-	 public static float wrap(float value)
-	    {
-	        value = value % 360.0F;
+		if (value >= 180.0F) {
+			value -= 360.0F;
+		}
 
-	        if (value >= 180.0F)
-	        {
-	            value -= 360.0F;
-	        }
+		if (value < -180.0F) {
+			value += 360.0F;
+		}
 
-	        if (value < -180.0F)
-	        {
-	            value += 360.0F;
-	        }
-
-	        return value;
-	    }
+		return value;
+	}
 
 	public double getHorizontalDistance(final Location from, final Location to) {
 		if (from == null || to == null) {
@@ -270,7 +264,7 @@ public class LocUtils {
 				return false;
 			}
 			return false;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}
@@ -293,7 +287,7 @@ public class LocUtils {
 		for (double x = -1; x < 1; x += .2) {
 			for (double y = -1; y < 1; y += .2) {
 				for (double z = -1; z < 1; z += .2) {
-					Block b = l.clone().add(x, y, z).getBlock();
+					final Block b = l.clone().add(x, y, z).getBlock();
 					if (b != null) {
 						if (isClimbable(b.getType())) {
 							return true;

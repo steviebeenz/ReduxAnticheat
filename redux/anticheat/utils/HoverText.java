@@ -14,7 +14,7 @@ public class HoverText {
 
 	private static Class<?> IBASE;
 	private static Method CONVERT_TO_IBASE;
-	private List<AMText> Text = new ArrayList<>();
+	private final List<AMText> Text = new ArrayList<>();
 
 	public enum ClickableType {
 		RunCommand("run_command"), SuggestCommand("suggest_command"), OpenURL("open_url");
@@ -22,7 +22,7 @@ public class HoverText {
 		public String action;
 
 		ClickableType(String Action) {
-			this.action = Action;
+			action = Action;
 		}
 	}
 
@@ -30,20 +30,20 @@ public class HoverText {
 
 		private String Message = "";
 
-		private Map<String, Map.Entry<String, String>> Modifiers = new HashMap<String, Map.Entry<String, String>>();
+		private final Map<String, Map.Entry<String, String>> Modifiers = new HashMap<String, Map.Entry<String, String>>();
 
 		public AMText(String Text) {
-			this.Message = Text;
+			Message = Text;
 		}
 
 		public String getMessage() {
-			return this.Message;
+			return Message;
 		}
 
 		public String getFormattedMessage() {
-			String Chat = "{\"text\":\"" + this.Message + "\"";
-			for (String Event : this.Modifiers.keySet()) {
-				Map.Entry<String, String> Modifier = this.Modifiers.get(Event);
+			String Chat = "{\"text\":\"" + Message + "\"";
+			for (final String Event : Modifiers.keySet()) {
+				final Map.Entry<String, String> Modifier = Modifiers.get(Event);
 				Chat += ",\"" + Event + "\":{\"action\":\"" + Modifier.getKey() + "\",\"value\":" + Modifier.getValue()
 						+ "}";
 			}
@@ -52,59 +52,62 @@ public class HoverText {
 		}
 
 		public AMText addHoverText(String... Text) {
-			String event = "hoverEvent";
-			String key = "show_text";
+			final String event = "hoverEvent";
+			final String key = "show_text";
 			String value = "";
-			if (Text.length == 1)
+			if (Text.length == 1) {
 				value = "{\"text\":\"" + Text[0] + "\"}";
-			else {
+			} else {
 				value = "{\"text\":\"\",\"extra\":[";
-				for (String Message : Text)
+				for (final String Message : Text) {
 					value += "{\"text\":\"" + Message + "\"},";
+				}
 				value = value.substring(0, value.length() - 1);
 				value += "]}";
 			}
-			Map.Entry<String, String> Values = new AbstractMap.SimpleEntry<String, String>(key, value);
-			this.Modifiers.put(event, Values);
+			final Map.Entry<String, String> Values = new AbstractMap.SimpleEntry<String, String>(key, value);
+			Modifiers.put(event, Values);
 			return this;
 		}
 
 		public AMText addHoverItem(ItemStack Item) {
 			try {
-				String event = "hoverEvent";
-				String key = "show_item";
-				Object cfi = ReflectionUtils.getCBClass("CraftItemStack");
-				Object nmscopy = cfi.getClass().getMethod("asNMSCopy", Item.getClass()).invoke(Item);
-				String value = (String) nmscopy.getClass().getMethod("getTag").invoke(nmscopy);
-				Map.Entry<String, String> values = new AbstractMap.SimpleEntry<String, String>(key, value);
-				this.Modifiers.put(event, values);
+				final String event = "hoverEvent";
+				final String key = "show_item";
+				final Object cfi = ReflectionUtils.getCBClass("CraftItemStack");
+				final Object nmscopy = cfi.getClass().getMethod("asNMSCopy", Item.getClass()).invoke(Item);
+				final String value = (String) nmscopy.getClass().getMethod("getTag").invoke(nmscopy);
+				final Map.Entry<String, String> values = new AbstractMap.SimpleEntry<String, String>(key, value);
+				Modifiers.put(event, values);
 				return this;
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 				return this;
 			}
 		}
 
 		public AMText setClickEvent(ClickableType Type, String Value) {
-			String event = "clickEvent";
-			String key = Type.action;
-			Map.Entry<String, String> values = new AbstractMap.SimpleEntry<String, String>(key, "\"" + Value + "\"");
-			this.Modifiers.put(event, values);
+			final String event = "clickEvent";
+			final String key = Type.action;
+			final Map.Entry<String, String> values = new AbstractMap.SimpleEntry<String, String>(key,
+					"\"" + Value + "\"");
+			Modifiers.put(event, values);
 			return this;
 		}
 
 	}
 
 	public AMText addText(String Message) {
-		AMText text = new AMText(Message);
-		this.Text.add(text);
+		final AMText text = new AMText(Message);
+		Text.add(text);
 		return text;
 	}
 
 	public String getFormattedMessage() {
 		String chat = "[\"\",";
-		for (AMText text : this.Text)
+		for (final AMText text : Text) {
 			chat += text.getFormattedMessage() + ",";
+		}
 		chat = chat.substring(0, chat.length() - 1);
 		chat += "]";
 		return chat;
@@ -112,18 +115,19 @@ public class HoverText {
 
 	public void sendToPlayer(Player player) {
 		try {
-			Object message = convertToIBase(this.getFormattedMessage());
-			
-			Object packet = ReflectionUtils.getNMSClass("PacketPlayOutChat").getConstructor(IBASE, Byte.TYPE).newInstance(message, Byte.valueOf((byte) 1));
+			final Object message = convertToIBase(getFormattedMessage());
 
-			Object handle = ReflectionUtils.getPlayer(player);
+			final Object packet = ReflectionUtils.getNMSClass("PacketPlayOutChat").getConstructor(IBASE, Byte.TYPE)
+					.newInstance(message, Byte.valueOf((byte) 1));
+
+			final Object handle = ReflectionUtils.getPlayer(player);
 
 			if (handle != null) {
-				Object connection = handle.getClass().getField("playerConnection").get(handle);
+				final Object connection = handle.getClass().getField("playerConnection").get(handle);
 				connection.getClass().getMethod("sendPacket", ReflectionUtils.getNMSClass("Packet")).invoke(connection,
 						packet);
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -136,13 +140,13 @@ public class HoverText {
 				Class<?> class_ = null;
 				try {
 					class_ = ReflectionUtils.getNMSClass("IChatBaseComponent$ChatSerializer");
-				} catch (Exception exception) {
+				} catch (final Exception exception) {
 					// empty catch block
 				}
 				if (class_ == null) {
 					try {
 						class_ = ReflectionUtils.getNMSClass("ChatSerializer");
-					} catch (Exception exception) {
+					} catch (final Exception exception) {
 						// empty catch block
 					}
 				}
@@ -151,14 +155,14 @@ public class HoverText {
 					return convertToIBase(string);
 				}
 				throw new UnsupportedOperationException();
-			} catch (Exception exception) {
+			} catch (final Exception exception) {
 				System.out.println("Unable to find ChatSerializer#a are you running a custom build?");
 				exception.printStackTrace();
 			}
 		} else {
 			try {
 				return CONVERT_TO_IBASE.invoke(null, string);
-			} catch (Exception exception) {
+			} catch (final Exception exception) {
 				exception.printStackTrace();
 			}
 		}

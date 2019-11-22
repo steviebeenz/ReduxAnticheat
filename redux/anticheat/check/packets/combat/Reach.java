@@ -22,7 +22,7 @@ public class Reach extends PacketCheck {
 		super("Reach", 5, 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
 		settings.put("max_reach", 3.0);
-		this.setDescription("Checks if a player hits further than normal.");
+		setDescription("Checks if a player hits further than normal.");
 	}
 
 	@Override
@@ -42,13 +42,14 @@ public class Reach extends PacketCheck {
 					return;
 				}
 
-				final double dist = Main.getInstance().getLocUtils().getHorizontalDistance(pd.getNextLocation(), entity.getLocation());
+				final double dist = Main.getInstance().getLocUtils().getHorizontalDistance(pd.getNextLocation(),
+						entity.getLocation());
 				double maxReach = (double) settings.get("max_reach");
 
-				if(p.getGameMode().equals(GameMode.CREATIVE)) {
+				if (p.getGameMode().equals(GameMode.CREATIVE)) {
 					maxReach += 2.5 + 0.4;
 				}
-				
+
 				maxReach += getVeloc(entity);
 				maxReach += getVeloc(p);
 				maxReach += pd.getDeltaXZ();
@@ -70,7 +71,7 @@ public class Reach extends PacketCheck {
 				}
 
 				if (entity instanceof Player) {
-					PlayerData pd2 = Main.getInstance().getPlayerManager().getPlayer(entity.getUniqueId());
+					final PlayerData pd2 = Main.getInstance().getPlayerManager().getPlayer(entity.getUniqueId());
 					if (pd2 != null) {
 						maxReach += pd2.getDeltaXZ() * 0.5;
 					}

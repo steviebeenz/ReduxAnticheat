@@ -16,33 +16,34 @@ public class SpeedC extends PacketCheck {
 	public SpeedC() {
 		super("Speed [C]", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 95);
-		this.setDescription("Checks a player's ground speed.");
+		setDescription("Checks a player's ground speed.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		boolean serverside = Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())
+		final boolean serverside = Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())
 				&& Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation());
-		boolean client = ReflectionUtils.getOnGround(p);
+		final boolean client = ReflectionUtils.getOnGround(p);
 
-		double limit = 0.21 + 0.075f + (pd.onGroundTicks < 8 ? 0.4f * Math.pow(0.75f, pd.onGroundTicks) : 0);
+		final double limit = 0.21 + 0.075f + (pd.onGroundTicks < 8 ? 0.4f * Math.pow(0.75f, pd.onGroundTicks) : 0);
 
-		boolean isOnSmallBlock = Main.getInstance().getLocUtils().isCollidedWithWeirdBlock(pd.getLastLocation(), pd.getNextLocation());
+		final boolean isOnSmallBlock = Main.getInstance().getLocUtils().isCollidedWithWeirdBlock(pd.getLastLocation(),
+				pd.getNextLocation());
 
 		if (serverside && client && pd.iceTicks == 0 && pd.blockAboveTicks == 0 && pd.getDeltaXZ() > limit
 				&& !isOnSmallBlock && pd.stairTicks == 0 && pd.jumpStairsTick == 0 && pd.velocTicks < 5) {
-			this.vl++;
-			p.sendMessage("flagged vl: " + vl);
-			if (vl >= 5) {
+			pd.speedCvl++;
+			p.sendMessage("flagged vl: " + pd.speedCvl);
+			if (pd.speedCvl >= 3.5) {
 				flag(pd, pd.getDeltaXZ() + " > " + limit);
-				vl = 0;
+				pd.speedCvl = 0;
 			}
 		} else {
-			if(vl > 0) {
-				vl -= 0.5;
+			if (pd.speedCvl > 0) {
+				pd.speedCvl -= 0.5;
 			}
 		}
 

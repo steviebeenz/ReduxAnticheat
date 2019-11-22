@@ -16,8 +16,9 @@ public class AimB extends PacketCheck {
 
 	public AimB() {
 		super("Aim [B]", 5, 10, null, false, true, Category.COMBAT,
-				new PacketType[] { PacketType.Play.Client.USE_ENTITY, PacketType.Play.Client.POSITION_LOOK }, false, 75);
-		this.setDescription("Checks if a player sends more rotations than normal.");
+				new PacketType[] { PacketType.Play.Client.USE_ENTITY, PacketType.Play.Client.POSITION_LOOK }, false,
+				75);
+		setDescription("Checks if a player sends more rotations than normal.");
 
 	}
 

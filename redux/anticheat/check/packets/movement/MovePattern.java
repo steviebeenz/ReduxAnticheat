@@ -15,18 +15,20 @@ public class MovePattern extends PacketCheck {
 	public MovePattern() {
 		super("MovePattern", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
-		this.setDescription("Checks if a player is moving in a pattern.");
+		setDescription("Checks if a player is moving in a pattern.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		if (pd.getDeltaY() > 0 || pd.getDeltaY() < 0 || pd.getPreviousDeltaY() > 0 || pd.getPreviousDeltaY() < 0) {
 
-			if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation()) || Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
-					|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation()) || Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())) {
+			if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
+					|| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
+					|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())
+					|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())) {
 				pd.movePattern = 0;
 				return;
 			}
@@ -41,7 +43,7 @@ public class MovePattern extends PacketCheck {
 				return;
 			}
 
-			double curDY = (pd.getDeltaY() - pd.getPreviousDeltaY()), curDelta = pd.getDeltaY();
+			final double curDY = (pd.getDeltaY() - pd.getPreviousDeltaY()), curDelta = pd.getDeltaY();
 			if (curDY == pd.curDY) {
 				pd.movePattern++;
 			} else {
@@ -57,11 +59,11 @@ public class MovePattern extends PacketCheck {
 					pd.movePattern--;
 				}
 			}
-			
-			if(pd.getDeltaXZ() == pd.getLastDeltaXZ() && pd.getDeltaXZ() != 0) {
+
+			if (pd.getDeltaXZ() == pd.getLastDeltaXZ() && pd.getDeltaXZ() != 0) {
 				pd.movePattern++;
 			} else {
-				if(pd.movePattern > 0) {
+				if (pd.movePattern > 0) {
 					pd.movePattern--;
 				}
 			}

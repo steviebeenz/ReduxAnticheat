@@ -34,21 +34,21 @@ public class PlayerManager {
 	}
 
 	public void addPlayer(Player p) {
-		PlayerData pd = new PlayerData(p);
-		File dir = new File(Main.getInstance().getDataFolder() + File.separator + "players");
+		final PlayerData pd = new PlayerData(p);
+		final File dir = new File(Main.getInstance().getDataFolder() + File.separator + "players");
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
 
-		File player = new File(dir, p.getUniqueId().toString() + ".yml");
+		final File player = new File(dir, p.getUniqueId().toString() + ".yml");
 		if (!player.exists()) {
 			try {
 				player.createNewFile();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			YamlConfiguration load = YamlConfiguration.loadConfiguration(player);
+			final YamlConfiguration load = YamlConfiguration.loadConfiguration(player);
 			if (load.isSet("violations")) {
 				pd.violations = load.getInt("violations");
 				pd.setAlerts(load.getBoolean("alerts"));
@@ -61,25 +61,25 @@ public class PlayerManager {
 	}
 
 	public void removePlayer(Player p) {
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 		if (pd != null) {
 			pd.delete();
 
-			File dir = new File(Main.getInstance().getDataFolder() + File.separator + "players");
+			final File dir = new File(Main.getInstance().getDataFolder() + File.separator + "players");
 			if (!dir.exists()) {
 				dir.mkdirs();
 			}
 
-			File player = new File(dir, p.getUniqueId().toString() + ".yml");
+			final File player = new File(dir, p.getUniqueId().toString() + ".yml");
 			if (!player.exists()) {
 				try {
 					player.createNewFile();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					e.printStackTrace();
 				}
 			}
 
-			YamlConfiguration plda = YamlConfiguration.loadConfiguration(player);
+			final YamlConfiguration plda = YamlConfiguration.loadConfiguration(player);
 			plda.set("violations", pd.getViolations());
 			plda.set("alerts", pd.isAlerts());
 			plda.set("delay", pd.getDelay());
@@ -91,11 +91,11 @@ public class PlayerManager {
 
 			try {
 				plda.save(player);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 
-			for (PacketCheck c : Main.getInstance().getCheckManager().getChecks()) {
+			for (final PacketCheck c : Main.getInstance().getCheckManager().getChecks()) {
 				if (c.getViolations().containsKey(pd)) {
 					c.getViolations().remove(pd);
 				}

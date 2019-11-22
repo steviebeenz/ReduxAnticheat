@@ -22,8 +22,8 @@ public class NormalMovements extends PacketCheck {
 
 	@Override
 	public void listen(PacketEvent e) {
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		if (p.isFlying() || pd.flyTicks > 0 || pd.teleportTicks > 0 || pd.vehicleTicks > 0) {
 			return;
@@ -33,42 +33,43 @@ public class NormalMovements extends PacketCheck {
 		 * Max 0: 0.78 Max 1: 0.6 Max 2: 0.6 Max 3: 0.24785109963254115
 		 */
 
-		if(Main.getInstance().getLocUtils().canClimb(pd.getNextLocation()) | Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())) {
+		if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
+				| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())) {
 			return;
 		}
-		
-		if(System.currentTimeMillis() - pd.getLastOnSlime() <= 1500) {
+
+		if (System.currentTimeMillis() - pd.getLastOnSlime() <= 1500) {
 			return;
 		}
-		
-		if(Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation()) || Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())) {
+
+		if (Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())
+				|| Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())) {
 			return;
 		}
-		
-		if(pd.jumpStairsTick > 0 || pd.stairTicks > 0) {
+
+		if (pd.jumpStairsTick > 0 || pd.stairTicks > 0) {
 			return;
 		}
-		
+
 		double z = 0.78, t = 0.6, tree = 0.43;
-		
-		for(PotionEffect pe : p.getActivePotionEffects()) {
-			if(pe.getType().equals(PotionEffectType.JUMP)) {
+
+		for (final PotionEffect pe : p.getActivePotionEffects()) {
+			if (pe.getType().equals(PotionEffectType.JUMP)) {
 				z *= 1 + (pe.getAmplifier() * 0.2);
 				t *= 1 + (pe.getAmplifier() * 0.2);
 				tree *= 1 + (pe.getAmplifier() * 0.2);
 			}
 		}
-		
+
 		z += ReflectionUtils.getPingModifier(p) * 0.08;
 		z += pd.getVelocity() * 0.08;
-		
+
 		t += ReflectionUtils.getPingModifier(p) * 0.08;
 		t += pd.getVelocity() * 0.08;
-		
+
 		tree += ReflectionUtils.getPingModifier(p) * 0.08;
 		tree += pd.getVelocity() * 0.08;
-		
-		
+
 		if (pd.isRising) {
 			if (pd.risingTicks >= 0 && pd.risingTicks < 11) {
 				if (pd.risingTicks == 0) {

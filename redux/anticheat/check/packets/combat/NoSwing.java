@@ -16,7 +16,7 @@ public class NoSwing extends PacketCheck {
 	public NoSwing() {
 		super("NoSwing [GCD]", 5, 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 60);
-		this.setDescription("Checks using GCD for NoSwing.");
+		setDescription("Checks using GCD for NoSwing.");
 	}
 
 	@Override

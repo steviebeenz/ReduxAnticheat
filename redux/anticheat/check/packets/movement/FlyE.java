@@ -22,7 +22,7 @@ public class FlyE extends PacketCheck {
 	public FlyE() {
 		super("Fly [E]", 1, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
-		this.setDescription("Checks if a player is moving faster than normal.");
+		setDescription("Checks if a player is moving faster than normal.");
 		settings.put("max_ground", 2.8076494873881725);
 		settings.put("min_ground", 0.00007115656465271);
 		settings.put("max_off_ground", 2.1959840585782076);
@@ -48,7 +48,7 @@ public class FlyE extends PacketCheck {
 				return;
 			}
 
-			if (pd.flyTicks > 0) {
+			if (pd.flyTicks > 0 || pd.changeTicks > 0) {
 				return;
 			}
 
@@ -58,35 +58,38 @@ public class FlyE extends PacketCheck {
 					oldLocation = Math.abs(oldLoc.getX() + oldLoc.getY() + oldLoc.getZ());
 
 			final double dist = Math.abs(newLocation - oldLocation);
-			
+
 			double packetLimit = 0.42;
-			
+
 			for (final PotionEffect pe : p.getActivePotionEffects()) {
 				if (pe.getType().equals(PotionEffectType.SPEED) || pe.getType().equals(PotionEffectType.JUMP)) {
 					final int amplifier = pe.getAmplifier();
 					packetLimit *= 1 + (amplifier * 0.2);
 				}
 			}
-			
+
 			if (pd.getDeltaXZ() > packetLimit && pd.blockPlacePacket > 19) {
 				flag(pd, pd.getDeltaXZ() + " > " + packetLimit);
 			}
 
-			if (Main.getInstance().getLocUtils().isInLiquid(newLoc) || Main.getInstance().getLocUtils().isInLiquid(oldLoc)) {
+			if (Main.getInstance().getLocUtils().isInLiquid(newLoc)
+					|| Main.getInstance().getLocUtils().isInLiquid(oldLoc)) {
 				return;
 			}
-			
-			if(pd.blockAboveTicks > 0) {
+
+			if (pd.blockAboveTicks > 0) {
 				return;
 			}
-			
-			double maxGround = (double) settings.get("max_ground"), maxOffGround = (double) settings.get("max_off_ground"), minGround = (double) settings.get("min_ground"),
+
+			double maxGround = (double) settings.get("max_ground"),
+					maxOffGround = (double) settings.get("max_off_ground"),
+					minGround = (double) settings.get("min_ground"),
 					minOffGround = (double) settings.get("min_off_ground");
 
-			if(pd.eatTicks > 0) {
+			if (pd.eatTicks > 0) {
 				minGround -= 0.000015;
 			}
-			
+
 			if (pd.offGroundTicks > 10) {
 				final double times = pd.offGroundTicks - 10;
 				maxOffGround += (0.15 * times);
@@ -95,8 +98,8 @@ public class FlyE extends PacketCheck {
 			if (pd.blockPlacePacket > 8) {
 				minOffGround -= 0.0004;
 			}
-			
-			if(pd.velocTicks > 0) {
+
+			if (pd.velocTicks > 0) {
 				return;
 			}
 
@@ -135,23 +138,24 @@ public class FlyE extends PacketCheck {
 			if (pd.vehicleTicks > 0) {
 				return;
 			}
-			
-			if(pd.teleportTicks > 0) {
-				return;
-			}
-			
-			if(System.currentTimeMillis() - pd.join < 1500) {
-				return;
-			}
-			
 
-			if (Main.getInstance().getLocUtils().isCollided(newLoc, Material.SOUL_SAND) || Main.getInstance().getLocUtils().isCollided(oldLoc, Material.SOUL_SAND)
+			if (pd.teleportTicks > 0) {
+				return;
+			}
+
+			if (System.currentTimeMillis() - pd.join < 1500) {
+				return;
+			}
+
+			if (Main.getInstance().getLocUtils().isCollided(newLoc, Material.SOUL_SAND)
+					|| Main.getInstance().getLocUtils().isCollided(oldLoc, Material.SOUL_SAND)
 					|| Main.getInstance().getLocUtils().isCollidedWeb(oldLoc, newLoc)) {
 				minGround -= 0.0004;
 				minOffGround -= 0.0004;
 			}
 
-			if (Main.getInstance().getLocUtils().canClimb(oldLoc) || Main.getInstance().getLocUtils().canClimb(newLoc)) {
+			if (Main.getInstance().getLocUtils().canClimb(oldLoc)
+					|| Main.getInstance().getLocUtils().canClimb(newLoc)) {
 				return;
 			}
 
@@ -164,20 +168,20 @@ public class FlyE extends PacketCheck {
 				if (pd.offGroundTicks > 0) {
 					if (dist > maxOffGround && maxOffGround != 0) {
 						flag(pd, dist + " > " + maxOffGround + " (maxOffGround)");
-						//p.sendMessage("diff maxoff: " + (dist - maxOffGround));
+						// p.sendMessage("diff maxoff: " + (dist - maxOffGround));
 					}
 					if (dist < minOffGround && minOffGround != 0) {
-						flag(pd, dist +  " < " + minOffGround + " (minOffGround)");
-						//p.sendMessage("diff minoffground: " + (dist - minOffGround));
+						flag(pd, dist + " < " + minOffGround + " (minOffGround)");
+						// p.sendMessage("diff minoffground: " + (dist - minOffGround));
 					}
 				} else {
 					if (dist > maxGround && maxGround != 0) {
 						flag(pd, dist + " > " + maxGround + " (maxGround)");
-						//p.sendMessage("diff maxGround: " + (dist - maxGround));
+						// p.sendMessage("diff maxGround: " + (dist - maxGround));
 					}
 					if (dist < minGround && minGround != 0) {
 						flag(pd, dist + " < " + minGround + " (minGround)");
-						//p.sendMessage("diff minGround: " + (dist - minGround));
+						// p.sendMessage("diff minGround: " + (dist - minGround));
 					}
 				}
 			}

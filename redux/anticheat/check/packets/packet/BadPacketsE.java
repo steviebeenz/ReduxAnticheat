@@ -11,20 +11,21 @@ import redux.anticheat.player.PlayerData;
 public class BadPacketsE extends PacketCheck {
 
 	public BadPacketsE() {
-		super("BadPackets [E]", 5, 10, null, false, true, Category.PACKETS, new PacketType[] { PacketType.Play.Client.FLYING, PacketType.Play.Client.POSITION}, true, 86);
-		this.setDescription("Checks if a player is moving while sending flying packets.");
+		super("BadPackets [E]", 5, 10, null, false, true, Category.PACKETS,
+				new PacketType[] { PacketType.Play.Client.FLYING, PacketType.Play.Client.POSITION }, true, 86);
+		setDescription("Checks if a player is moving while sending flying packets.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		if(e.getPacketType().equals(getType()[1])) {
-			PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
-			double rate = (pd.flyingInPackets / 20);
-			
-			if(rate >= 0.1) {
-				if(pd.getDeltaXZ() > 0.2 && pd.getLastDeltaXZ() > 0.14 || pd.getDeltaY() > 0.14) {
+		if (e.getPacketType().equals(getType()[1])) {
+			final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+			final double rate = (pd.flyingInPackets / 20);
+
+			if (rate >= 0.1) {
+				if (pd.getDeltaXZ() > 0.2 && pd.getLastDeltaXZ() > 0.14 || pd.getDeltaY() > 0.14) {
 					pd.badPacketsE++;
-					if(pd.badPacketsE > 2) {
+					if (pd.badPacketsE > 2) {
 						flag(pd, rate + " >= 0.014 while moving");
 						pd.badPacketsE = 0;
 					}
@@ -36,7 +37,5 @@ public class BadPacketsE extends PacketCheck {
 			}
 		}
 	}
-	
-	
 
 }

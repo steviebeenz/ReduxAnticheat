@@ -19,7 +19,7 @@ public class AutoUse extends PacketCheck {
 	@Override
 	public void listen(PacketEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

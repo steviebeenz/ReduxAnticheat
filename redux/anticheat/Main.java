@@ -75,15 +75,15 @@ public class Main extends JavaPlugin {
 		slowServer = getConfig().getBoolean("settings.slowServer");
 		logConsole = getConfig().getBoolean("settings.sendToConsole");
 		int i = 0;
-		for(String s : getConfig().getStringList("messages.removalMessage")) {
+		for (final String s : getConfig().getStringList("messages.removalMessage")) {
 			i++;
-			if(i >= 1) {
+			if (i >= 1) {
 				removalMessage += s + "\n";
 			} else {
 				removalMessage += s;
 			}
 		}
-		
+
 		removalMessage = ChatColor.translateAlternateColorCodes('&', removalMessage);
 		tps = new TpsTask();
 		tpsTask = Bukkit.getScheduler().scheduleAsyncRepeatingTask(instance, tps, 0, 1L);
@@ -96,9 +96,9 @@ public class Main extends JavaPlugin {
 		if (procManager == null) {
 			procManager = ProtocolLibrary.getProtocolManager();
 		}
-		
+
 		locUtils = new LocUtils();
-		
+
 		checkManager = new CheckManager(slowServer);
 		if (!slowServer) {
 			learning = new Learning();
@@ -118,7 +118,7 @@ public class Main extends JavaPlugin {
 		HandlerList.unregisterAll(instance);
 		procManager.removePacketListeners(instance);
 		Bukkit.getScheduler().cancelTasks(instance);
-		this.unregisterCommand("redux");
+		unregisterCommand("redux");
 		sendConsole("§dRedux Anticheat §7has been disabled.");
 	}
 
@@ -170,11 +170,11 @@ public class Main extends JavaPlugin {
 			final Field f = commandMap.getClass().getDeclaredField("knownCommands");
 			f.setAccessible(true);
 
-			Map<String, Command> knownCommands = (Map<String, Command>) f.get(commandMap);
+			final Map<String, Command> knownCommands = (Map<String, Command>) f.get(commandMap);
 			if (knownCommands.get(s) != null) {
 				knownCommands.remove(s);
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -182,17 +182,17 @@ public class Main extends JavaPlugin {
 	public String getVersion() {
 		return version;
 	}
-	
+
 	public LocUtils getLocUtils() {
-		return this.locUtils;
+		return locUtils;
 	}
 
 	public ReduxMenu getReduxMenu() {
 		return (ReduxMenu) menuManager.getMenu(ReduxMenu.class);
 	}
-	
+
 	public MenuManager getMenuManager() {
-		return this.menuManager;
+		return menuManager;
 	}
 
 }

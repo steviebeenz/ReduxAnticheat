@@ -12,27 +12,28 @@ import redux.anticheat.player.PlayerData;
 import redux.anticheat.utils.ReflectionUtils;
 
 public class BadPacketsH extends PacketCheck {
-	
 
 	public BadPacketsH() {
-		super("BadPackets [H]", 5, 10, null, false, true, Category.PACKETS, new PacketType[] { PacketType.Play.Client.ARM_ANIMATION }, false, 80);
-		this.setDescription("Checks for killaura like packets.");
+		super("BadPackets [H]", 5, 10, null, false, true, Category.PACKETS,
+				new PacketType[] { PacketType.Play.Client.ARM_ANIMATION }, false, 80);
+		setDescription("Checks for killaura like packets.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
-		
-		if(pd.flyTicks > 0 || p.isFlying()) {
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+
+		if (pd.flyTicks > 0 || p.isFlying()) {
 			return;
 		}
-		
-		if((System.currentTimeMillis() - pd.flyingA) + ReflectionUtils.getPingModifier(p) + Math.abs(20 -Main.getInstance().getTpsTask().tps) < 8) {
+
+		if ((System.currentTimeMillis() - pd.flyingA) + ReflectionUtils.getPingModifier(p)
+				+ Math.abs(20 - Main.getInstance().getTpsTask().tps) < 8) {
 			flag(pd, "flying < 8 (experimental)");
 		}
-		
-		//p.sendMessage("diff: " + (System.currentTimeMillis() - pd.flyingA));
+
+		// p.sendMessage("diff: " + (System.currentTimeMillis() - pd.flyingA));
 	}
 
 }

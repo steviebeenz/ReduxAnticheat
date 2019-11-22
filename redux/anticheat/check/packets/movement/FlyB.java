@@ -19,7 +19,7 @@ public class FlyB extends PacketCheck {
 		super("Fly [B]", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
 		settings.put("ping_factor", 60);
-		this.setDescription("Checks if a player is moving more than normal.");
+		setDescription("Checks if a player is moving more than normal.");
 	}
 
 	@Override
@@ -42,12 +42,14 @@ public class FlyB extends PacketCheck {
 			pd.setDeltaY(0);
 			return;
 		}
-		
-		if(pd.teleportTicks > 0) {
+
+		if (pd.teleportTicks > 0) {
 			return;
 		}
 
-		if (Main.getInstance().getLocUtils().isUnderStairs(pd.getLastLocation()) || Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "SKULL") || Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "SKULL")) {
+		if (Main.getInstance().getLocUtils().isUnderStairs(pd.getLastLocation())
+				|| Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "SKULL")
+				|| Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "SKULL")) {
 			return;
 		}
 
@@ -62,28 +64,27 @@ public class FlyB extends PacketCheck {
 		final Long gcdY = Main.getInstance().getLocUtils().getGcd((long) pd.getDeltaY(), (long) pd.getPreviousDeltaY());
 
 		double times = 0;
-		for(PotionEffect pe : p.getActivePotionEffects()) {
-			if(pe.getType().equals(PotionEffectType.JUMP)) {
+		for (final PotionEffect pe : p.getActivePotionEffects()) {
+			if (pe.getType().equals(PotionEffectType.JUMP)) {
 				times = 1 + (pe.getAmplifier() * 0.4);
 			}
 		}
-		
+
 		double highLimit = (0 + (pd.offGroundTicks / 150) + (pd.velocTicks / 15)) + times;
 		double lowLimit = (((-pd.offGroundTicks + 1) / 4) - 5) + -(pd.velocTicks / 15) / 15;
-		
-		if(ReflectionUtils.getPing(p) > (int) settings.get("ping_factor")) {
-			double max = (double) ((int)settings.get("ping_factor"));
-			double now = (ReflectionUtils.getPing(p) / max) * 0.08;
-			
+
+		if (ReflectionUtils.getPing(p) > (int) settings.get("ping_factor")) {
+			final double max = ((int) settings.get("ping_factor"));
+			final double now = (ReflectionUtils.getPing(p) / max) * 0.08;
+
 			highLimit += now;
 			lowLimit -= now;
 		}
-		
-		if (gcdY > highLimit
-				|| gcdY < lowLimit) {
+
+		if (gcdY > highLimit || gcdY < lowLimit) {
 			pd.flyB++;
 		}
-		
+
 		if (pd.flyB > 0) {
 			flag(pd, pd.flyB + " > 0");
 			pd.flyB = 0;

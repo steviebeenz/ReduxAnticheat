@@ -17,7 +17,7 @@ public class BadPacketsC extends PacketCheck {
 	public BadPacketsC() {
 		super("BadPackets [C]", 5, 10, null, false, true, Category.PACKETS,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
-		this.setDescription("Checks if a player is spoofing their ground meaning they won't take any damage.");
+		setDescription("Checks if a player is spoofing their ground meaning they won't take any damage.");
 	}
 
 	@Override
@@ -29,9 +29,12 @@ public class BadPacketsC extends PacketCheck {
 			if (Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), Material.AIR)
 					&& Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), Material.AIR)) {
 				if (!Main.getInstance().getLocUtils().isOnSolidGround(p.getLocation())
-						&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation()) && !Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation()) && !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())) {
+						&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())
+						&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())
+						&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())) {
 					if (ReflectionUtils.getOnGround(p)) {
-						if (!Main.getInstance().getLocUtils().canClimb(p) && !Main.getInstance().getLocUtils().isOnSmallBlock(pd.getNextLocation())
+						if (!Main.getInstance().getLocUtils().canClimb(p)
+								&& !Main.getInstance().getLocUtils().isOnSmallBlock(pd.getNextLocation())
 								&& !Main.getInstance().getLocUtils().isOnSmallBlock(pd.getLastLocation())
 								&& !Main.getInstance().getLocUtils().isOnSlime(pd.getNextLocation())
 								&& !Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())

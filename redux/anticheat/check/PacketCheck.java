@@ -21,6 +21,7 @@ import redux.anticheat.learning.datasets.DataSet;
 import redux.anticheat.player.AlertSeverity;
 import redux.anticheat.player.PlayerData;
 import redux.anticheat.utils.HoverText;
+import redux.anticheat.utils.LocUtils;
 import redux.anticheat.utils.ReflectionUtils;
 
 public abstract class PacketCheck {
@@ -37,7 +38,7 @@ public abstract class PacketCheck {
 	private double severity;
 	private PacketType[] types;
 	private String description;
-	public double vl = 0;
+	public LocUtils locUtils;
 
 	public HashMap<String, Object> settings = new HashMap<String, Object>();
 
@@ -50,11 +51,12 @@ public abstract class PacketCheck {
 		this.canLearn = canLearn;
 		this.enabled = enabled;
 		this.category = category;
-		this.types = type;
+		types = type;
 		this.setback = setback;
 		this.severity = severity;
 		violations = new HashMap<PlayerData, Integer>();
 		setDataStore(new ArrayList<DataSet>());
+		locUtils = Main.getInstance().getLocUtils();
 	}
 
 	public abstract void listen(PacketEvent e);
@@ -76,7 +78,7 @@ public abstract class PacketCheck {
 	}
 
 	public void setCategory(Category c) {
-		this.category = c;
+		category = c;
 	}
 
 	public Category getCategory() {
@@ -106,10 +108,6 @@ public abstract class PacketCheck {
 	public void saveData() {
 		return;
 	}
-	
-	public double getVl() {
-		return this.vl;
-	}
 
 	public Entity getEntityFromPacket(PacketContainer pc, Player p) {
 		if (pc.getType().equals(PacketType.Play.Client.USE_ENTITY)) {
@@ -124,15 +122,15 @@ public abstract class PacketCheck {
 	}
 
 	public void flag(PlayerData pd, String info) {
-		
-		if(pd.wasSetBack) {
+
+		if (pd.wasSetBack) {
 			pd.wasSetBack(false);
 			return;
 		}
-		
+
 		pd.setViolations((int) (pd.getViolations() + (1 * ((severity / 5) / 5))));
 		violations.put(pd, violations.getOrDefault(pd, 0) + 1);
-		
+
 		if (shouldSetback()) {
 			pd.setDown();
 		}
@@ -140,12 +138,14 @@ public abstract class PacketCheck {
 			for (final PlayerData st : Main.getInstance().getPlayerManager().getPlayers().values()) {
 				if (st.isAlerts() && (System.currentTimeMillis() - st.getLastAlert()) > st.getDelay()) {
 					final String sev = workoutSeverity(severity, pd);
-					HoverText ht = new HoverText();
+					final HoverText ht = new HoverText();
 					ht.addText(Main.getInstance().msgPrefix);
 					ht.addText("§7" + pd.getPlayer().getName())
-							.addHoverText("§7TPS: §d" + Main.getInstance().getTpsTask().roundTPS() + " §7Ping: §d" + ReflectionUtils.getPing(pd.getPlayer()) + "ms §7Total Violations: §d" + pd.violations);
+							.addHoverText("§7TPS: §d" + Main.getInstance().getTpsTask().roundTPS() + " §7Ping: §d"
+									+ ReflectionUtils.getPing(pd.getPlayer()) + "ms §7Total Violations: §d"
+									+ pd.violations);
 					ht.addText(" §7failed ").addHoverText("§7" + info);
-					ht.addText("§7" + getName()).addHoverText("§7" + this.getDescription());
+					ht.addText("§7" + getName()).addHoverText("§7" + getDescription());
 					ht.addText("§7 | Sev: " + sev + " §7| Vio: " + violations.get(pd) + ".");
 
 					if (st.severity == AlertSeverity.LOW) {
@@ -177,21 +177,17 @@ public abstract class PacketCheck {
 		if (workoutSeverity(severity, pd).contains("§d")) {
 			final Player p = pd.getPlayer();
 			pd.isbeingpunished = true;
-			Bukkit.getScheduler().runTask(Main.getInstance(), new Runnable() {
-				@Override
-				public void run() {
-					//p.kickPlayer(Main.getInstance().removalMessage);
-					p.sendMessage(Main.getInstance().msgPrefix + "You would of been kicked for §d" + name + "§7.");
-					pd.setViolations(0);
-					violations.remove(pd);
-					pd.isbeingpunished = false;
-				}
+			Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+				p.kickPlayer(Main.getInstance().removalMessage);
+				pd.setViolations(0);
+				violations.remove(pd);
+				pd.isbeingpunished = false;
 			});
 		}
 	}
 
 	public String workoutSeverity(double i, PlayerData pd) {
-		i = (i / this.maxViolations);
+		i = (i / maxViolations);
 		i = ((i) * (1.1 + (violations.get(pd))));
 
 		i = (round(i, 2));
@@ -228,7 +224,7 @@ public abstract class PacketCheck {
 		}
 
 		BigDecimal bd = new BigDecimal(Double.toString(value));
-		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		bd = bd.setScale(places, RoundingMode.HALF_EVEN);
 		return bd.doubleValue();
 	}
 
@@ -249,20 +245,20 @@ public abstract class PacketCheck {
 	}
 
 	public void setMinViolations(int vl) {
-		this.minViolations = vl;
+		minViolations = vl;
 	}
 
 	public void setMaxViolations(int vl) {
-		this.maxViolations = vl;
+		maxViolations = vl;
 	}
 
 	public void loadCustomSettings() {
 		try {
-			File dir = new File(Main.getInstance().getDataFolder() + File.separator + "checks" + File.separator
+			final File dir = new File(Main.getInstance().getDataFolder() + File.separator + "checks" + File.separator
 					+ getCategory().name().toLowerCase(), getName().toLowerCase() + ".yml");
-			YamlConfiguration yml = YamlConfiguration.loadConfiguration(dir);
+			final YamlConfiguration yml = YamlConfiguration.loadConfiguration(dir);
 
-			for (String s : settings.keySet()) {
+			for (final String s : settings.keySet()) {
 				if (!yml.isSet(s)) {
 					yml.set(s, settings.get(s));
 				} else {
@@ -271,10 +267,9 @@ public abstract class PacketCheck {
 			}
 
 			yml.save(dir);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public HashMap<String, Object> getSettings() {
@@ -290,7 +285,7 @@ public abstract class PacketCheck {
 	}
 
 	public HashMap<PlayerData, Integer> getViolations() {
-		return this.violations;
+		return violations;
 	}
 
 }

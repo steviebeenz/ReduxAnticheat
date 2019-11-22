@@ -18,15 +18,15 @@ public class MoreJump extends PacketCheck {
 	public MoreJump() {
 		super("MoreJump", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 80);
-		this.setDescription("Checks if a player has jump like motions in the air.");
+		setDescription("Checks if a player has jump like motions in the air.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		boolean onGround = ReflectionUtils.getOnGround(p),
+		final boolean onGround = ReflectionUtils.getOnGround(p),
 				isReallyOnGround = Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())
 						&& Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation());
 
@@ -50,8 +50,8 @@ public class MoreJump extends PacketCheck {
 			if (pd.wasFalling) {
 				pd.wasFalling = false;
 			}
-			
-			if(pd.fallingTicks > 0) {
+
+			if (pd.fallingTicks > 0) {
 				pd.fallingTicks = 0;
 			}
 
@@ -67,7 +67,7 @@ public class MoreJump extends PacketCheck {
 			if (pd.risingTicks > 0) {
 				pd.risingTicks--;
 			}
-			if(pd.fallingTicks > 0) {
+			if (pd.fallingTicks > 0) {
 				pd.fallingTicks--;
 			}
 			if (pd.isFalling) {
@@ -84,10 +84,10 @@ public class MoreJump extends PacketCheck {
 			return;
 		}
 
-		if(System.currentTimeMillis() - pd.teleportTicks < 1500) {
+		if (System.currentTimeMillis() - pd.teleportTicks < 1500) {
 			return;
 		}
-		
+
 		if (pd.teleportTicks > 0) {
 			return;
 		}
@@ -96,8 +96,11 @@ public class MoreJump extends PacketCheck {
 			return;
 		}
 
-		if (Main.getInstance().getLocUtils().canClimb(p) || Main.getInstance().getLocUtils().canClimb(pd.getLastLocation()) || Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
-				|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation()) || Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())) {
+		if (Main.getInstance().getLocUtils().canClimb(p)
+				|| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
+				|| Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
+				|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())
+				|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())) {
 			return;
 		}
 
@@ -105,22 +108,22 @@ public class MoreJump extends PacketCheck {
 			return;
 		}
 
-		if(pd.velocTicks > 0) {
+		if (pd.velocTicks > 0) {
 			return;
 		}
-		
-		if(pd.flyTicks > 0 || p.isFlying()) {
+
+		if (pd.flyTicks > 0 || p.isFlying()) {
 			pd.isRising = false;
 			pd.isFalling = false;
 			pd.wasFalling = false;
 			return;
 		}
-		
+
 		int limit = 20;
 
 		limit += ReflectionUtils.getPingModifier(p);
 
-		for (PotionEffect pe : p.getActivePotionEffects()) {
+		for (final PotionEffect pe : p.getActivePotionEffects()) {
 			if (pe.getType().equals(PotionEffectType.JUMP)) {
 				limit *= 1 + (pe.getAmplifier() * 0.2);
 			}
@@ -134,13 +137,14 @@ public class MoreJump extends PacketCheck {
 				}
 			}
 		} else {
-			if(pd.risingTicks > 0) {
+			if (pd.risingTicks > 0) {
 				pd.risingTicks--;
 			}
 		}
 
 		if (pd.isRising && pd.wasFalling) {
-			if (Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "AIR") && Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "AIR")) {
+			if (Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "AIR")
+					&& Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "AIR")) {
 				if (!Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())) {
 					pd.jumpVl++;
 					if (pd.jumpVl > 2) {
@@ -162,7 +166,6 @@ public class MoreJump extends PacketCheck {
 				pd.jumpVl--;
 			}
 		}
-		
 
 	}
 

@@ -20,7 +20,7 @@ public class Jesus extends PacketCheck {
 	public Jesus() {
 		super("Jesus", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 70);
-		this.setDescription("Checks if a player is walking on top of a liquid.");
+		setDescription("Checks if a player is walking on top of a liquid.");
 	}
 
 	@Override
@@ -68,8 +68,8 @@ public class Jesus extends PacketCheck {
 					}
 				}
 			}
-			
-			if(pd.jesus > 0) {
+
+			if (pd.jesus > 0) {
 				pd.jesus--;
 			}
 		}

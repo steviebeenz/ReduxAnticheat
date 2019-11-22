@@ -22,7 +22,7 @@ public class Killaura extends PacketCheck {
 	public Killaura() {
 		super("Killaura [Packets]", 5, 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
-		this.setDescription("Checks if a player sends too many packets.");
+		setDescription("Checks if a player sends too many packets.");
 	}
 
 	@Override
@@ -39,8 +39,10 @@ public class Killaura extends PacketCheck {
 							pd.nullEntity--;
 						}
 
-						double diff = Math.abs(System.currentTimeMillis() - pd.getLastMovement()) + ReflectionUtils.getPingModifier(p) + Math.abs(20 -Main.getInstance().getTpsTask().tps);
-						
+						final double diff = Math.abs(System.currentTimeMillis() - pd.getLastMovement())
+								+ ReflectionUtils.getPingModifier(p)
+								+ Math.abs(20 - Main.getInstance().getTpsTask().tps);
+
 						if (diff < 8) {
 							pd.killauraPackets++;
 							if (pd.killauraPackets > 1) {

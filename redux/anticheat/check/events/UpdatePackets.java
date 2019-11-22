@@ -68,6 +68,14 @@ public class UpdatePackets {
 							pd.teleportTicks--;
 						}
 
+						if (pd.changeTicks > 0) {
+							pd.changeTicks--;
+						}
+						
+						if(pd.flyTicks > 0 && !p.isFlying()) {
+							pd.flyTicks--;
+						}
+
 						if (pd.eatTicks > 0) {
 							pd.eatTicks--;
 						}
@@ -156,13 +164,13 @@ public class UpdatePackets {
 					public void onPacketReceiving(PacketEvent e) {
 						final Player p = e.getPlayer();
 						final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
-						
-						if(pd != null) {
-							
+
+						if (pd != null) {
+
 						} else {
 							return;
 						}
-					
+
 						if (System.currentTimeMillis() - pd.join < 1000) {
 							return;
 						}
@@ -297,10 +305,11 @@ public class UpdatePackets {
 				// return;
 				// } else {
 				e.setReadOnly(false);
-				PacketContainer packet = e.getPacket().deepClone();
-				Entity entity = packet.getEntityModifier(e).readSafely(0);
-				StructureModifier<List<WrappedWatchableObject>> modifier = packet.getWatchableCollectionModifier();
-				List<WrappedWatchableObject> read = modifier.read(0);
+				final PacketContainer packet = e.getPacket().deepClone();
+				final Entity entity = packet.getEntityModifier(e).readSafely(0);
+				final StructureModifier<List<WrappedWatchableObject>> modifier = packet
+						.getWatchableCollectionModifier();
+				final List<WrappedWatchableObject> read = modifier.read(0);
 
 				e.setPacket(packet);
 
@@ -308,9 +317,9 @@ public class UpdatePackets {
 					return;
 				}
 
-				for (WrappedWatchableObject obj : read) {
+				for (final WrappedWatchableObject obj : read) {
 					if (obj.getIndex() == 6) {
-						float value = (float) obj.getValue();
+						final float value = (float) obj.getValue();
 						if (value > 0) {
 							obj.setValue(1f, false);
 						}

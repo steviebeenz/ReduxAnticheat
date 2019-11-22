@@ -14,23 +14,24 @@ import redux.anticheat.utils.ReflectionUtils;
 public class BadPacketsG extends PacketCheck {
 
 	public BadPacketsG() {
-		super("BadPackets [G]", 5, 10, null, false, true, Category.PACKETS, new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
-		this.setDescription("Checks for Killaura like packets.");
+		super("BadPackets [G]", 5, 10, null, false, true, Category.PACKETS,
+				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
+		setDescription("Checks for Killaura like packets.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
-		
-		if(pd.flyTicks > 0 || p.isFlying()) {
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+
+		if (pd.flyTicks > 0 || p.isFlying()) {
 			return;
 		}
-		
-		if((System.currentTimeMillis() - pd.flyingA) + ReflectionUtils.getPingModifier(p) + Math.abs(20 -Main.getInstance().getTpsTask().tps) < 8) {
+
+		if ((System.currentTimeMillis() - pd.flyingA) + ReflectionUtils.getPingModifier(p)
+				+ Math.abs(20 - Main.getInstance().getTpsTask().tps) < 8) {
 			flag(pd, "flying > 8 (experimental)");
 		}
 	}
-	
 
 }

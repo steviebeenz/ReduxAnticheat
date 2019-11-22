@@ -18,7 +18,7 @@ public class KillauraC extends PacketCheck {
 	public KillauraC() {
 		super("Killaura [C]", 5, 20, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY, PacketType.Play.Client.POSITION }, false, 30);
-		this.setDescription("Checks if a player is hitting a dead entity.");
+		setDescription("Checks if a player is hitting a dead entity.");
 	}
 
 	@Override

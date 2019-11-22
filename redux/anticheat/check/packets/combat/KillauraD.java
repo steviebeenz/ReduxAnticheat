@@ -19,9 +19,9 @@ public class KillauraD extends PacketCheck {
 	public KillauraD() {
 		super("Killaura [D]", 5, 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
-		this.setDescription("Checks if a player reaches too far.");
+		setDescription("Checks if a player reaches too far.");
 	}
-	
+
 	@Override
 	public void listen(PacketEvent e) {
 		final Player p = e.getPlayer();
@@ -65,13 +65,13 @@ public class KillauraD extends PacketCheck {
 			if (player2 != null) {
 				p2delta = player2.getDeltaXZ();
 			}
-			
+
 			double limit = 18;
-			
-			if(p.getGameMode().equals(GameMode.CREATIVE)) {
+
+			if (p.getGameMode().equals(GameMode.CREATIVE)) {
 				limit += 10;
 			}
-			
+
 			if (gcd > (limit + (pd.getDeltaXZ() * 0.6) + p2delta)) {
 				pd.moreGCD++;
 				if (pd.moreGCD > 2) {

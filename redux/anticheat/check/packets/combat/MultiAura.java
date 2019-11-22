@@ -9,14 +9,13 @@ import redux.anticheat.check.PacketCheck;
 public class MultiAura extends PacketCheck {
 
 	public MultiAura() {
-		super("Killaura [Multi]", 5, 10, null, false, true, Category.COMBAT, new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 85);
+		super("Killaura [Multi]", 5, 10, null, false, true, Category.COMBAT,
+				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 85);
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		
+
 	}
-	
-	
 
 }

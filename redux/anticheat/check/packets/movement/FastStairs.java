@@ -15,13 +15,13 @@ public class FastStairs extends PacketCheck {
 	public FastStairs() {
 		super("FastStairs", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 80);
-		this.setDescription("Checks if a player is moving faster than normal on stairs.");
+		setDescription("Checks if a player is moving faster than normal on stairs.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		if (pd.flyTicks > 0 || p.isFlying() || pd.teleportTicks > 0) {
 			return;
@@ -59,6 +59,9 @@ public class FastStairs extends PacketCheck {
 		} else {
 			if (pd.stairTicks > 0) {
 				pd.stairTicks--;
+			}
+			if (pd.jumpStairsTick > 0) {
+				pd.jumpStairsTick--;
 			}
 		}
 

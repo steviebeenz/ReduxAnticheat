@@ -17,34 +17,34 @@ public class AimC extends PacketCheck {
 	public AimC() {
 		super("Aim [C]", 5, 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 90);
-		this.setDescription("Checks if a player is not hitting a hitbox.");
+		setDescription("Checks if a player is not hitting a hitbox.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
 
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		if (e.getPacket().getEntityUseActions().readSafely(0).equals(EntityUseAction.ATTACK)) {
-			Entity entity = getEntityFromPacket(e.getPacket(), p);
+			final Entity entity = getEntityFromPacket(e.getPacket(), p);
 
 			if (entity != null && pd.getNextLocation() != null) {
 
-				if(pd.getLastLocation().distanceSquared(entity.getLocation()) < 1) {
+				if (pd.getLastLocation().distanceSquared(entity.getLocation()) < 1) {
 					p.sendMessage("more than 1");
 					return;
 				}
-				
+
 				double diff = Main.getInstance().getLocUtils().getDistanceFromMouse(pd, entity);
 
-				if(diff > 180) {
+				if (diff > 180) {
 					diff -= 180;
 				}
-				
-			//	Bukkit.broadcastMessage("diff: " + diff);
-				
-				if(diff > 100) {
+
+				// Bukkit.broadcastMessage("diff: " + diff);
+
+				if (diff > 100) {
 					flag(pd, diff + " > " + 100);
 				}
 			}

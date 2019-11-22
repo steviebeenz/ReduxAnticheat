@@ -3,7 +3,6 @@ package redux.anticheat.managers;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -32,6 +31,7 @@ import redux.anticheat.check.packets.movement.FlyC;
 import redux.anticheat.check.packets.movement.FlyD;
 import redux.anticheat.check.packets.movement.FlyE;
 import redux.anticheat.check.packets.movement.FlyF;
+import redux.anticheat.check.packets.movement.FlyG;
 import redux.anticheat.check.packets.movement.FlyH;
 import redux.anticheat.check.packets.movement.Glide;
 import redux.anticheat.check.packets.movement.Jesus;
@@ -45,6 +45,7 @@ import redux.anticheat.check.packets.movement.NormalMovements;
 import redux.anticheat.check.packets.movement.Speed;
 import redux.anticheat.check.packets.movement.SpeedB;
 import redux.anticheat.check.packets.movement.SpeedC;
+import redux.anticheat.check.packets.movement.SpeedD;
 import redux.anticheat.check.packets.movement.WeirdY;
 import redux.anticheat.check.packets.packet.BadPacketsA;
 import redux.anticheat.check.packets.packet.BadPacketsB;
@@ -108,7 +109,9 @@ public class CheckManager {
 		final Glide an = new Glide();
 		final SpeedC ao = new SpeedC();
 		final AimC ap = new AimC();
-		
+		final FlyG aq = new FlyG();
+		final SpeedD ar = new SpeedD();
+
 		checks.add(a);
 		checks.add(b);
 		checks.add(c);
@@ -150,23 +153,25 @@ public class CheckManager {
 		checks.add(an);
 		checks.add(ao);
 		checks.add(ap);
+		checks.add(aq);
+		checks.add(ar);
 
 		loadCheckFiles();
 	}
 
 	private void loadCheckFiles() {
 		try {
-			for (Category c : Category.values()) {
-				File dir = new File(Main.getInstance().getDataFolder() + File.separator + "checks" + File.separator
-						+ c.name().toLowerCase());
+			for (final Category c : Category.values()) {
+				final File dir = new File(Main.getInstance().getDataFolder() + File.separator + "checks"
+						+ File.separator + c.name().toLowerCase());
 				if (!dir.exists()) {
 					dir.mkdirs();
 				}
 			}
 
-			for (PacketCheck c : checks) {
-				File dir = new File(Main.getInstance().getDataFolder() + File.separator + "checks" + File.separator
-						+ c.getCategory().name().toLowerCase(), c.getName().toLowerCase() + ".yml");
+			for (final PacketCheck c : checks) {
+				final File dir = new File(Main.getInstance().getDataFolder() + File.separator + "checks"
+						+ File.separator + c.getCategory().name().toLowerCase(), c.getName().toLowerCase() + ".yml");
 				YamlConfiguration yml;
 				if (!dir.exists()) {
 					dir.createNewFile();
@@ -188,7 +193,7 @@ public class CheckManager {
 						c.setMinViolations(yml.getInt("minvl"));
 						c.setSetback(yml.getBoolean("setback"));
 						c.setSeverity(yml.getDouble("severity") > 100 ? 100 : yml.getDouble("severity"));
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						yml.set("category", c.getCategory().name());
 						yml.set("enabled", c.isEnabled());
 						yml.set("maxvl", c.getMaxViolations());
@@ -202,7 +207,7 @@ public class CheckManager {
 				c.loadCustomSettings();
 
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -212,7 +217,8 @@ public class CheckManager {
 			if (c.isEnabled()) {
 				for (final PacketType pt : c.getType()) {
 					if (pt.equals(e.getPacketType())) {
-						PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+						final PlayerData pd = Main.getInstance().getPlayerManager()
+								.getPlayer(e.getPlayer().getUniqueId());
 						if (pd != null) {
 							c.listen(e);
 						}
@@ -244,31 +250,27 @@ public class CheckManager {
 
 	public int getChecks(Category ca) {
 		int tr = 0;
-		for(PacketCheck c : checks) {
-			if(c.getCategory().equals(ca)) {
+		for (final PacketCheck c : checks) {
+			if (c.getCategory().equals(ca)) {
 				tr++;
 			}
 		}
 		return tr;
 	}
-	
+
 	public List<PacketCheck> get(Category ca) {
-		ArrayList<PacketCheck> check = new ArrayList<PacketCheck>();
-		for(PacketCheck c : checks) {
-			if(c.getCategory().equals(ca)) {
+		final ArrayList<PacketCheck> check = new ArrayList<PacketCheck>();
+		for (final PacketCheck c : checks) {
+			if (c.getCategory().equals(ca)) {
 				check.add(c);
 			}
 		}
-		
-		Collections.sort(check, new Comparator<PacketCheck>() {
-            @Override
-            public int compare(PacketCheck item, PacketCheck t1) {
-                String s1 = item.getName();
-                String s2 = t1.getName();
-                return s1.compareToIgnoreCase(s2);
-            }
 
-        });
+		Collections.sort(check, (item, t1) -> {
+			final String s1 = item.getName();
+			final String s2 = t1.getName();
+			return s1.compareToIgnoreCase(s2);
+		});
 		return check;
 	}
 

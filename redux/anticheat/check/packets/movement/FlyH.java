@@ -16,24 +16,22 @@ public class FlyH extends PacketCheck {
 	public FlyH() {
 		super("Fly [H]", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 100);
-		this.setDescription("Checks if a player is trying to fall slower than normal.");
+		setDescription("Checks if a player is trying to fall slower than normal.");
 	}
 
 	@Override
 	public void listen(PacketEvent e) {
-		Player p = e.getPlayer();
-		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+		final Player p = e.getPlayer();
+		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		if (pd.teleportTicks > 0 || pd.flyTicks > 0 || p.isFlying()) {
+		if (pd.teleportTicks > 0 || pd.flyTicks > 0 || p.isFlying() || pd.stairTicks > 0 || pd.jumpStairsTick > 0) {
 			return;
 		}
 
 		if (pd.offGroundTicks > 0) {
 			if (pd.getDeltaY() <= 0) {
-				if (!Main.getInstance().getLocUtils().isCollidedWithWeirdBlock(pd.getLastLocation(),
-						pd.getNextLocation())) {
-					if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
-							|| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())) {
+				if (!locUtils.isCollidedWithWeirdBlock(pd.getLastLocation(), pd.getNextLocation())) {
+					if (locUtils.canClimb(pd.getNextLocation()) || locUtils.canClimb(pd.getLastLocation())) {
 						return;
 					}
 					if (pd.getDeltaY() > -0.078 && pd.risingTicks == 0 && !pd.wasFalling
@@ -41,14 +39,14 @@ public class FlyH extends PacketCheck {
 						if (!pd.isFalling && !pd.wasFalling && !pd.isRising) {
 							return;
 						}
-						vl++;
-						if (vl > 1) {
+						pd.flyHvl++;
+						if (pd.flyHvl > 1) {
 							flag(pd, pd.getDeltaY() + " > " + -0.078 + " | rising: " + pd.isRising + ", falling: "
 									+ pd.isFalling + " wasFalling: " + pd.wasFalling);
 						}
 					} else {
-						if (vl > 0) {
-							vl -= 0.5;
+						if (pd.flyHvl > 0) {
+							pd.flyHvl -= 0.5;
 						}
 					}
 				}

@@ -17,7 +17,7 @@ public class FlyC extends PacketCheck {
 	public FlyC() {
 		super("Fly [C]", 5, 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
-		this.setDescription("Checks if a player's motion is in a pattern.");
+		setDescription("Checks if a player's motion is in a pattern.");
 		settings.put("limit", 8);
 	}
 
@@ -31,24 +31,25 @@ public class FlyC extends PacketCheck {
 				pd.flyCvl = 0;
 				return;
 			}
-			
-			Block b = Main.getInstance().getLocUtils().getBlockUnder(pd.getLastLocation()), b2 = Main.getInstance().getLocUtils().getBlockUnder(pd.getNextLocation());
-			
-			if(b != null) {
-				if(Main.getInstance().getLocUtils().isStair(b.getType())) {
+
+			final Block b = Main.getInstance().getLocUtils().getBlockUnder(pd.getLastLocation()),
+					b2 = Main.getInstance().getLocUtils().getBlockUnder(pd.getNextLocation());
+
+			if (b != null) {
+				if (Main.getInstance().getLocUtils().isStair(b.getType())) {
 					pd.flyCvl = 0;
 					return;
 				}
 			}
-			
-			if(b2 != null) {
-				if(Main.getInstance().getLocUtils().isStair(b2.getType())) {
+
+			if (b2 != null) {
+				if (Main.getInstance().getLocUtils().isStair(b2.getType())) {
 					pd.flyCvl = 0;
 					return;
 				}
 			}
-			
-			int limit = (int) settings.get("limit");
+
+			final int limit = (int) settings.get("limit");
 
 			final double diff = (pd.getDeltaY() - pd.getPreviousDeltaY());
 			if (diff != 0) {

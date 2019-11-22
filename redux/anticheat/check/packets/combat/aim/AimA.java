@@ -22,7 +22,7 @@ public class AimA extends PacketCheck {
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY, PacketType.Play.Client.POSITION,
 						PacketType.Play.Client.POSITION_LOOK },
 				true, 75);
-		this.setDescription("Checks the average speed when hitting.");
+		setDescription("Checks the average speed when hitting.");
 		settings.put("average_speed", 0.4);
 		settings.put("average_diff", 0.2);
 	}
@@ -48,11 +48,11 @@ public class AimA extends PacketCheck {
 
 				pd.hits.add(new HitData(diff, pd.getDeltaXZ(), pd.hitTicks));
 
-				if(pd.flyTicks > 0 || p.isFlying()) {
+				if (pd.flyTicks > 0 || p.isFlying()) {
 					pd.hits.clear();
 					return;
 				}
-				
+
 				if (pd.hits.size() >= 20) {
 
 					final double[] avgs = average(pd);
@@ -67,20 +67,24 @@ public class AimA extends PacketCheck {
 
 					limitMultiply += Math.abs(ReflectionUtils.getPingModifier(p) * 0.12);
 					limitMultiply += Math.abs(pd.getVelocity()) * 0.12;
-					
+
 					if (pd.teleportTicks > 0) {
 						pd.hits.clear();
 						return;
 					}
 
 					if (avgs[0] >= ((double) settings.get("average_speed") * limitMultiply)) {
-						flag(pd, avgs[0] + " >= " + ((double) settings.get("average_speed") * limitMultiply) + "(speed)");
-						p.sendMessage("diff: " + avgs[0] + "/" + ((double) settings.get("average_speed") * limitMultiply) +  ", hits: " + pd.hits.size());
+						flag(pd, avgs[0] + " >= " + ((double) settings.get("average_speed") * limitMultiply)
+								+ "(speed)");
+						p.sendMessage(
+								"diff: " + avgs[0] + "/" + ((double) settings.get("average_speed") * limitMultiply)
+										+ ", hits: " + pd.hits.size());
 					}
 
 					if (avgs[1] >= ((double) settings.get("average_diff") * limitMultiply)) {
 						flag(pd, avgs[1] + " >= " + ((double) settings.get("average_diff") * limitMultiply) + "(diff)");
-						p.sendMessage("diff: " + avgs[1] + "/" + ((double) settings.get("average_diff") * limitMultiply) + ", hits: " + pd.hits.size());
+						p.sendMessage("diff: " + avgs[1] + "/" + ((double) settings.get("average_diff") * limitMultiply)
+								+ ", hits: " + pd.hits.size());
 					}
 
 					pd.hits.clear();
@@ -100,10 +104,10 @@ public class AimA extends PacketCheck {
 	private double[] average(PlayerData pd) {
 		double avgSpeed = 0, avgDiff = 0;
 
-		if(pd.hits.size() < 20) {
+		if (pd.hits.size() < 20) {
 			return new double[] { 0, 0 };
 		}
-		
+
 		for (final HitData d : pd.hits) {
 			avgSpeed += d.speed;
 			avgDiff += d.diff;

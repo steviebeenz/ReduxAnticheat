@@ -16,9 +16,10 @@ import redux.anticheat.utils.ReflectionUtils;
 public class Fly extends PacketCheck {
 
 	public Fly() {
-		super("Fly", 5, 10, null, false, true, Category.MOVEMENT, new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
+		super("Fly", 5, 10, null, false, true, Category.MOVEMENT, new PacketType[] { PacketType.Play.Client.POSITION },
+				true, 85);
 		settings.put("limit", 13);
-		this.setDescription("Checks if a player isn't falling in air.");
+		setDescription("Checks if a player isn't falling in air.");
 	}
 
 	@Override
@@ -48,10 +49,14 @@ public class Fly extends PacketCheck {
 			}
 		}
 
-		if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation()) || Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation()) || Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().isOnSlime(pd.getNextLocation()) || Main.getInstance().getLocUtils().isUnderStairs(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().isUnderStairs(pd.getNextLocation()) || Main.getInstance().getLocUtils().isCollidedWeb(pd.getNextLocation(), pd.getLastLocation())
+		if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
+				|| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
+				|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())
+				|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())
+				|| Main.getInstance().getLocUtils().isOnSlime(pd.getNextLocation())
+				|| Main.getInstance().getLocUtils().isUnderStairs(pd.getLastLocation())
+				|| Main.getInstance().getLocUtils().isUnderStairs(pd.getNextLocation())
+				|| Main.getInstance().getLocUtils().isCollidedWeb(pd.getNextLocation(), pd.getLastLocation())
 				|| Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "FENCE")
 				|| Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "FENCE")
 				|| Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "WALL")
@@ -67,7 +72,8 @@ public class Fly extends PacketCheck {
 			}
 		}
 
-		if (!Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation()) || !ReflectionUtils.getOnGround(p)) {
+		if (!Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())
+				|| !ReflectionUtils.getOnGround(p)) {
 			for (final ItemStack i : p.getInventory().getArmorContents()) {
 				if (i.getType().name().contains("ELYTRA")) {
 					pd.sameY = 0;
@@ -82,8 +88,8 @@ public class Fly extends PacketCheck {
 			}
 		}
 
-		int limit = (int)settings.get("limit");
-		
+		final int limit = (int) settings.get("limit");
+
 		if (pd.sameY >= limit) {
 			flag(pd, pd.sameY + " >= " + limit + "(limit)");
 			pd.sameY = 0;

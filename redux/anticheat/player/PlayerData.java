@@ -91,6 +91,12 @@ public class PlayerData {
 	public int positionLook;
 	public boolean wasSetBack;
 	public int fallingTicks;
+	public double lastDiff;
+	public double lastYDiff;
+	public int changeTicks;
+	public int flyHvl;
+	public double flyGvl;
+	public double speedCvl;
 
 	public void delete() {
 		hits.clear();
@@ -324,36 +330,41 @@ public class PlayerData {
 	}
 
 	public void setLastAlert(long currentTimeMillis) {
-		this.lastAlert = currentTimeMillis;
+		lastAlert = currentTimeMillis;
 	}
 
 	public void setDown() {
 		wasSetBack(true);
-		
-		Block b = Main.getInstance().getLocUtils().getBlockUnder(lastLocation);
+
+		final Block b = Main.getInstance().getLocUtils().getBlockUnder(lastLocation);
 		if (b != null && ReflectionUtils.getPing(player) <= 100) {
-			if (b.getType().isSolid()) {
+			if (b.getType().isSolid()
+					&& !Main.getInstance().getLocUtils().isCollidedWithWeirdBlock(lastLocation, b.getLocation())) {
 				if (!b.getType().name().contains("CACTUS")) {
-					Location newLoc = new Location(b.getWorld(), b.getLocation().getX(), b.getLocation().getY() + 1,
-							b.getLocation().getZ());
-					getPlayer().teleport(newLoc);
-					this.setLastLocation(newLoc);
-					this.setNextLocation(newLoc);
-					teleportTicks = 0;
-					return;
+					final Location newLoc = new Location(b.getWorld(), b.getLocation().getX(),
+							b.getLocation().getY() + 1, b.getLocation().getZ());
+
+					if (nextLocation.distanceSquared(newLoc) < 5) {
+						getPlayer().teleport(newLoc);
+						setLastLocation(newLoc);
+						setNextLocation(newLoc);
+						teleportTicks = 0;
+						return;
+					}
 				}
 			}
 		}
 
 		getPlayer().teleport(lastLocation);
-		this.setLastLocation(lastLocation);
-		this.setNextLocation(lastLocation);
+		setLastLocation(lastLocation);
+		setNextLocation(lastLocation);
 
 		teleportTicks = 0;
+		return;
 	}
 
 	public void wasSetBack(boolean b) {
-		this.wasSetBack = b;
+		wasSetBack = b;
 	}
 
 	public double getVelocity() {
