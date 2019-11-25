@@ -1,5 +1,5 @@
 name: ReduxAnticheat
-version: 0.2.9
+version: 0.2.8
 author: _______________6
 main: redux.anticheat.Main
 depend: [ProtocolLib]

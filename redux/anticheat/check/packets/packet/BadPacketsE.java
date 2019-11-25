@@ -11,7 +11,7 @@ import redux.anticheat.player.PlayerData;
 public class BadPacketsE extends PacketCheck {
 
 	public BadPacketsE() {
-		super("BadPackets [E]", 5, 10, null, false, true, Category.PACKETS,
+		super("BadPackets [E]", 10, null, false, true, Category.PACKETS,
 				new PacketType[] { PacketType.Play.Client.FLYING, PacketType.Play.Client.POSITION }, true, 86);
 		setDescription("Checks if a player is moving while sending flying packets.");
 	}

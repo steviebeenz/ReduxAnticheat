@@ -18,7 +18,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class AimA extends PacketCheck {
 
 	public AimA() {
-		super("Aim [A]", 5, 10, null, false, true, Category.COMBAT,
+		super("Aim [A]", 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY, PacketType.Play.Client.POSITION,
 						PacketType.Play.Client.POSITION_LOOK },
 				true, 75);

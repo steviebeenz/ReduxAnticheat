@@ -14,7 +14,7 @@ public class BadPacketsA extends PacketCheck {
 	private final int limit = 26;
 
 	public BadPacketsA() {
-		super("BadPackets [A]", 5, 40, null, false, true, Category.PACKETS,
+		super("BadPackets [A]", 20, null, false, true, Category.PACKETS,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 100);
 		setDescription("Checks if a player is sending more packets in a second.");
 	}

@@ -19,7 +19,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class SpeedD extends PacketCheck {
 
 	public SpeedD() {
-		super("Speed [D]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Speed [D]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
 	}
 
@@ -69,14 +69,15 @@ public class SpeedD extends PacketCheck {
 		speedLimit += Math.abs((20 - Main.getInstance().getTpsTask().tps)) * 0.12;
 
 		if (speed > speedLimit && !pd.wasFalling) {
-
-			if (pd.isRising) {
-				if (pd.risingTicks > 1) {
-					flag(pd, speed + " >= " + speedLimit);
-				}
-				return;
+			pd.speedDvl++;
+			if (pd.speedDvl > 7) {
+				flag(pd, speed + " >= " + speedLimit);
+				pd.speedDvl = 0;
 			}
-			//flag(pd, speed + " >= " + speedLimit);
+		} else {
+			if (pd.speedDvl > 0) {
+				pd.speedDvl -= 0.5;
+			}
 		}
 
 	}

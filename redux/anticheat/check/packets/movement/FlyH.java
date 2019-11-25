@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class FlyH extends PacketCheck {
 
 	public FlyH() {
-		super("Fly [H]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Fly [H]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 100);
 		setDescription("Checks if a player is trying to fall slower than normal.");
 	}

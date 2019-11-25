@@ -15,7 +15,7 @@ import redux.anticheat.player.PlayerData;
 public class AimC extends PacketCheck {
 
 	public AimC() {
-		super("Aim [C]", 5, 10, null, false, true, Category.COMBAT,
+		super("Aim [C]", 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 90);
 		setDescription("Checks if a player is not hitting a hitbox.");
 	}

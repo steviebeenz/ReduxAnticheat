@@ -31,6 +31,7 @@ public class LocUtils {
 		weirdBlocks.add("BED");
 		weirdBlocks.add("LAVA");
 		weirdBlocks.add("WATER");
+		weirdBlocks.add("WALL");
 	}
 
 	public boolean isCollidedWithWeirdBlock(Location from, Location to) {

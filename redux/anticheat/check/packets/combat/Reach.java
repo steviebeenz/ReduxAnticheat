@@ -19,7 +19,7 @@ import redux.anticheat.player.PlayerData;
 public class Reach extends PacketCheck {
 
 	public Reach() {
-		super("Reach", 5, 10, null, false, true, Category.COMBAT,
+		super("Reach", 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
 		settings.put("max_reach", 3.0);
 		setDescription("Checks if a player hits further than normal.");

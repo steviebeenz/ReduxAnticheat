@@ -17,7 +17,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class WeirdY extends PacketCheck {
 
 	public WeirdY() {
-		super("WeirdY", 1, 10, null, true, true, Category.MOVEMENT,
+		super("WeirdY", 10, null, true, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 80);
 		settings.put("sample_count", 10);
 		setDescription("Checks if a player's motion is unusual.");

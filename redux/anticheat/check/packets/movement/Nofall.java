@@ -16,7 +16,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class Nofall extends PacketCheck {
 
 	public Nofall() {
-		super("Nofall", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Nofall", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 75);
 		setDescription("Checks if a player is changing their ground packet.");
 	}

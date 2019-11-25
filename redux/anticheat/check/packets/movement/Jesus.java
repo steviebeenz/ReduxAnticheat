@@ -18,7 +18,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class Jesus extends PacketCheck {
 
 	public Jesus() {
-		super("Jesus", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Jesus", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 70);
 		setDescription("Checks if a player is walking on top of a liquid.");
 	}

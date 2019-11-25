@@ -15,7 +15,7 @@ import redux.anticheat.utils.ReflectionUtils;
 
 public class BadPacketsD extends PacketCheck {
 	public BadPacketsD() {
-		super("BadPackets [D]", 5, 10, null, false, true, Category.PACKETS,
+		super("BadPackets [D]", 10, null, false, true, Category.PACKETS,
 				new PacketType[] { PacketType.Play.Client.FLYING }, true, 90);
 		setDescription("Checks if a player is sending flying packets weirdly.");
 	}

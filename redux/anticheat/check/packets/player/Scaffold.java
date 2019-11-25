@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class Scaffold extends PacketCheck {
 
 	public Scaffold() {
-		super("Scaffold", 5, 10, null, false, true, Category.PLAYER,
+		super("Scaffold", 10, null, false, true, Category.PLAYER,
 				new PacketType[] { PacketType.Play.Client.BLOCK_PLACE, PacketType.Play.Client.POSITION,
 						PacketType.Play.Client.POSITION_LOOK },
 				true, 70);

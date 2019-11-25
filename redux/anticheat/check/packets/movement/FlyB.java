@@ -16,7 +16,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class FlyB extends PacketCheck {
 
 	public FlyB() {
-		super("Fly [B]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Fly [B]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
 		settings.put("ping_factor", 60);
 		setDescription("Checks if a player is moving more than normal.");

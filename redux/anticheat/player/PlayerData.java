@@ -93,7 +93,7 @@ public class PlayerData {
 	public int fallingTicks;
 	public double lastDiff;
 	public double lastYDiff;
-	public int changeTicks;
+	public int changeGamemodeTicks;
 	public double flyHvl;
 	public double flyGvl;
 	public double speedCvl;
@@ -104,6 +104,7 @@ public class PlayerData {
 	public double speedEvl;
 	public double speedFvl;
 	public long speedFflags;
+	public double speedDvl;
 
 	public void delete() {
 		hits.clear();
@@ -341,6 +342,9 @@ public class PlayerData {
 	}
 
 	public void setDown() {
+		if(!Main.getInstance().globalSetback) {
+			return;
+		}
 		wasSetBack = true;
 		final Block b = Main.getInstance().getLocUtils().getBlockUnder(lastLocation);
 		if (b != null && ReflectionUtils.getPing(player) <= 100) {

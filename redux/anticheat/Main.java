@@ -42,6 +42,8 @@ public class Main extends JavaPlugin {
 	public boolean logConsole;
 	public String version;
 	private MenuManager menuManager;
+	public long vlDecay = 900L;
+	public boolean globalSetback = true;
 
 	private static boolean slowServer;
 
@@ -74,6 +76,8 @@ public class Main extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new PlayerEventHandler(), instance);
 		slowServer = getConfig().getBoolean("settings.slowServer");
 		logConsole = getConfig().getBoolean("settings.sendToConsole");
+		vlDecay = getConfig().getLong("settings.violationDecay");
+		globalSetback = getConfig().getBoolean("settings.globalSetback");
 		int i = 0;
 		for (final String s : getConfig().getStringList("messages.removalMessage")) {
 			i++;

@@ -16,7 +16,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class Fly extends PacketCheck {
 
 	public Fly() {
-		super("Fly", 5, 10, null, false, true, Category.MOVEMENT, new PacketType[] { PacketType.Play.Client.POSITION },
+		super("Fly", 10, null, false, true, Category.MOVEMENT, new PacketType[] { PacketType.Play.Client.POSITION },
 				true, 85);
 		settings.put("limit", 13);
 		setDescription("Checks if a player isn't falling in air.");

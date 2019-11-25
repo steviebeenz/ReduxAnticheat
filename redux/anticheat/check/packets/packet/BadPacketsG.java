@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class BadPacketsG extends PacketCheck {
 
 	public BadPacketsG() {
-		super("BadPackets [G]", 5, 10, null, false, true, Category.PACKETS,
+		super("BadPackets [G]", 10, null, false, true, Category.PACKETS,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
 		setDescription("Checks for Killaura like packets.");
 	}

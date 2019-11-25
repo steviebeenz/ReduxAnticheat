@@ -12,11 +12,9 @@ import redux.anticheat.player.PlayerData;
 import redux.anticheat.utils.ReflectionUtils;
 
 public class SpeedE extends PacketCheck {
-
-	int i = 0;
 	
 	public SpeedE() {
-		super("Speed [E]", 5, 10, null, false, false, Category.MOVEMENT,
+		super("Speed [E]", 10, null, false, false, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
 	}
 
@@ -64,13 +62,13 @@ public class SpeedE extends PacketCheck {
 		}
 		
 		if(speedSqrt > expected) {
-			i++;
-			if(i > 2) {
+			pd.speedEvl++;
+			if(pd.speedEvl > 2) {
 				flag(pd, speedSqrt + " > " + expected + " onGround or offGround: " + pd.onGroundTicks + " or " + pd.offGroundTicks);
 			}
 		} else {
-			if(i > 0) {
-				i -= 0.5;
+			if(pd.speedEvl > 0) {
+				pd.speedEvl -= 0.5;
 			}
 		}
 		

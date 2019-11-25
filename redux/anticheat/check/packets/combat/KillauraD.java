@@ -17,7 +17,7 @@ import redux.anticheat.player.PlayerData;
 public class KillauraD extends PacketCheck {
 
 	public KillauraD() {
-		super("Killaura [D]", 5, 10, null, false, true, Category.COMBAT,
+		super("Killaura [D]", 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
 		setDescription("Checks if a player reaches too far.");
 	}

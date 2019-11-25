@@ -13,7 +13,7 @@ import redux.anticheat.player.PlayerData;
 public class FastStairs extends PacketCheck {
 
 	public FastStairs() {
-		super("FastStairs", 5, 10, null, false, true, Category.MOVEMENT,
+		super("FastStairs", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 80);
 		setDescription("Checks if a player is moving faster than normal on stairs.");
 	}

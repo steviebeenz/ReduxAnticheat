@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class BadPacketsF extends PacketCheck {
 
 	public BadPacketsF() {
-		super("BadPackets [F]", 5, 10, null, false, true, Category.PACKETS,
+		super("BadPackets [F]", 10, null, false, true, Category.PACKETS,
 				new PacketType[] { PacketType.Play.Client.ARM_ANIMATION }, true, 65);
 		setDescription("Checks if a player is placing blocks without swinging as much as needed.");
 	}

@@ -11,7 +11,7 @@ import redux.anticheat.player.PlayerData;
 public class BadPacketsB extends PacketCheck {
 
 	public BadPacketsB() {
-		super("BadPackets [B]", 5, 10, null, false, true, Category.PACKETS,
+		super("BadPackets [B]", 10, null, false, true, Category.PACKETS,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
 		setDescription("Checks if they are using LB's anticactus.");
 	}

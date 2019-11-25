@@ -15,7 +15,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class BadPacketsC extends PacketCheck {
 
 	public BadPacketsC() {
-		super("BadPackets [C]", 5, 10, null, false, true, Category.PACKETS,
+		super("BadPackets [C]", 10, null, false, true, Category.PACKETS,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
 		setDescription("Checks if a player is spoofing their ground meaning they won't take any damage.");
 	}
@@ -26,31 +26,33 @@ public class BadPacketsC extends PacketCheck {
 			final Player p = e.getPlayer();
 			final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-			if (Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), Material.AIR)
-					&& Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), Material.AIR)) {
-				if (!Main.getInstance().getLocUtils().isOnSolidGround(p.getLocation())
-						&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())
-						&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())
-						&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())) {
+			if(pd.teleportTicks > 0) {
+				return;
+			}
+			
+			if (locUtils.isCollided(pd.getNextLocation(), Material.AIR)
+					&& locUtils.isCollided(pd.getLastLocation(), Material.AIR)) {
+				if (!locUtils.isOnSolidGround(p.getLocation())
+						&& !locUtils.isOnSolidGround(pd.getNextLocation())
+						&& !locUtils.isOnSolidGround(pd.getLastLocation())) {
 					if (ReflectionUtils.getOnGround(p)) {
-						if (!Main.getInstance().getLocUtils().canClimb(p)
-								&& !Main.getInstance().getLocUtils().isOnSmallBlock(pd.getNextLocation())
-								&& !Main.getInstance().getLocUtils().isOnSmallBlock(pd.getLastLocation())
-								&& !Main.getInstance().getLocUtils().isOnSlime(pd.getNextLocation())
-								&& !Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())
-								&& !Main.getInstance().getLocUtils().isUnderStairs(pd.getNextLocation())
-								&& !Main.getInstance().getLocUtils().isUnderStairs(pd.getLastLocation())) {
+						if (!locUtils.canClimb(p)
+								&& !locUtils.isOnSmallBlock(pd.getNextLocation())
+								&& !locUtils.isOnSmallBlock(pd.getLastLocation())
+								&& !locUtils.isOnSlime(pd.getNextLocation())
+								&& !locUtils.isInLiquid(pd.getNextLocation())) {
 
-							if (Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "FENCE")
-									|| Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "FENCE")
-									|| Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "WALL")
-									|| Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "WALL")) {
+							if (locUtils.isCollided(pd.getLastLocation(), "FENCE")
+									|| locUtils.isCollided(pd.getNextLocation(), "FENCE")
+									|| locUtils.isCollided(pd.getLastLocation(), "WALL")
+									|| locUtils.isCollided(pd.getNextLocation(), "WALL")
+									|| locUtils.isCollidedWithWeirdBlock(pd.getLastLocation(), pd.getNextLocation())) {
 								pd.badPacketsC = 0;
 								return;
 							}
 
 							pd.badPacketsC++;
-							if (pd.badPacketsC >= 2) {
+							if (pd.badPacketsC >= 3) {
 								flag(pd, pd.badPacketsC + " >= 2");
 								pd.badPacketsC = 0;
 							}

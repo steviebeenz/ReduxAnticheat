@@ -14,7 +14,7 @@ import redux.anticheat.player.PlayerData;
 public class NoSwing extends PacketCheck {
 
 	public NoSwing() {
-		super("NoSwing [GCD]", 5, 10, null, false, true, Category.COMBAT,
+		super("NoSwing [GCD]", 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 60);
 		setDescription("Checks using GCD for NoSwing.");
 	}

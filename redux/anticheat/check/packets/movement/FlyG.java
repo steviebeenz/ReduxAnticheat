@@ -13,7 +13,7 @@ import redux.anticheat.player.PlayerData;
 public class FlyG extends PacketCheck {
 
 	public FlyG() {
-		super("Fly [G]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Fly [G]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
 	}
 
@@ -22,7 +22,7 @@ public class FlyG extends PacketCheck {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		if(pd.teleportTicks > 0 || System.currentTimeMillis() - pd.join < 1000 || pd.vehicleTicks > 0 || pd.flyTicks > 0 || pd.stairTicks > 0 || pd.jumpStairsTick > 0) {
+		if(pd.teleportTicks > 0 || System.currentTimeMillis() - pd.join < 1000 || pd.velocTicks > 0 || pd.vehicleTicks > 0 || pd.flyTicks > 0 || pd.stairTicks > 0 || pd.jumpStairsTick > 0) {
 			pd.flyGvl = 0;
 			return;
 		}
@@ -46,7 +46,7 @@ public class FlyG extends PacketCheck {
 			if ((pd.getDeltaY() - pd.getLastDeltaY()) == pd.lastYDiff
 					|| near((pd.getDeltaY() - pd.getLastDeltaY()), pd.lastYDiff)) {
 				pd.flyGvl++;
-				if (pd.flyGvl >= 2) {
+				if (pd.flyGvl >= 2.5) {
 					flag(pd, "same y difference");
 				}
 			} else {

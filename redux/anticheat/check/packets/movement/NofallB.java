@@ -14,7 +14,7 @@ import redux.anticheat.player.PlayerData;
 public class NofallB extends PacketCheck {
 
 	public NofallB() {
-		super("Nofall [B]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Nofall [B]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION, PacketType.Play.Client.FLYING }, true, 75);
 		settings.put("limit", 3);
 		setDescription("Checks if a player is sending flying packets in an unatural order.");

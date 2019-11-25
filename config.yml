@@ -25,9 +25,25 @@ messages:
       - "&d&lRedux &8> &7You were removed from the server for an unfair advantage"
       - "&8&l&m----------------------------------------------"
       
+    removalCommands:
+      - "kick %name %removalMessage"
+      - "broadcast &8&l&m--------------------------------------------\n&d%name &7was removed from server for an unfair advantage\n&8&l&m--------------------------------------------"
+      
 # These settings are primarily meant to be for performance.
 settings:
-    # slowServer tells Redux to use memory-saving checks,
+    # violationDecay is the amount in long of when some of the total violations are removed from the player, so after a day
+    # it could remove 10 vl. By default every five hours it will remove one vl.
+    violationDecay: 900
+
+    # globalViolations is the number of total violations a player is kicked for, if they reach 50 in total but only get 2 on one check.
+    # it will still remove them from the server
+    globalViolations: 50
+
+    # globalSetback is an option to disable movement checks from setting the player down when detected.
+    # if false it will disable all setbacks
+    globalSetback: true
+
+    # slowServer tells Redux if it should use less intensive checks,
     # this setting is advised for servers 1GB and below.
     slowServer: false
     

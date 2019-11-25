@@ -11,7 +11,7 @@ import redux.anticheat.player.PlayerData;
 public class LessY extends PacketCheck {
 
 	public LessY() {
-		super("LessY", 5, 10, null, false, true, Category.MOVEMENT,
+		super("LessY", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 80);
 		setDescription("Checks if a player is falling slower than normal.");
 	}
@@ -33,7 +33,7 @@ public class LessY extends PacketCheck {
 			return;
 		}
 
-		if (pd.velocTicks > 0 || pd.teleportTicks > 0 || pd.vehicleTicks > 0 || pd.stairTicks > 0 || pd.jumpStairsTick > 0 || pd.changeTicks > 0) {
+		if (pd.velocTicks > 0 || pd.teleportTicks > 0 || pd.vehicleTicks > 0 || pd.stairTicks > 0 || pd.jumpStairsTick > 0 || pd.changeGamemodeTicks > 0) {
 			return;
 		}
 

@@ -16,7 +16,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class Speed extends PacketCheck {
 
 	public Speed() {
-		super("Speed [A]", 1, 10, null, false, true, Category.MOVEMENT,
+		super("Speed [A]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 80);
 		settings.put("limit", 0.71);
 		setDescription("Checks if a player's speed is more than a dynamic limit.");

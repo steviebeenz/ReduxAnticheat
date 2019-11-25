@@ -45,7 +45,7 @@ public class PlayerEventHandler implements Listener {
 	public void onGamemodeChange(PlayerGameModeChangeEvent e) {
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
 		if (pd != null) {
-			pd.changeTicks = 20;
+			pd.changeGamemodeTicks = 20;
 		}
 	}
 

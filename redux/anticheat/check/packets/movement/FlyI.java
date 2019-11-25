@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class FlyI extends PacketCheck {
 
 	public FlyI() {
-		super("Fly [I]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Fly [I]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, false, 90);
 	}
 

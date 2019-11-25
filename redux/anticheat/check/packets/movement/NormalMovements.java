@@ -16,7 +16,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class NormalMovements extends PacketCheck {
 
 	public NormalMovements() {
-		super("NormalMovements", 5, 10, null, false, true, Category.MOVEMENT,
+		super("NormalMovements", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
 	}
 

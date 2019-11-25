@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class FlyJ extends PacketCheck {
 
 	public FlyJ() {
-		super("Fly [J]", 5, 10, null, false, true, Category.MOVEMENT, new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
+		super("Fly [J]", 10, null, false, true, Category.MOVEMENT, new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class FlyJ extends PacketCheck {
 		Player p = e.getPlayer();
 		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 		
-		if(System.currentTimeMillis() - pd.getLastOnSlime() < 1500 || pd.flyTicks > 0 || pd.velocTicks > 0 || pd.vehicleTicks > 0 || p.isFlying() || pd.changeTicks > 0 || pd.teleportTicks > 0 || pd.jumpStairsTick > 0) {
+		if(System.currentTimeMillis() - pd.getLastOnSlime() < 1500 || pd.flyTicks > 0 || pd.velocTicks > 0 || pd.vehicleTicks > 0 || p.isFlying() || pd.changeGamemodeTicks > 0 || pd.teleportTicks > 0 || pd.jumpStairsTick > 0) {
 			return;
 		}
 		
@@ -42,7 +42,7 @@ public class FlyJ extends PacketCheck {
 			if(Math.abs(expected - diff) > limit && !pd.wasSetBack) {
 				//p.sendMessage("flagged");
 				pd.flyIvl++;
-				if(pd.flyIvl >= (8 + Math.abs(20 - Main.getInstance().getTpsTask().tps))) {
+				if(pd.flyIvl >= (9 + Math.abs(20 - Main.getInstance().getTpsTask().tps))) {
 					flag(pd, Math.abs(expected - diff) + " > " + limit);
 					pd.flyIvl = 0;
 				}

@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class FlyD extends PacketCheck {
 
 	public FlyD() {
-		super("Fly [D]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Fly [D]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.FLYING }, true, 85);
 		setDescription("Checks if a player is sending flying packets in air.");
 		settings.put("limit", 40);

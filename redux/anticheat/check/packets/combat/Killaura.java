@@ -20,7 +20,7 @@ public class Killaura extends PacketCheck {
 	private PacketListener listener;
 
 	public Killaura() {
-		super("Killaura [Packets]", 5, 10, null, false, true, Category.COMBAT,
+		super("Killaura [Packets]", 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
 		setDescription("Checks if a player sends too many packets.");
 	}

@@ -16,7 +16,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class SpeedB extends PacketCheck {
 
 	public SpeedB() {
-		super("Speed [B]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Speed [B]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
 		setDescription("Checks if a player speed is more than predicted.");
 	}

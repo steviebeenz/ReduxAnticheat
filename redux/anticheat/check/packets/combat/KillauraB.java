@@ -15,7 +15,7 @@ import redux.anticheat.player.PlayerData;
 public class KillauraB extends PacketCheck {
 
 	public KillauraB() {
-		super("Killaura [B]", 5, 15, null, true, true, Category.COMBAT,
+		super("Killaura [B]", 15, null, true, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
 		setDescription("Checks if a player doesn't swing when hitting.");
 	}

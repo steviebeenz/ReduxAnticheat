@@ -30,7 +30,6 @@ public abstract class PacketCheck {
 	private final List<String> punishments;
 	private final HashMap<PlayerData, Integer> violations;
 	private List<DataSet> dataStore = null;
-	private int minViolations;
 	private int maxViolations;
 	private Category category;
 	private final boolean canLearn;
@@ -42,11 +41,10 @@ public abstract class PacketCheck {
 
 	public HashMap<String, Object> settings = new HashMap<String, Object>();
 
-	public PacketCheck(String name, int minViolations, int maxViolations, List<String> punishments, boolean canLearn,
+	public PacketCheck(String name, int maxViolations, List<String> punishments, boolean canLearn,
 			boolean enabled, Category category, PacketType[] type, boolean setback, double severity) {
 		this.name = name;
 		this.punishments = punishments;
-		this.minViolations = minViolations;
 		this.maxViolations = maxViolations;
 		this.canLearn = canLearn;
 		this.enabled = enabled;
@@ -67,10 +65,6 @@ public abstract class PacketCheck {
 
 	public List<String> getPunishments() {
 		return punishments;
-	}
-
-	public int getMinViolations() {
-		return minViolations;
 	}
 
 	public int getMaxViolations() {
@@ -237,7 +231,7 @@ public abstract class PacketCheck {
 	}
 
 	public boolean shouldSetback() {
-		return setback;
+		return this.setback;
 	}
 
 	public void setSetback(boolean setback) {
@@ -250,10 +244,6 @@ public abstract class PacketCheck {
 
 	public void setSeverity(double severity) {
 		this.severity = severity;
-	}
-
-	public void setMinViolations(int vl) {
-		minViolations = vl;
 	}
 
 	public void setMaxViolations(int vl) {

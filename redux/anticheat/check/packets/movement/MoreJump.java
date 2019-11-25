@@ -16,7 +16,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class MoreJump extends PacketCheck {
 
 	public MoreJump() {
-		super("MoreJump", 5, 10, null, false, true, Category.MOVEMENT,
+		super("MoreJump", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 80);
 		setDescription("Checks if a player has jump like motions in the air.");
 	}

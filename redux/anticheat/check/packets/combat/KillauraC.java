@@ -16,7 +16,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class KillauraC extends PacketCheck {
 
 	public KillauraC() {
-		super("Killaura [C]", 5, 20, null, false, true, Category.COMBAT,
+		super("Killaura [C]", 20, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY, PacketType.Play.Client.POSITION }, false, 30);
 		setDescription("Checks if a player is hitting a dead entity.");
 	}

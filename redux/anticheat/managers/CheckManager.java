@@ -195,7 +195,6 @@ public class CheckManager {
 					yml.set("category", c.getCategory().name());
 					yml.set("enabled", c.isEnabled());
 					yml.set("maxvl", c.getMaxViolations());
-					yml.set("minvl", c.getMinViolations());
 					yml.set("setback", c.shouldSetback());
 					yml.set("severity", c.getSeverity());
 					yml.save(dir);
@@ -205,14 +204,12 @@ public class CheckManager {
 						c.setEnabled(yml.getBoolean("enabled"));
 						c.setCategory(Category.valueOf(yml.getString("category")));
 						c.setMaxViolations(yml.getInt("maxvl"));
-						c.setMinViolations(yml.getInt("minvl"));
 						c.setSetback(yml.getBoolean("setback"));
 						c.setSeverity(yml.getDouble("severity") > 100 ? 100 : yml.getDouble("severity"));
 					} catch (final Exception e) {
 						yml.set("category", c.getCategory().name());
 						yml.set("enabled", c.isEnabled());
 						yml.set("maxvl", c.getMaxViolations());
-						yml.set("minvl", c.getMinViolations());
 						yml.set("severity", c.getSeverity());
 						yml.save(dir);
 						return;

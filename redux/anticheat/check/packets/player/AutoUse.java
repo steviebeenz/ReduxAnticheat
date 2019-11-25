@@ -16,7 +16,7 @@ import redux.anticheat.player.PlayerData;
 public class AutoUse extends PacketCheck {
 
 	public AutoUse() {
-		super("AutoUse", 5, 10, null, false, true, Category.PLAYER, new PacketType[] { PacketType.Play.Server.SET_SLOT, PacketType.Play.Client.POSITION_LOOK }, false, 60);
+		super("AutoUse", 10, null, false, true, Category.PLAYER, new PacketType[] { PacketType.Play.Server.SET_SLOT, PacketType.Play.Client.POSITION_LOOK }, false, 60);
 	}
 
 	@Override

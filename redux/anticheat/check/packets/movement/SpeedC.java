@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class SpeedC extends PacketCheck {
 
 	public SpeedC() {
-		super("Speed [C]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Speed [C]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 95);
 		setDescription("Checks a player's ground speed.");
 	}

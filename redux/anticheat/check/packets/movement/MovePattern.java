@@ -13,7 +13,7 @@ import redux.anticheat.player.PlayerData;
 public class MovePattern extends PacketCheck {
 
 	public MovePattern() {
-		super("MovePattern", 5, 10, null, false, true, Category.MOVEMENT,
+		super("MovePattern", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
 		setDescription("Checks if a player is moving in a pattern.");
 	}

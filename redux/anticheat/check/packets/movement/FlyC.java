@@ -15,7 +15,7 @@ import redux.anticheat.player.PlayerData;
 public class FlyC extends PacketCheck {
 
 	public FlyC() {
-		super("Fly [C]", 5, 10, null, false, true, Category.MOVEMENT,
+		super("Fly [C]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
 		setDescription("Checks if a player's motion is in a pattern.");
 		settings.put("limit", 8);

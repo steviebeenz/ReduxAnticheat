@@ -19,13 +19,11 @@ public class FlyE extends PacketCheck {
 	private final boolean shouldFlag = true;
 
 	public FlyE() {
-		super("Fly [E]", 1, 10, null, false, true, Category.MOVEMENT,
+		super("Fly [E]", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 85);
 		setDescription("Checks if a player is moving faster than normal.");
 		settings.put("max_ground", 2.8076494873881725);
-		settings.put("min_ground", 0.00007115656465271);
 		settings.put("max_off_ground", 2.1959840585782076);
-		settings.put("min_off_ground", 0.00003077058958932);
 	}
 
 	@Override
@@ -47,7 +45,7 @@ public class FlyE extends PacketCheck {
 				return;
 			}
 
-			if (pd.flyTicks > 0 || pd.changeTicks > 0) {
+			if (pd.flyTicks > 0 || pd.changeGamemodeTicks > 0) {
 				return;
 			}
 

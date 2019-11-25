@@ -68,8 +68,8 @@ public class UpdatePackets {
 							pd.teleportTicks--;
 						}
 
-						if (pd.changeTicks > 0) {
-							pd.changeTicks--;
+						if (pd.changeGamemodeTicks > 0) {
+							pd.changeGamemodeTicks--;
 						}
 						
 						if(pd.flyTicks > 0 && !p.isFlying()) {

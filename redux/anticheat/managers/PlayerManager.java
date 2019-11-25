@@ -49,11 +49,29 @@ public class PlayerManager {
 			}
 		} else {
 			final YamlConfiguration load = YamlConfiguration.loadConfiguration(player);
-			if (load.isSet("violations")) {
-				pd.violations = load.getInt("violations");
+			if (load.isSet("violations") && load.isSet("left")) {
+
+				int violations = load.getInt("violations");
+				if (System.currentTimeMillis() - load.getLong("left") >= Main.getInstance().vlDecay) {
+					long diff = System.currentTimeMillis() - load.getLong("left");
+					int toRemove = Math.round((diff / Main.getInstance().vlDecay));
+					violations -= toRemove;
+					if(violations < 0) {
+						violations = 0;
+					}
+				}
+
+				pd.violations = violations;
 				pd.setAlerts(load.getBoolean("alerts"));
 				pd.severity = AlertSeverity.valueOf((String) load.get("severity"));
 				pd.setDelay(load.getLong("delay"));
+			} else {
+				player.delete();
+				try {
+					player.createNewFile();
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -83,6 +101,7 @@ public class PlayerManager {
 			plda.set("violations", pd.getViolations());
 			plda.set("alerts", pd.isAlerts());
 			plda.set("delay", pd.getDelay());
+			plda.set("left", System.currentTimeMillis());
 			if (pd.severity != null) {
 				plda.set("severity", pd.severity.name());
 			} else {

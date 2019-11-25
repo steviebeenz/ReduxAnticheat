@@ -15,7 +15,7 @@ import redux.anticheat.player.PlayerData;
 public class FastClimb extends PacketCheck {
 
 	public FastClimb() {
-		super("FastClimb", 5, 10, null, false, true, Category.MOVEMENT,
+		super("FastClimb", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 70);
 		setDescription("Checks if a player is climbing on a vine or ladder faster than normal.");
 	}

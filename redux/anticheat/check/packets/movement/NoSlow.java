@@ -14,7 +14,7 @@ import redux.anticheat.player.PlayerData;
 public class NoSlow extends PacketCheck {
 
 	public NoSlow() {
-		super("NoSlow", 5, 10, null, false, true, Category.MOVEMENT,
+		super("NoSlow", 10, null, false, true, Category.MOVEMENT,
 				new PacketType[] { PacketType.Play.Client.POSITION }, true, 60);
 		setDescription("Checks if a player is not slowing down.");
 	}

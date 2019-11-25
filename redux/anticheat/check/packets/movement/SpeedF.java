@@ -14,7 +14,7 @@ import redux.anticheat.utils.ReflectionUtils;
 public class SpeedF extends PacketCheck {
 
 	public SpeedF() {
-		super("Speed [F]", 5, 10, null, false, true, Category.MOVEMENT, new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
+		super("Speed [F]", 10, null, false, true, Category.MOVEMENT, new PacketType[] { PacketType.Play.Client.POSITION }, true, 90);
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class SpeedF extends PacketCheck {
 		Player p = e.getPlayer();
 		PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 		
-		if(System.currentTimeMillis() - pd.getLastOnSlime() < 1500 || System.currentTimeMillis() - pd.join < 1000 || pd.teleportTicks > 0 || pd.changeTicks > 0 || pd.jumpStairsTick > 0 || pd.stairTicks > 0 || pd.flyTicks > 0 || p.isFlying() || pd.blockAboveTicks > 0) {
+		if(System.currentTimeMillis() - pd.getLastOnSlime() < 1500 || System.currentTimeMillis() - pd.join < 1000 || pd.teleportTicks > 0 || pd.changeGamemodeTicks > 0 || pd.jumpStairsTick > 0 || pd.stairTicks > 0 || pd.flyTicks > 0 || p.isFlying() || pd.blockAboveTicks > 0) {
 			return;
 		}
 		
