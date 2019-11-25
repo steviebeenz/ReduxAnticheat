@@ -24,20 +24,22 @@ public class SpeedC extends PacketCheck {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		final boolean serverside = Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())
-				&& Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation());
+		final boolean serverside = locUtils.isOnSolidGround(pd.getLastLocation())
+				&& locUtils.isOnSolidGround(pd.getNextLocation());
 		final boolean client = ReflectionUtils.getOnGround(p);
 
-		final double limit = 0.21 + 0.075f + (pd.onGroundTicks < 8 ? 0.4f * Math.pow(0.75f, pd.onGroundTicks) : 0);
+		double limit = 0.21 + 0.075f + (pd.onGroundTicks < 8 ? 0.4f * Math.pow(0.75f, pd.onGroundTicks) : ((double)pd.onGroundTicks * 0.08));
 
-		final boolean isOnSmallBlock = Main.getInstance().getLocUtils().isCollidedWithWeirdBlock(pd.getLastLocation(),
+		final boolean isOnSmallBlock = locUtils.isCollidedWithWeirdBlock(pd.getLastLocation(),
 				pd.getNextLocation());
 
 		if (serverside && client && pd.iceTicks == 0 && pd.blockAboveTicks == 0 && pd.getDeltaXZ() > limit
 				&& !isOnSmallBlock && pd.stairTicks == 0 && pd.jumpStairsTick == 0 && pd.velocTicks < 5) {
+			limit += pd.getVelocity() * 0.08;
+			limit += ReflectionUtils.getPingModifier(p) * 0.12;
+			limit += Math.abs(20 - Main.getInstance().getTpsTask().tps) * 0.05;
 			pd.speedCvl++;
-			p.sendMessage("flagged vl: " + pd.speedCvl);
-			if (pd.speedCvl >= 3.5) {
+			if (pd.speedCvl >= 5 && pd.getDeltaXZ() > limit) {
 				flag(pd, pd.getDeltaXZ() + " > " + limit);
 				pd.speedCvl = 0;
 			}

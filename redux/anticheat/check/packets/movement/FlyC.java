@@ -51,7 +51,7 @@ public class FlyC extends PacketCheck {
 
 			final int limit = (int) settings.get("limit");
 
-			final double diff = (pd.getDeltaY() - pd.getPreviousDeltaY());
+			final double diff = (pd.getDeltaY() - pd.getLastDeltaY());
 			if (diff != 0) {
 				if (pd.lastFlyC == -diff && pd.offGroundTicks == 0) {
 					if (++pd.flyCvl >= limit) {

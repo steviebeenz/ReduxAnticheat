@@ -37,7 +37,7 @@ public class FlyF extends PacketCheck {
 		final boolean locGround = Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation()),
 				locGroundLast = Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation());
 
-		final double predicted = (pd.getPreviousDeltaY() - 0.08D) * 0.9800000190734863D;
+		final double predicted = (pd.getLastDeltaY() - 0.08D) * 0.9800000190734863D;
 
 		if (pd.velocTicks > 0) {
 			return;
@@ -47,16 +47,21 @@ public class FlyF extends PacketCheck {
 			return;
 		}
 
-		if (ReflectionUtils.getPing(p) > 200) {
-			return;
-		}
+		
+		double highLimit = 0.36, lowLimit = -0.78;
+		
+		highLimit += Math.abs(pd.getVelocity()) * 0.12;
+		lowLimit -= Math.abs(pd.getVelocity()) * 0.12;
+		highLimit += ReflectionUtils.getPingModifier(p) * 0.08;
+		lowLimit -= ReflectionUtils.getPingModifier(p) * 0.08;
+		
 
 		if (!locGround && !locGroundLast && pd.offGroundTicks >= 3 && pd.offGroundTicks < 13) {
 			if (Math.abs(predicted) > 0.005D) {
 				if (!near(pd.getDeltaY(), predicted)) {
 					final double diff = (pd.getDeltaY() - predicted);
-					if ((diff > 0.37 || diff < -0.789) && pd.offGroundTicks != 11) {
-						flag(pd, diff > 0.37 ? diff + " > 0.37" : diff + " < -0.789");
+					if ((diff > highLimit || diff < lowLimit) && pd.offGroundTicks != 11) {
+						flag(pd, diff > 0.37 ? diff + " > " + highLimit : diff + " < " + lowLimit);
 					}
 				}
 			}

@@ -39,7 +39,7 @@ public class UpdatePackets {
 						if (pd == null) {
 						}
 
-						if (System.currentTimeMillis() - pd.join < 1000) {
+						if (pd != null && System.currentTimeMillis() - pd.join < 1000) {
 							return;
 						}
 
@@ -134,6 +134,15 @@ public class UpdatePackets {
 					}
 
 				});
+		
+		Main.getInstance().getProtocolManager().addPacketListener(new PacketAdapter(Main.getInstance(), ListenerPriority.MONITOR, PacketType.Play.Server.SET_SLOT) {
+
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				Main.getInstance().getCheckManager().runCheck(event);
+			}
+			
+		});
 
 		Main.getInstance().getProtocolManager().addPacketListener(
 				new PacketAdapter(Main.getInstance(), ListenerPriority.MONITOR, PacketType.Play.Client.USE_ITEM) {
@@ -241,7 +250,7 @@ public class UpdatePackets {
 					e.getPlayer().sendMessage(e.getPacketType().name());
 				}
 				pd.teleportTicks = 40;
-				pd.getPlayer().sendMessage("teleport");
+				//pd.getPlayer().sendMessage("teleport");
 
 				pd.setLastTeleported(System.currentTimeMillis());
 				updates.put(e.getPlayer().getUniqueId(), System.currentTimeMillis());

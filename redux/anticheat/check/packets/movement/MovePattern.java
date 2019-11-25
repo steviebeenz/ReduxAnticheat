@@ -23,7 +23,7 @@ public class MovePattern extends PacketCheck {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		if (pd.getDeltaY() > 0 || pd.getDeltaY() < 0 || pd.getPreviousDeltaY() > 0 || pd.getPreviousDeltaY() < 0) {
+		if (pd.getDeltaY() > 0 || pd.getDeltaY() < 0 || pd.getLastDeltaY() > 0 || pd.getLastDeltaY() < 0) {
 
 			if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
 					|| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
@@ -43,7 +43,7 @@ public class MovePattern extends PacketCheck {
 				return;
 			}
 
-			final double curDY = (pd.getDeltaY() - pd.getPreviousDeltaY()), curDelta = pd.getDeltaY();
+			final double curDY = (pd.getDeltaY() - pd.getLastDeltaY()), curDelta = pd.getDeltaY();
 			if (curDY == pd.curDY) {
 				pd.movePattern++;
 			} else {

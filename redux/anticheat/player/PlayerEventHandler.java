@@ -120,35 +120,37 @@ public class PlayerEventHandler implements Listener {
 	public void onClick(InventoryClickEvent e) {
 		if (e.getWhoClicked() instanceof Player) {
 			final Player p = (Player) e.getWhoClicked();
-			if (Main.getInstance().getMenuManager().containsName(e.getClickedInventory().getName())) {
-				e.setCancelled(true);
+			if (e.getClickedInventory() != null && e.getClickedInventory().getName() != null) {
+				if (Main.getInstance().getMenuManager().containsName(e.getClickedInventory().getName())) {
+					e.setCancelled(true);
 
-				if (e.getCurrentItem() != null && !e.getCurrentItem().getType().equals(Material.AIR)) {
-					final MenuItem mi = Main.getInstance().getMenuManager().getItem(e.getCurrentItem());
-					if (mi != null) {
-						if (mi.getName().equals("§d§lCheck Settings")) {
-							p.openInventory(
-									Main.getInstance().getMenuManager().getMenu(ChecksMenu.class).getInventory());
-							return;
-						} else if (mi.getName().equals("§r§lMovement Checks")) {
-							p.openInventory(
-									Main.getInstance().getMenuManager().getMenu(MovementMenu.class).getInventory());
-							return;
-						} else if (mi.getName().equals("§c§lPlayer Checks")) {
-							p.openInventory(
-									Main.getInstance().getMenuManager().getMenu(PlayerMenu.class).getInventory());
-							return;
-						} else if (mi.getName().equals("§a§lPacket Checks")) {
-							p.openInventory(
-									Main.getInstance().getMenuManager().getMenu(PacketMenu.class).getInventory());
-							return;
-						} else if (mi.getName().equals("§b§lCombat Checks")) {
-							p.openInventory(
-									Main.getInstance().getMenuManager().getMenu(CombatMenu.class).getInventory());
-							return;
+					if (e.getCurrentItem() != null && !e.getCurrentItem().getType().equals(Material.AIR)) {
+						final MenuItem mi = Main.getInstance().getMenuManager().getItem(e.getCurrentItem());
+						if (mi != null) {
+							if (mi.getName().equals("§d§lCheck Settings")) {
+								p.openInventory(
+										Main.getInstance().getMenuManager().getMenu(ChecksMenu.class).getInventory());
+								return;
+							} else if (mi.getName().equals("§r§lMovement Checks")) {
+								p.openInventory(
+										Main.getInstance().getMenuManager().getMenu(MovementMenu.class).getInventory());
+								return;
+							} else if (mi.getName().equals("§c§lPlayer Checks")) {
+								p.openInventory(
+										Main.getInstance().getMenuManager().getMenu(PlayerMenu.class).getInventory());
+								return;
+							} else if (mi.getName().equals("§a§lPacket Checks")) {
+								p.openInventory(
+										Main.getInstance().getMenuManager().getMenu(PacketMenu.class).getInventory());
+								return;
+							} else if (mi.getName().equals("§b§lCombat Checks")) {
+								p.openInventory(
+										Main.getInstance().getMenuManager().getMenu(CombatMenu.class).getInventory());
+								return;
+							}
 						}
+						return;
 					}
-					return;
 				}
 
 			}

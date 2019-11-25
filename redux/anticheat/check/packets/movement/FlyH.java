@@ -34,13 +34,18 @@ public class FlyH extends PacketCheck {
 					if (locUtils.canClimb(pd.getNextLocation()) || locUtils.canClimb(pd.getLastLocation())) {
 						return;
 					}
-					if (pd.getDeltaY() > -0.078 && pd.risingTicks == 0 && !pd.wasFalling
+					double limit = -0.078;
+					
+					limit -= ReflectionUtils.getPingModifier(p) * 0.12;
+					limit -= Math.abs(pd.getVelocity()) * 0.0078;
+					
+					if (pd.getDeltaY() > limit && pd.risingTicks == 0 && !pd.wasFalling
 							&& !ReflectionUtils.getOnGround(p)) {
 						if (!pd.isFalling && !pd.wasFalling && !pd.isRising) {
 							return;
 						}
 						pd.flyHvl++;
-						if (pd.flyHvl > 1) {
+						if (pd.flyHvl > 2) {
 							flag(pd, pd.getDeltaY() + " > " + -0.078 + " | rising: " + pd.isRising + ", falling: "
 									+ pd.isFalling + " wasFalling: " + pd.wasFalling);
 						}
@@ -52,6 +57,12 @@ public class FlyH extends PacketCheck {
 				}
 			}
 		}
+		
+		
+		if(pd.flyHvl > 0) {
+			pd.flyHvl -= 0.5;
+		}
 	}
+	
 
 }

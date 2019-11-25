@@ -223,11 +223,13 @@ public class LocUtils {
 	}
 
 	public boolean isInLiquid(Location loc) {
-		for (double x = -1; x < 1; x += 0.5) {
-			for (double y = -1; y < 1; y += 0.5) {
-				for (double z = -1; z < 1; z += 0.5) {
-					if (isLiquid(loc.clone().add(x, y, z).getBlock().getType())) {
-						return true;
+		if (loc != null) {
+			for (double x = -1; x < 1; x += 0.5) {
+				for (double y = -1; y < 1; y += 0.5) {
+					for (double z = -1; z < 1; z += 0.5) {
+						if (isLiquid(loc.clone().add(x, y, z).getBlock().getType())) {
+							return true;
+						}
 					}
 				}
 			}
@@ -284,16 +286,18 @@ public class LocUtils {
 	}
 
 	public boolean canClimb(Location l) {
-		for (double x = -1; x < 1; x += .2) {
-			for (double y = -1; y < 1; y += .2) {
-				for (double z = -1; z < 1; z += .2) {
-					final Block b = l.clone().add(x, y, z).getBlock();
-					if (b != null) {
-						if (isClimbable(b.getType())) {
-							return true;
+		if (l != null) {
+			for (double x = -1; x < 1; x += .2) {
+				for (double y = -1; y < 1; y += .2) {
+					for (double z = -1; z < 1; z += .2) {
+						final Block b = l.clone().add(x, y, z).getBlock();
+						if (b != null) {
+							if (isClimbable(b.getType())) {
+								return true;
+							}
+						} else {
+							return false;
 						}
-					} else {
-						return false;
 					}
 				}
 			}
@@ -322,12 +326,14 @@ public class LocUtils {
 	}
 
 	public boolean isCollided(Location l, Material m) {
-		for (double x = -0.5; x < 0.5; x += .2) {
-			for (double y = -0.5; y < 0.5; y += .2) {
-				for (double z = -0.5; z < 0.5; z += .2) {
-					if (l.clone().add(x, y, z).getBlock().getType().equals(m)
-							|| l.clone().add(x, y, z).getBlock().getType().name().contains(m.name())) {
-						return true;
+		if (l != null) {
+			for (double x = -0.5; x < 0.5; x += .2) {
+				for (double y = -0.5; y < 0.5; y += .2) {
+					for (double z = -0.5; z < 0.5; z += .2) {
+						if (l.clone().add(x, y, z).getBlock().getType().equals(m)
+								|| l.clone().add(x, y, z).getBlock().getType().name().contains(m.name())) {
+							return true;
+						}
 					}
 				}
 			}

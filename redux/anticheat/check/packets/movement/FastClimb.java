@@ -44,7 +44,6 @@ public class FastClimb extends PacketCheck {
 					}
 					if (pd.getDeltaY() > limit) {
 						flag(pd, pd.getDeltaY() + " > " + limit);
-						// p.sendMessage("diff: " + (pd.getDeltaY() - 0.25));
 					}
 				}
 			} else {

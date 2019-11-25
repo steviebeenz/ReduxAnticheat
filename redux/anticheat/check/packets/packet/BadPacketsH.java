@@ -33,7 +33,6 @@ public class BadPacketsH extends PacketCheck {
 			flag(pd, "flying < 8 (experimental)");
 		}
 
-		// p.sendMessage("diff: " + (System.currentTimeMillis() - pd.flyingA));
 	}
 
 }

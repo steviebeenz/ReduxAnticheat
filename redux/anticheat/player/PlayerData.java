@@ -94,9 +94,16 @@ public class PlayerData {
 	public double lastDiff;
 	public double lastYDiff;
 	public int changeTicks;
-	public int flyHvl;
+	public double flyHvl;
 	public double flyGvl;
 	public double speedCvl;
+	public double flyIvl;
+	public long changeItemSlot;
+	public int heldItemSlot;
+	public boolean hasPotion;
+	public double speedEvl;
+	public double speedFvl;
+	public long speedFflags;
 
 	public void delete() {
 		hits.clear();
@@ -290,7 +297,7 @@ public class PlayerData {
 		this.deltaY = deltaY;
 	}
 
-	public double getPreviousDeltaY() {
+	public double getLastDeltaY() {
 		return pDeltaY;
 	}
 
@@ -334,8 +341,7 @@ public class PlayerData {
 	}
 
 	public void setDown() {
-		wasSetBack(true);
-
+		wasSetBack = true;
 		final Block b = Main.getInstance().getLocUtils().getBlockUnder(lastLocation);
 		if (b != null && ReflectionUtils.getPing(player) <= 100) {
 			if (b.getType().isSolid()

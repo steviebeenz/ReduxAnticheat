@@ -12,6 +12,7 @@ import redux.anticheat.Main;
 import redux.anticheat.check.Category;
 import redux.anticheat.check.PacketCheck;
 import redux.anticheat.player.PlayerData;
+import redux.anticheat.utils.ReflectionUtils;
 
 public class WeirdY extends PacketCheck {
 
@@ -48,31 +49,36 @@ public class WeirdY extends PacketCheck {
 				return;
 			}
 
-			if (Main.getInstance().getLocUtils().isUnderStairs(pd.getLastLocation())
-					|| Main.getInstance().getLocUtils().isUnderStairs(pd.getNextLocation())
-					|| Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "SLAB")
-					|| Main.getInstance().getLocUtils().isCollided(newLoc, "CARPET")
-					|| Main.getInstance().getLocUtils().isInLiquid(newLoc)
-					|| Main.getInstance().getLocUtils().canClimb(newLoc)
-					|| Main.getInstance().getLocUtils().isOnSlime(newLoc)) {
+			if (locUtils.isUnderStairs(pd.getLastLocation())
+					|| locUtils.isUnderStairs(pd.getNextLocation())
+					|| locUtils.isCollided(pd.getNextLocation(), "SLAB")
+					|| locUtils.isCollided(newLoc, "CARPET")
+					|| locUtils.isInLiquid(newLoc)
+					|| locUtils.canClimb(newLoc)
+					|| locUtils.isOnSlime(newLoc)) {
 				if (!pd.moves.isEmpty()) {
 					pd.moves.clear();
 				}
 				return;
 			}
 
-			if (Main.getInstance().getLocUtils().isCollided(oldLoc, "SKULL")
-					|| Main.getInstance().getLocUtils().isCollided(newLoc, "SKULL")
-					|| Main.getInstance().getLocUtils().isCollided(oldLoc, "TRAP")
-					|| Main.getInstance().getLocUtils().isCollided(newLoc, "TRAP")) {
+			if (locUtils.isCollided(oldLoc, "SKULL")
+					|| locUtils.isCollided(newLoc, "SKULL")
+					|| locUtils.isCollided(oldLoc, "TRAP")
+					|| locUtils.isCollided(newLoc, "TRAP")) {
 				if (!pd.moves.isEmpty()) {
 					pd.moves.clear();
 				}
+				return;
+			}
+			
+			if(pd.stairTicks > 0 || pd.jumpStairsTick > 0) {
+				pd.moves.clear();
 				return;
 			}
 
 			if (oldLoc.getY() < newLoc.getY()) {
-				final double d = Math.abs(pd.getDeltaY() - pd.getPreviousDeltaY());
+				final double d = Math.abs(pd.getDeltaY() - pd.getLastDeltaY());
 				pd.moves.add(new MoveData(d, pd.getDeltaY()));
 			}
 
@@ -105,6 +111,14 @@ public class WeirdY extends PacketCheck {
 
 		double maxSpeed = 0.43, averageSpeed = 0.3423, minSpeed = 0.083;
 
+		maxSpeed += ReflectionUtils.getPingModifier(pd.getPlayer()) * 0.12;
+		averageSpeed += ReflectionUtils.getPingModifier(pd.getPlayer()) * 0.12;
+		minSpeed -= ReflectionUtils.getPingModifier(pd.getPlayer()) * 0.012;
+		
+		maxSpeed += Math.abs(20 - Main.getInstance().getTpsTask().tps) * 0.08;
+		averageSpeed += Math.abs(20 - Main.getInstance().getTpsTask().tps) * 0.08;
+		minSpeed -= Math.abs(20 - Main.getInstance().getTpsTask().tps) * 0.008;
+		
 		if ((int) settings.get("sample_count") != 20) {
 			final int multi = (int) settings.get("sample_count");
 			maxSpeed = maxSpeed / 100;
@@ -139,12 +153,10 @@ public class WeirdY extends PacketCheck {
 
 		if (avgSpeed > averageSpeed) {
 			flag(pd, avgSpeed + " > " + averageSpeed);
-			// pd.getPlayer().sendMessage("diff: " + (avgSpeed - averageSpeed));
 		}
 
 		if (min < minSpeed) {
 			flag(pd, min + " < " + minSpeed);
-			pd.getPlayer().sendMessage("diff min: " + (min - minSpeed));
 		}
 
 	}

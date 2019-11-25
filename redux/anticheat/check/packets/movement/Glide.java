@@ -27,32 +27,34 @@ public class Glide extends PacketCheck {
 			return;
 		}
 
-		if (Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().canClimb(pd.getNextLocation()) || Main.getInstance().getLocUtils()
+		if (locUtils.canClimb(pd.getLastLocation())
+				|| locUtils.canClimb(pd.getNextLocation()) || Main.getInstance().getLocUtils()
 						.isCollidedWithWeirdBlock(pd.getLastLocation(), pd.getNextLocation())) {
 			return;
 		}
 
 		if (pd.fallingTicks > 0 && pd.isFalling && !pd.wasFalling && !pd.isRising && !ReflectionUtils.getOnGround(p)
-				&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())
-				&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())) {
+				&& !locUtils.isOnSolidGround(pd.getLastLocation())
+				&& !locUtils.isOnSolidGround(pd.getNextLocation()) && p.getFallDistance() > 1) {
 			double expected = (-0.0078);
-			expected = (pd.fallingTicks > 4 ? -((expected * 1 + (pd.fallingTicks * 0.1)) / 10) : expected);
+			expected = (pd.fallingTicks > 3 ? -((expected * 1 + (pd.fallingTicks * 0.21)) / 10) : expected);
 
 			if (expected < -1) {
 				expected = -1;
 			}
 
-			expected += -(pd.offGroundTicks * 0.00078);
-			expected += (Math.abs(pd.getVelocity()) * 0.12);
+			expected -= (pd.offGroundTicks * 0.00078);
+			expected -= (Math.abs(pd.getVelocity()) * 0.1);
 
 			if (!near(pd.getDeltaY(), expected) && pd.getDeltaY() > expected && isValid(pd.getDeltaY())) {
 				flag(pd, pd.getDeltaY() + " > " + expected + " | fallTicks: " + pd.fallingTicks + ", onGround: "
 						+ ReflectionUtils.getOnGround(p) + " & "
-						+ Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation()) + ", veloc: "
+						+ locUtils.isOnSolidGround(pd.getNextLocation()) + ", veloc: "
 						+ pd.getVelocity());
 				pd.fallingTicks = 0;
 			}
+			
+			//p.sendMessage("speed: " + pd.getDeltaY() + "/" + expected);
 
 		}
 	}

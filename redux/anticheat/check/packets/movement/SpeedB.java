@@ -26,7 +26,7 @@ public class SpeedB extends PacketCheck {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		if (pd.teleportTicks > 0 || pd.vehicleTicks > 0 || pd.flyTicks > 0 || p.isFlying()) {
+		if (pd.teleportTicks > 0 || pd.vehicleTicks > 0 || pd.flyTicks > 0 || p.isFlying() || pd.stairTicks > 0 || pd.jumpStairsTick > 0) {
 			return;
 		}
 

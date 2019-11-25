@@ -27,8 +27,8 @@ public class MoreJump extends PacketCheck {
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		final boolean onGround = ReflectionUtils.getOnGround(p),
-				isReallyOnGround = Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())
-						&& Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation());
+				isReallyOnGround = locUtils.isOnSolidGround(pd.getNextLocation())
+						&& locUtils.isOnSolidGround(pd.getLastLocation());
 
 		if (System.currentTimeMillis() - pd.join < 1500) {
 			return;
@@ -96,11 +96,11 @@ public class MoreJump extends PacketCheck {
 			return;
 		}
 
-		if (Main.getInstance().getLocUtils().canClimb(p)
-				|| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
-				|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())) {
+		if (locUtils.canClimb(p)
+				|| locUtils.canClimb(pd.getLastLocation())
+				|| locUtils.canClimb(pd.getNextLocation())
+				|| locUtils.isInLiquid(pd.getLastLocation())
+				|| locUtils.isInLiquid(pd.getNextLocation())) {
 			return;
 		}
 
@@ -141,11 +141,15 @@ public class MoreJump extends PacketCheck {
 				pd.risingTicks--;
 			}
 		}
+		
+		if(locUtils.isCollidedWithWeirdBlock(pd.getNextLocation(), pd.getLastLocation())) {
+			return;
+		}
 
 		if (pd.isRising && pd.wasFalling) {
-			if (Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "AIR")
-					&& Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "AIR")) {
-				if (!Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())) {
+			if (locUtils.isCollided(pd.getNextLocation(), "AIR")
+					&& locUtils.isCollided(pd.getLastLocation(), "AIR")) {
+				if (!locUtils.isOnSolidGround(pd.getLastLocation())) {
 					pd.jumpVl++;
 					if (pd.jumpVl > 2) {
 						flag(pd, pd.jumpVl + " > " + 2);

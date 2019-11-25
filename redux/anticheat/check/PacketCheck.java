@@ -123,14 +123,22 @@ public abstract class PacketCheck {
 
 	public void flag(PlayerData pd, String info) {
 
-		if (pd.wasSetBack) {
+		if (pd.wasSetBack && this.shouldSetback()) {
 			pd.wasSetBack(false);
-			return;
 		}
 
 		pd.setViolations((int) (pd.getViolations() + (1 * ((severity / 5) / 5))));
 		violations.put(pd, violations.getOrDefault(pd, 0) + 1);
 
+		if(pd.getViolations() >= 50) {
+			Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+				pd.setViolations(0);
+				violations.remove(pd);
+				pd.isbeingpunished = false;
+				pd.getPlayer().kickPlayer(Main.getInstance().removalMessage);
+			});
+		}
+		
 		if (shouldSetback()) {
 			pd.setDown();
 		}
@@ -178,17 +186,17 @@ public abstract class PacketCheck {
 			final Player p = pd.getPlayer();
 			pd.isbeingpunished = true;
 			Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-				p.kickPlayer(Main.getInstance().removalMessage);
 				pd.setViolations(0);
 				violations.remove(pd);
 				pd.isbeingpunished = false;
+				p.kickPlayer(Main.getInstance().removalMessage);
 			});
 		}
 	}
 
 	public String workoutSeverity(double i, PlayerData pd) {
 		i = (i / maxViolations);
-		i = ((i) * (1.1 + (violations.get(pd))));
+		i = ((i) * (1.1 + (violations.getOrDefault(pd, 0))));
 
 		i = (round(i, 2));
 

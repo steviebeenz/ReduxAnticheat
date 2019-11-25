@@ -27,7 +27,7 @@ public class Fly extends PacketCheck {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		final double curY = pd.getDeltaY(), prevY = pd.getPreviousDeltaY();
+		final double curY = pd.getDeltaY(), prevY = pd.getLastDeltaY();
 
 		if (p.isFlying()) {
 			pd.sameY = 0;
@@ -49,18 +49,18 @@ public class Fly extends PacketCheck {
 			}
 		}
 
-		if (Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
-				|| Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())
-				|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().isOnSlime(pd.getNextLocation())
-				|| Main.getInstance().getLocUtils().isUnderStairs(pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().isUnderStairs(pd.getNextLocation())
-				|| Main.getInstance().getLocUtils().isCollidedWeb(pd.getNextLocation(), pd.getLastLocation())
-				|| Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "FENCE")
-				|| Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "FENCE")
-				|| Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "WALL")
-				|| Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "WALL")) {
+		if (locUtils.canClimb(pd.getNextLocation())
+				|| locUtils.canClimb(pd.getLastLocation())
+				|| locUtils.isInLiquid(pd.getNextLocation())
+				|| locUtils.isInLiquid(pd.getLastLocation())
+				|| locUtils.isOnSlime(pd.getNextLocation())
+				|| locUtils.isUnderStairs(pd.getLastLocation())
+				|| locUtils.isUnderStairs(pd.getNextLocation())
+				|| locUtils.isCollidedWeb(pd.getNextLocation(), pd.getLastLocation())
+				|| locUtils.isCollided(pd.getLastLocation(), "FENCE")
+				|| locUtils.isCollided(pd.getNextLocation(), "FENCE")
+				|| locUtils.isCollided(pd.getLastLocation(), "WALL")
+				|| locUtils.isCollided(pd.getNextLocation(), "WALL")) {
 			pd.sameY = 0;
 			return;
 		}
@@ -72,7 +72,7 @@ public class Fly extends PacketCheck {
 			}
 		}
 
-		if (!Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())
+		if (!locUtils.isOnSolidGround(pd.getNextLocation())
 				|| !ReflectionUtils.getOnGround(p)) {
 			for (final ItemStack i : p.getInventory().getArmorContents()) {
 				if (i.getType().name().contains("ELYTRA")) {

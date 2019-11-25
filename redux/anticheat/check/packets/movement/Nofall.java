@@ -53,7 +53,7 @@ public class Nofall extends PacketCheck {
 				return;
 			}
 
-			final double diff = (pd.getDeltaY() - pd.getPreviousDeltaY());
+			final double diff = (pd.getDeltaY() - pd.getLastDeltaY());
 			if (diff != 0) {
 				if (diff < 0) {
 					if (Main.getInstance().getLocUtils().isCollided(p.getLocation(), Material.AIR)

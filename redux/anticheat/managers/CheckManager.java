@@ -33,6 +33,8 @@ import redux.anticheat.check.packets.movement.FlyE;
 import redux.anticheat.check.packets.movement.FlyF;
 import redux.anticheat.check.packets.movement.FlyG;
 import redux.anticheat.check.packets.movement.FlyH;
+import redux.anticheat.check.packets.movement.FlyI;
+import redux.anticheat.check.packets.movement.FlyJ;
 import redux.anticheat.check.packets.movement.Glide;
 import redux.anticheat.check.packets.movement.Jesus;
 import redux.anticheat.check.packets.movement.LessY;
@@ -46,6 +48,8 @@ import redux.anticheat.check.packets.movement.Speed;
 import redux.anticheat.check.packets.movement.SpeedB;
 import redux.anticheat.check.packets.movement.SpeedC;
 import redux.anticheat.check.packets.movement.SpeedD;
+import redux.anticheat.check.packets.movement.SpeedE;
+import redux.anticheat.check.packets.movement.SpeedF;
 import redux.anticheat.check.packets.movement.WeirdY;
 import redux.anticheat.check.packets.packet.BadPacketsA;
 import redux.anticheat.check.packets.packet.BadPacketsB;
@@ -55,6 +59,7 @@ import redux.anticheat.check.packets.packet.BadPacketsE;
 import redux.anticheat.check.packets.packet.BadPacketsF;
 import redux.anticheat.check.packets.packet.BadPacketsG;
 import redux.anticheat.check.packets.packet.BadPacketsH;
+import redux.anticheat.check.packets.player.AutoUse;
 import redux.anticheat.check.packets.player.Scaffold;
 import redux.anticheat.player.PlayerData;
 
@@ -111,7 +116,12 @@ public class CheckManager {
 		final AimC ap = new AimC();
 		final FlyG aq = new FlyG();
 		final SpeedD ar = new SpeedD();
-
+		final FlyI as = new FlyI();
+		final AutoUse at = new AutoUse();
+		final SpeedE au = new SpeedE();
+		final FlyJ av = new FlyJ();
+		final SpeedF aw = new SpeedF();
+		
 		checks.add(a);
 		checks.add(b);
 		checks.add(c);
@@ -155,6 +165,11 @@ public class CheckManager {
 		checks.add(ap);
 		checks.add(aq);
 		checks.add(ar);
+		checks.add(as);
+		checks.add(at);
+		checks.add(au);
+		checks.add(av);
+		checks.add(aw);
 
 		loadCheckFiles();
 	}

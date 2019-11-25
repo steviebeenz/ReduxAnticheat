@@ -40,7 +40,7 @@ public class FastStairs extends PacketCheck {
 				}
 
 				if (pd.getDeltaY() > 0.5 || pd.getDeltaY() != 0 && pd.getDeltaY() != 0.5
-						|| pd.getDeltaY() != pd.getPreviousDeltaY()) {
+						|| pd.getDeltaY() != pd.getLastDeltaY()) {
 					pd.jumpStairsTick = 5;
 				} else {
 					if (pd.jumpStairsTick > 0) {

@@ -22,14 +22,12 @@ public class BadPacketsB extends PacketCheck {
 
 		if (Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "CACTUS", 0.2, 0.2)
 				|| Main.getInstance().getLocUtils().isCollided(pd.getPlayer().getLocation(), "CACTUS", 0.2, 0.2)) {
-			pd.getPlayer().sendMessage("collided");
 			final long diff = pd.flyingA - pd.lastFlyingA;
 			if (diff <= 50 && (pd.getDeltaXZ() > 0 || Math.abs(pd.getDeltaY()) > 0)
 					&& pd.getPlayer().getNoDamageTicks() == 0) {
 				pd.antiCactus++;
 				if (pd.antiCactus >= 5) {
 					flag(pd, diff + " < " + 30);
-					pd.getPlayer().sendMessage("diff in ms: " + diff + " | collided: " + true);
 					pd.antiCactus = 0;
 				}
 			} else {

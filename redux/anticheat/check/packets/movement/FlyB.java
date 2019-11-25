@@ -33,7 +33,7 @@ public class FlyB extends PacketCheck {
 			return;
 		}
 
-		if (pd.getDeltaY() == 0 && pd.getPreviousDeltaY() == 0) {
+		if (pd.getDeltaY() == 0 && pd.getLastDeltaY() == 0) {
 			return;
 		}
 
@@ -61,7 +61,7 @@ public class FlyB extends PacketCheck {
 			}
 		}
 
-		final Long gcdY = Main.getInstance().getLocUtils().getGcd((long) pd.getDeltaY(), (long) pd.getPreviousDeltaY());
+		final Long gcdY = Main.getInstance().getLocUtils().getGcd((long) pd.getDeltaY(), (long) pd.getLastDeltaY());
 
 		double times = 0;
 		for (final PotionEffect pe : p.getActivePotionEffects()) {
@@ -71,7 +71,7 @@ public class FlyB extends PacketCheck {
 		}
 
 		double highLimit = (0 + (pd.offGroundTicks / 150) + (pd.velocTicks / 15)) + times;
-		double lowLimit = (((-pd.offGroundTicks + 1) / 4) - 5) + -(pd.velocTicks / 15) / 15;
+		double lowLimit = (((-pd.offGroundTicks + 1) / 20) - 3) + -(pd.velocTicks / 15) / 15;
 
 		if (ReflectionUtils.getPing(p) > (int) settings.get("ping_factor")) {
 			final double max = ((int) settings.get("ping_factor"));

@@ -1,7 +1,6 @@
 package redux.anticheat.check.packets.movement;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -72,8 +71,8 @@ public class FlyE extends PacketCheck {
 				flag(pd, pd.getDeltaXZ() + " > " + packetLimit);
 			}
 
-			if (Main.getInstance().getLocUtils().isInLiquid(newLoc)
-					|| Main.getInstance().getLocUtils().isInLiquid(oldLoc)) {
+			if (locUtils.isInLiquid(newLoc)
+					|| locUtils.isInLiquid(oldLoc)) {
 				return;
 			}
 
@@ -82,21 +81,11 @@ public class FlyE extends PacketCheck {
 			}
 
 			double maxGround = (double) settings.get("max_ground"),
-					maxOffGround = (double) settings.get("max_off_ground"),
-					minGround = (double) settings.get("min_ground"),
-					minOffGround = (double) settings.get("min_off_ground");
-
-			if (pd.eatTicks > 0) {
-				minGround -= 0.000015;
-			}
+					maxOffGround = (double) settings.get("max_off_ground");
 
 			if (pd.offGroundTicks > 10) {
 				final double times = pd.offGroundTicks - 10;
 				maxOffGround += (0.15 * times);
-			}
-
-			if (pd.blockPlacePacket > 8) {
-				minOffGround -= 0.0004;
 			}
 
 			if (pd.velocTicks > 0) {
@@ -118,9 +107,6 @@ public class FlyE extends PacketCheck {
 			if (p.getWalkSpeed() > 0.2F) {
 				maxGround *= (p.getWalkSpeed() / 0.2);
 				maxOffGround *= (p.getWalkSpeed() / 0.2);
-			} else if (p.getWalkSpeed() < 0.2F) {
-				minGround *= (p.getWalkSpeed() / 0.2);
-				minOffGround *= (p.getWalkSpeed() / 0.2);
 			}
 
 			if (dist == 0) {
@@ -147,42 +133,31 @@ public class FlyE extends PacketCheck {
 				return;
 			}
 
-			if (Main.getInstance().getLocUtils().isCollided(newLoc, Material.SOUL_SAND)
-					|| Main.getInstance().getLocUtils().isCollided(oldLoc, Material.SOUL_SAND)
-					|| Main.getInstance().getLocUtils().isCollidedWeb(oldLoc, newLoc)) {
-				minGround -= 0.0004;
-				minOffGround -= 0.0004;
-			}
-
-			if (Main.getInstance().getLocUtils().canClimb(oldLoc)
-					|| Main.getInstance().getLocUtils().canClimb(newLoc)) {
+			if (locUtils.canClimb(oldLoc)
+					|| locUtils.canClimb(newLoc)) {
 				return;
 			}
 
 			if (ReflectionUtils.getPing(p) > 0) {
-				maxGround *= 1 + (ReflectionUtils.getPing(p) / 100);
-				maxOffGround *= 1 + (ReflectionUtils.getPing(p) / 100);
+				maxGround *= 1 + (ReflectionUtils.getPingModifier(p));
+				maxOffGround *= 1 + (ReflectionUtils.getPingModifier(p));
 			}
 
 			if (shouldFlag) {
 				if (pd.offGroundTicks > 0) {
 					if (dist > maxOffGround && maxOffGround != 0) {
 						flag(pd, dist + " > " + maxOffGround + " (maxOffGround)");
-						// p.sendMessage("diff maxoff: " + (dist - maxOffGround));
 					}
-					if (dist < minOffGround && minOffGround != 0) {
-						flag(pd, dist + " < " + minOffGround + " (minOffGround)");
-						// p.sendMessage("diff minoffground: " + (dist - minOffGround));
-					}
+					//if (dist < minOffGround && minOffGround != 0) {
+						//flag(pd, dist + " < " + minOffGround + " (minOffGround)");
+					//}
 				} else {
 					if (dist > maxGround && maxGround != 0) {
 						flag(pd, dist + " > " + maxGround + " (maxGround)");
-						// p.sendMessage("diff maxGround: " + (dist - maxGround));
 					}
-					if (dist < minGround && minGround != 0) {
-						flag(pd, dist + " < " + minGround + " (minGround)");
-						// p.sendMessage("diff minGround: " + (dist - minGround));
-					}
+					//if (dist < minGround && minGround != 0) {
+						//flag(pd, dist + " < " + minGround + " (minGround)");
+					//}
 				}
 			}
 

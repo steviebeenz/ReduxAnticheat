@@ -64,7 +64,6 @@ public class NofallB extends PacketCheck {
 						flag(pd, pd.patternFall + " > " + settings.get("limit") + " (limit)");
 						pd.patternFall = 0;
 					}
-					p.sendMessage("pattern " + pd.patternFall);
 				}
 			} else {
 				pd.patternFall = 0;

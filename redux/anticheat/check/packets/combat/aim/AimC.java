@@ -32,7 +32,6 @@ public class AimC extends PacketCheck {
 			if (entity != null && pd.getNextLocation() != null) {
 
 				if (pd.getLastLocation().distanceSquared(entity.getLocation()) < 1) {
-					p.sendMessage("more than 1");
 					return;
 				}
 
@@ -41,8 +40,6 @@ public class AimC extends PacketCheck {
 				if (diff > 180) {
 					diff -= 180;
 				}
-
-				// Bukkit.broadcastMessage("diff: " + diff);
 
 				if (diff > 100) {
 					flag(pd, diff + " > " + 100);

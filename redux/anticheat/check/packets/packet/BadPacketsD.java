@@ -11,6 +11,7 @@ import redux.anticheat.Main;
 import redux.anticheat.check.Category;
 import redux.anticheat.check.PacketCheck;
 import redux.anticheat.player.PlayerData;
+import redux.anticheat.utils.ReflectionUtils;
 
 public class BadPacketsD extends PacketCheck {
 	public BadPacketsD() {
@@ -48,18 +49,22 @@ public class BadPacketsD extends PacketCheck {
 
 			if (pd.offGroundTicks >= 12) {
 				if (pd.flyingInPackets >= limit) {
-					if (Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), Material.AIR)
-							&& Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), Material.AIR)
-							&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())
-							&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())) {
+					if (locUtils.isCollided(pd.getNextLocation(), Material.AIR)
+							&& locUtils.isCollided(pd.getLastLocation(), Material.AIR)
+							&& !locUtils.isOnSolidGround(pd.getNextLocation())
+							&& !locUtils.isOnSolidGround(pd.getLastLocation())) {
 						flag(pd, pd.flyingInPackets + " >= " + limit);
 					}
 				}
 			}
 
-			if (rate >= 2 && pd.flyingInPackets > 5) {
-				flag(pd, rate + " >= " + 2);
-				// pd.getPlayer().sendMessage("rate > 2 and flyingpackets > 5");
+			double rateLimit = 2;
+			
+			rateLimit += ReflectionUtils.getPingModifier(pd.getPlayer()) * 0.12;
+			rateLimit += Math.abs(20 - Main.getInstance().getTpsTask().tps) * 0.08;
+			
+			if (rate >= rateLimit && pd.flyingInPackets > 5) {
+				flag(pd, rate + " >= " + rateLimit);
 			}
 
 			if (rate >= 1.05) {
@@ -87,7 +92,6 @@ public class BadPacketsD extends PacketCheck {
 
 			if (pd.flyingInVl >= 5) {
 				flag(pd, pd.flyingInVl + " >= 5");
-				// pd.getPlayer().sendMessage("flyingInVl 5 total.");
 			}
 
 			pd.flyingInPackets = 0;

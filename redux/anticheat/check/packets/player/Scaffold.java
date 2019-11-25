@@ -53,7 +53,6 @@ public class Scaffold extends PacketCheck {
 								+ ReflectionUtils.getPingModifier(p) < diff) {
 							flag(pd, (pd.blockPlaceData.getTime() - pd.lastBlockPlaceData.getTime())
 									+ ReflectionUtils.getPingModifier(p) + " < " + diff);
-							p.sendMessage("failed diff");
 							pd.lastBlockPlaceData = null;
 						}
 					}

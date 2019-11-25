@@ -25,19 +25,20 @@ public class FlyD extends PacketCheck {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		if (p.isFlying() || pd.flyTicks > 0) {
+		if (p.isFlying() || pd.flyTicks > 0 || pd.teleportTicks > 0 || pd.vehicleTicks > 0 || pd.stairTicks > 0 || pd.jumpStairsTick > 0) {
 			pd.flyDvl = 0;
 			return;
 		}
 
-		if (!ReflectionUtils.getOnGround(p) && !Main.getInstance().getLocUtils().isOnSolidGround(pd.getLastLocation())
-				&& !Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation())) {
-			if (Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
-					|| Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())
-					|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())
-					|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())
-					|| Main.getInstance().getLocUtils().isCollided(pd.getLastLocation(), "SLIME")
-					|| Main.getInstance().getLocUtils().isCollided(pd.getNextLocation(), "SLIME")) {
+		if (!ReflectionUtils.getOnGround(p) && !locUtils.isOnSolidGround(pd.getLastLocation())
+				&& !locUtils.isOnSolidGround(pd.getNextLocation())) {
+			if (locUtils.canClimb(pd.getLastLocation())
+					|| locUtils.canClimb(pd.getNextLocation())
+					|| locUtils.isInLiquid(pd.getLastLocation())
+					|| locUtils.isInLiquid(pd.getNextLocation())
+					|| locUtils.isCollided(pd.getLastLocation(), "SLIME")
+					|| locUtils.isCollided(pd.getNextLocation(), "SLIME")
+					|| locUtils.isCollidedWithWeirdBlock(pd.getLastLocation(), pd.getNextLocation())) {
 				pd.flyDvl = 0;
 				return;
 			}

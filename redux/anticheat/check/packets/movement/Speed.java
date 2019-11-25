@@ -82,10 +82,6 @@ public class Speed extends PacketCheck {
 
 					if (pd.getDeltaXZ() > maxDist) {
 						flag(pd, pd.getDeltaXZ() + " > " + maxDist + " (limit)");
-						// p.sendMessage("flagged: " + (pd.getDeltaXZ() - maxDist) + ", ground: " +
-						// pd.onGroundTicks + ", velocity: " + Math.abs(pd.getVelocity()) * 0.12);
-						// p.sendMessage("added: " + ReflectionUtils.getPingModifier(p) * 0.18 + " in
-						// ping");
 					}
 				}
 			}

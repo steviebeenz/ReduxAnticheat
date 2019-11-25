@@ -29,9 +29,7 @@ public class SpeedD extends PacketCheck {
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		if (pd.teleportTicks > 0 || pd.flyTicks > 0 || p.isFlying() || pd.vehicleTicks > 0 || pd.stairTicks > 0
-				|| pd.jumpStairsTick > 0) {
-			p.sendMessage("returned (tp/ft/fl/ve/st/ju): " + pd.teleportTicks + ", " + pd.flyTicks + ", "
-					+ pd.vehicleTicks + ", " + pd.stairTicks + ", " + pd.jumpStairsTick);
+				|| pd.jumpStairsTick > 0 || pd.velocTicks > 0 || System.currentTimeMillis() - pd.lastVelocity < 300) {
 			return;
 		}
 
@@ -47,13 +45,13 @@ public class SpeedD extends PacketCheck {
 		double maxSpeed = (pd.getDeltaXZ() - pd.getLastDeltaXZ()) * friction;
 
 		maxSpeed -= ReflectionUtils.getPingModifier(p) * 0.08;
-		maxSpeed -= pd.getVelocity() * 0.00078;
+		maxSpeed -= pd.getVelocity() * 0.0078;
 
 		if (maxSpeed >= 0.38) {
 			flag(pd, friction + " >= " + maxSpeed);
 		}
 
-		double speed = pd.getDeltaXZ() * friction, speedLimit = 0.61;
+		double speed = pd.getDeltaXZ() * friction, speedLimit = 0.63;
 
 		for (final PotionEffect pe : p.getActivePotionEffects()) {
 			if (pe.getType().equals(PotionEffectType.SPEED)) {
@@ -65,10 +63,10 @@ public class SpeedD extends PacketCheck {
 			speedLimit *= (p.getWalkSpeed() / 0.2f);
 		}
 
-		speed -= ReflectionUtils.getPingModifier(p) * 0.08;
-		speed -= pd.getVelocity() * 0.00078;
+		speedLimit += Math.abs(ReflectionUtils.getPingModifier(p)) * 0.12;
+		speedLimit += Math.abs(pd.getVelocity()) * 0.0078;
 
-		speedLimit += Math.abs((20 - Main.getInstance().getTpsTask().tps)) / 100;
+		speedLimit += Math.abs((20 - Main.getInstance().getTpsTask().tps)) * 0.12;
 
 		if (speed > speedLimit && !pd.wasFalling) {
 
@@ -78,18 +76,15 @@ public class SpeedD extends PacketCheck {
 				}
 				return;
 			}
-			flag(pd, speed + " >= " + speedLimit);
-			p.sendMessage("falling: " + pd.isFalling + ", rising: " + pd.isRising + " wasFalling: " + pd.wasFalling
-					+ " wasRising: " + pd.risingTicks);
+			//flag(pd, speed + " >= " + speedLimit);
 		}
 
-		// p.sendMessage("speed: " + speed + "/" + speedLimit);
 	}
 
-	private float getFriction(PlayerData pd) {
+	public static float getFriction(PlayerData pd) {
 		float friction = 0.91F;
 
-		final boolean onGround = locUtils.isOnSolidGround(pd.getNextLocation());
+		final boolean onGround = Main.getInstance().getLocUtils().isOnSolidGround(pd.getNextLocation());
 
 		if (onGround) {
 			final Vector pos = pd.getNextLocation().toVector();
@@ -102,7 +97,6 @@ public class SpeedD extends PacketCheck {
 
 				return friction *= sliperiness;
 			} else {
-				pd.getPlayer().sendMessage("null block");
 				return 0.91F;
 			}
 		}

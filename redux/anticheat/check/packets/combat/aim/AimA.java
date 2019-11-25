@@ -76,15 +76,10 @@ public class AimA extends PacketCheck {
 					if (avgs[0] >= ((double) settings.get("average_speed") * limitMultiply)) {
 						flag(pd, avgs[0] + " >= " + ((double) settings.get("average_speed") * limitMultiply)
 								+ "(speed)");
-						p.sendMessage(
-								"diff: " + avgs[0] + "/" + ((double) settings.get("average_speed") * limitMultiply)
-										+ ", hits: " + pd.hits.size());
 					}
 
 					if (avgs[1] >= ((double) settings.get("average_diff") * limitMultiply)) {
 						flag(pd, avgs[1] + " >= " + ((double) settings.get("average_diff") * limitMultiply) + "(diff)");
-						p.sendMessage("diff: " + avgs[1] + "/" + ((double) settings.get("average_diff") * limitMultiply)
-								+ ", hits: " + pd.hits.size());
 					}
 
 					pd.hits.clear();

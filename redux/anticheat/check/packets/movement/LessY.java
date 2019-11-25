@@ -33,18 +33,22 @@ public class LessY extends PacketCheck {
 			return;
 		}
 
-		if (pd.velocTicks > 0 || pd.teleportTicks > 0 || pd.vehicleTicks > 0) {
+		if (pd.velocTicks > 0 || pd.teleportTicks > 0 || pd.vehicleTicks > 0 || pd.stairTicks > 0 || pd.jumpStairsTick > 0 || pd.changeTicks > 0) {
 			return;
 		}
 
 		if (Main.getInstance().getLocUtils().isCollidedWeb(pd.getLastLocation(), pd.getNextLocation())
 				|| Main.getInstance().getLocUtils().isInLiquid(pd.getNextLocation())
-				|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation())) {
+				|| Main.getInstance().getLocUtils().isInLiquid(pd.getLastLocation()) || locUtils.isCollidedWithWeirdBlock(pd.getNextLocation(), pd.getLastLocation())) {
 			return;
 		}
 
-		if (pd.getDeltaY() < 0) {
-			if (pd.getDeltaY() > -0.01555) {
+		if (pd.getDeltaY() < 0 && pd.isFalling) {
+			double limit = -0.01555;
+			
+			limit += Math.abs(pd.getVelocity() * 0.00078);
+			limit += Math.abs(20 - Main.getInstance().getTpsTask().tps) * 0.05;
+			if (pd.getDeltaY() > limit) {
 				flag(pd, pd.getDeltaY() + " > " + -0.01555);
 			}
 		}
