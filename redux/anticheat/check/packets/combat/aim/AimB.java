@@ -29,7 +29,7 @@ public class AimB extends PacketCheck {
 		if (e.getPacketType().equals(getType()[0])) {
 			if (e.getPacket().getEntityUseActions().readSafely(0).equals(EntityUseAction.ATTACK)) {
 
-				final Entity en = entityBackup(e.getPacket(), p);
+				final Entity en = getEntityFromPacket(e.getPacket(), p);
 				if (en == null) {
 					return;
 				}

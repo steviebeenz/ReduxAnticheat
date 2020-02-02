@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.comphenix.protocol.PacketType;
@@ -103,6 +104,8 @@ public class PlayerData {
 	public double speedFvl;
 	public long speedFflags;
 	public double speedDvl;
+	public Entity lastEntity;
+	public long lastEntityTime;
 
 	public void delete() {
 		hits.clear();

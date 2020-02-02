@@ -104,7 +104,11 @@ public abstract class PacketCheck {
 	}
 	
 	public Entity getEntityFromPacket(PacketContainer pc, Player p) {
-		return pc.getEntityModifier(p.getWorld()).readSafely(0);
+		try {
+			return pc.getEntityModifier(p.getWorld()).readSafely(0);
+		} catch(Exception e) {
+			return entityBackup(pc, p);
+		}
 	}
 
 	public Entity entityBackup(PacketContainer pc, Player p) {

@@ -19,6 +19,7 @@ import redux.anticheat.check.packets.combat.Killaura;
 import redux.anticheat.check.packets.combat.KillauraB;
 import redux.anticheat.check.packets.combat.KillauraC;
 import redux.anticheat.check.packets.combat.KillauraD;
+import redux.anticheat.check.packets.combat.MultiAura;
 import redux.anticheat.check.packets.combat.NoSwing;
 import redux.anticheat.check.packets.combat.Reach;
 import redux.anticheat.check.packets.combat.aim.AimA;
@@ -81,6 +82,7 @@ public class CheckManager {
 		final AutoUse at = new AutoUse();
 		final Fly b = new Fly();
 		final Criticals h = new Criticals();
+		final MultiAura o = new MultiAura();
 		
 		checks.add(a);
 		checks.add(b);
@@ -110,6 +112,7 @@ public class CheckManager {
 		checks.add(ap);
 		checks.add(at);
 		checks.add(h);
+		checks.add(o);
 
 		loadCheckFiles();
 	}

@@ -1,6 +1,7 @@
 package redux.anticheat.check.packets.combat.aim;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.comphenix.protocol.PacketType;
@@ -27,9 +28,9 @@ public class AimC extends PacketCheck {
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		if (e.getPacket().getEntityUseActions().readSafely(0).equals(EntityUseAction.ATTACK)) {
-			final Entity entity = entityBackup(e.getPacket(), p);
+			final Entity entity = getEntityFromPacket(e.getPacket(), p);
 
-			if (entity != null && pd.getNextLocation() != null) {
+			if (entity != null && pd.getNextLocation() != null && entity instanceof LivingEntity) {
 
 				if (pd.getLastLocation().distanceSquared(entity.getLocation()) < 1) {
 					return;
