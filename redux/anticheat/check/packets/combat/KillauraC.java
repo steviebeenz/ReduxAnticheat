@@ -1,5 +1,6 @@
 package redux.anticheat.check.packets.combat;
 
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -27,7 +28,7 @@ public class KillauraC extends PacketCheck {
 			final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
 			if (e.getPacket().getEntityUseActions().read(0).equals(EntityUseAction.ATTACK)) {
 				final Entity ent = getEntityFromPacket(e.getPacket(), pd.getPlayer());
-				if (ent == null || !(ent instanceof LivingEntity)) {
+				if (ent == null || !(ent instanceof LivingEntity) || ent instanceof ArmorStand) {
 					return;
 				}
 

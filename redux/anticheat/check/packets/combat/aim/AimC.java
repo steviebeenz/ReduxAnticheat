@@ -27,7 +27,7 @@ public class AimC extends PacketCheck {
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		if (e.getPacket().getEntityUseActions().readSafely(0).equals(EntityUseAction.ATTACK)) {
-			final Entity entity = getEntityFromPacket(e.getPacket(), p);
+			final Entity entity = entityBackup(e.getPacket(), p);
 
 			if (entity != null && pd.getNextLocation() != null) {
 

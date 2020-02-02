@@ -11,7 +11,6 @@ import com.comphenix.protocol.PacketType;
 
 import redux.anticheat.Main;
 import redux.anticheat.check.packets.combat.aim.AimA.HitData;
-import redux.anticheat.check.packets.movement.WeirdY.MoveData;
 import redux.anticheat.utils.ReflectionUtils;
 
 public class PlayerData {
@@ -54,7 +53,6 @@ public class PlayerData {
 	public int deathHits;
 	public int nullEntity;
 	public ArrayList<HitData> hits = new ArrayList<HitData>();
-	public ArrayList<MoveData> moves = new ArrayList<MoveData>();
 	public int maxYflag;
 	public long lastDamage;
 	public long lastVelocity;
@@ -108,7 +106,6 @@ public class PlayerData {
 
 	public void delete() {
 		hits.clear();
-		moves.clear();
 		if (Main.getInstance().reduxCommand.debugEnabled.contains(player.getUniqueId())) {
 			Main.getInstance().reduxCommand.debugEnabled.remove(player.getUniqueId());
 		}

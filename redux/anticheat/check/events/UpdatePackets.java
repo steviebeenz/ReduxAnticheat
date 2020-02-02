@@ -46,6 +46,7 @@ public class UpdatePackets {
 						if (Main.getInstance().reduxCommand.debugEnabled.contains(e.getPlayer().getUniqueId())) {
 							e.getPlayer().sendMessage(e.getPacketType().name());
 						}
+						
 						pd.setLastMovement(System.currentTimeMillis());
 						pd.setLastLocation(p.getLocation());
 						pd.setNextLocation(new Location(p.getWorld(), packet.getDoubles().readSafely(0),

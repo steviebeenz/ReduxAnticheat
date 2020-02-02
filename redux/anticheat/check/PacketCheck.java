@@ -53,7 +53,7 @@ public abstract class PacketCheck {
 		this.setback = setback;
 		this.severity = severity;
 		violations = new HashMap<PlayerData, Integer>();
-		setDataStore(new ArrayList<DataSet>());
+		dataStore = new ArrayList<DataSet>();
 		locUtils = Main.getInstance().getLocUtils();
 	}
 
@@ -102,8 +102,12 @@ public abstract class PacketCheck {
 	public void saveData() {
 		return;
 	}
-
+	
 	public Entity getEntityFromPacket(PacketContainer pc, Player p) {
+		return pc.getEntityModifier(p.getWorld()).readSafely(0);
+	}
+
+	public Entity entityBackup(PacketContainer pc, Player p) {
 		if (pc.getType().equals(PacketType.Play.Client.USE_ENTITY)) {
 			final int id = pc.getIntegers().readSafely(0);
 			for (final Entity e : p.getWorld().getNearbyEntities(p.getLocation(), 20, 20, 20)) {
@@ -214,10 +218,6 @@ public abstract class PacketCheck {
 
 	public List<DataSet> getDataStore() {
 		return dataStore;
-	}
-
-	public void setDataStore(List<DataSet> dataStore) {
-		this.dataStore = dataStore;
 	}
 
 	private static double round(double value, int places) {

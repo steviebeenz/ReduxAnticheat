@@ -33,7 +33,7 @@ public class AimA extends PacketCheck {
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 		if (e.getPacketType().equals(getType()[0])) {
 			if (e.getPacket().getEntityUseActions().readSafely(0).equals(EntityUseAction.ATTACK)) {
-				final Entity ent = getEntityFromPacket(e.getPacket(), e.getPlayer());
+				final Entity ent = entityBackup(e.getPacket(), e.getPlayer());
 
 				if (ent == null) {
 					return;

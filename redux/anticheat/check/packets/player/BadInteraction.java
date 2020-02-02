@@ -16,7 +16,7 @@ public class BadInteraction extends PacketCheck {
 
 	public BadInteraction() {
 		super("BadInteraction", 10, null, false, true, Category.PLAYER,
-				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 60);
+				new PacketType[] { PacketType.Play.Client.USE_ENTITY, PacketType.Play.Client.USE_ITEM }, false, 60);
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class Killaura extends PacketCheck {
 			final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 			if (packet.getType().equals(PacketType.Play.Client.USE_ENTITY)) {
 				if (packet.getEntityUseActions().readSafely(0).equals(EntityUseAction.ATTACK)) {
-					final Entity ent = getEntityFromPacket(packet, p);
+					final Entity ent = this.getEntityFromPacket(packet, p);
 					if (ent != null) {
 						if (pd.nullEntity > 0) {
 							pd.nullEntity--;

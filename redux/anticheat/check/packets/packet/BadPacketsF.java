@@ -19,16 +19,6 @@ public class BadPacketsF extends PacketCheck {
 		setDescription("Checks if a player is placing blocks without swinging as much as needed.");
 	}
 
-	/*
-	 *
-	 * NO ARM ANIMATION BEFORE PLACE
-	 *
-	 * (non-Javadoc)
-	 *
-	 * @see redux.anticheat.check.PacketCheck#listen(com.comphenix.protocol.events.
-	 * PacketEvent)
-	 */
-
 	@Override
 	public void listen(PacketEvent e) {
 		final Player p = e.getPlayer();

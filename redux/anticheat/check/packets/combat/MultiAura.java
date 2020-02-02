@@ -1,5 +1,8 @@
 package redux.anticheat.check.packets.combat;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketEvent;
 
@@ -15,7 +18,9 @@ public class MultiAura extends PacketCheck {
 
 	@Override
 	public void listen(PacketEvent e) {
-
+		Player p = e.getPlayer();
+		Entity ent = getEntityFromPacket(e.getPacket(), p);
+		
 	}
 
 }
