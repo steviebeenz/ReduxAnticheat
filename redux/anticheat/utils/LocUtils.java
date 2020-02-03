@@ -200,6 +200,10 @@ public class LocUtils {
 		return false;
 	}
 
+	public Block getBlockUnder(Location l) {
+		return l.clone().add(0, -0.9, 0).getBlock();
+	}
+
 	public Block getSecondBlockDown(Location l) {
 		if (l.clone().add(0, -1.5, 0).getBlock().getType() != Material.AIR) {
 			return l.clone().add(0, -1.5, 0).getBlock();
@@ -208,7 +212,7 @@ public class LocUtils {
 		return null;
 	}
 
-	public Block getBlockUnder(Location l) {
+	public Block getSolidBlockUnder(Location l) {
 		if (l.getBlock().getType().isSolid()) {
 			return l.getBlock();
 		} else {

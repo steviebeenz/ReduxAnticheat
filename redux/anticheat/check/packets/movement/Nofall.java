@@ -44,7 +44,7 @@ public class Nofall extends PacketCheck {
 				return;
 			}
 
-			final Block b = Main.getInstance().getLocUtils().getBlockUnder(pd.getNextLocation());
+			final Block b = Main.getInstance().getLocUtils().getSolidBlockUnder(pd.getNextLocation());
 			if (b != null) {
 
 			} else {

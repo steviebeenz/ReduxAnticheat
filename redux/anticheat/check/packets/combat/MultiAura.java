@@ -17,6 +17,7 @@ public class MultiAura extends PacketCheck {
 	public MultiAura() {
 		super("Killaura [Multi]", 10, null, false, true, Category.COMBAT,
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 85);
+		setDescription("Checks if a player is hitting multiple entities at a time.");
 	}
 
 	@Override
@@ -26,11 +27,11 @@ public class MultiAura extends PacketCheck {
 			PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 			Entity ent = getEntityFromPacket(e.getPacket(), p);
 			
-			if(pd.lastEntity != null) {
+			if(pd.lastEntity != null && ent != null && pd.getNextLocation() != null) {
 				double time = 27;
 				double dist = locUtils.getHorizontalDistance(pd.getNextLocation(), ent.getLocation());
 				
-				time *= 1 + (dist * 0.78);
+				time *= 1 + (dist * 0.64);
 				
 				
 				if(ent != pd.lastEntity && ent.getUniqueId() != pd.lastEntity.getUniqueId() && System.currentTimeMillis() - pd.lastEntityTime <= time) {

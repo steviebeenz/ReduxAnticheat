@@ -106,6 +106,7 @@ public class PlayerData {
 	public double speedDvl;
 	public Entity lastEntity;
 	public long lastEntityTime;
+	public int fly;
 
 	public void delete() {
 		hits.clear();
@@ -346,7 +347,7 @@ public class PlayerData {
 			return;
 		}
 		wasSetBack = true;
-		final Block b = Main.getInstance().getLocUtils().getBlockUnder(lastLocation);
+		final Block b = Main.getInstance().getLocUtils().getSolidBlockUnder(lastLocation);
 		if (b != null && ReflectionUtils.getPing(player) <= 100) {
 			if (b.getType().isSolid()
 					&& !Main.getInstance().getLocUtils().isCollidedWithWeirdBlock(lastLocation, b.getLocation())) {

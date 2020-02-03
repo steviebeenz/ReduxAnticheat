@@ -29,36 +29,37 @@ public class Fly extends PacketCheck {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		if (p.isFlying() || pd.flyTicks > 0 || pd.getDeltaY() == 0 && pd.getLastDeltaY() == 0
+		if (p.isFlying() || pd.flyTicks > 0
 				|| System.currentTimeMillis() - pd.getLastOnSlime() < 1000 || pd.teleportTicks > 0) {
 			return;
 		}
 
 		for (final PotionEffect pe : p.getActivePotionEffects()) {
-			if (pe.getType().equals(PotionEffectType.JUMP)) {
+			if (pe.getType().equals(PotionEffectType.JUMP) || pe.getType().getName().toLowerCase().contains("levetation")) {
 				return;
 			}
 		}
 
-		int bruh = 0;
 
 		if (!locUtils.isOnSolidGround(pd.getNextLocation())) {
 			if (pd.getDeltaY() >= -0.078 && !locUtils.isCollidedWeb(pd.getLastLocation(), pd.getNextLocation())) {
-				if (pd.getDeltaXZ() > 0 && pd.offGroundTicks > 4) {
-					if (locUtils.getBlockUnder(pd.getNextLocation()).getType().equals(Material.AIR)) {
-						bruh++;
-						if (bruh > 3) {
+				if (pd.offGroundTicks > 4) {
+					if (locUtils.getBlockUnder(pd.getNextLocation()).getType().equals(Material.AIR) && !locUtils.isCollidedWithWeirdBlock(pd.getLastLocation(), pd.getNextLocation())) {
+						pd.fly++;
+						p.sendMessage("bruh check done");
+						if (pd.fly > 2) {
 							flag(pd, "Moving, falling is not at a normal rate while off ground");
 						}
 						return;
 					}
-				}
-			}
+				} 
+			} 
+		} 
+		
+		if(pd.fly > 0) {
+			pd.fly--;
 		}
 
-		if (bruh > 0) {
-			bruh--;
-		}
 	}
 
 }
