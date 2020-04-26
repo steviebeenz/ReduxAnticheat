@@ -32,8 +32,8 @@ public class FastClimb extends PacketCheck {
 		if (Main.getInstance().getLocUtils().canClimb(pd.getLastLocation())
 				&& Main.getInstance().getLocUtils().canClimb(pd.getNextLocation())) {
 			if (pd.isRising) {
-				pd.ticksOnLadder++;
-				if (pd.ticksOnLadder > 7) {
+				pd.ticksOnClimbable++;
+				if (pd.ticksOnClimbable > 7) {
 					double limit = 0.28;
 
 					limit += Math.abs(pd.getVelocity()) * 0.12;
@@ -47,10 +47,10 @@ public class FastClimb extends PacketCheck {
 					}
 				}
 			} else {
-				pd.ticksOnLadder = 0;
+				pd.ticksOnClimbable = 0;
 			}
 		} else {
-			pd.ticksOnLadder = 0;
+			pd.ticksOnClimbable = 0;
 		}
 	}
 

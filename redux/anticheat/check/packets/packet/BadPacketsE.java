@@ -23,7 +23,7 @@ public class BadPacketsE extends PacketCheck {
 			final double rate = (pd.flyingInPackets / 20);
 
 			if (rate >= 0.1) {
-				if (pd.getDeltaXZ() > 0.2 && pd.getLastDeltaXZ() > 0.2 || pd.getDeltaY() > 0.15 && pd.getLastDeltaY() > 0.5) {
+				if (pd.teleportTicks < 1 && pd.getDeltaXZ() > 0.2 && pd.getLastDeltaXZ() > 0.2 || pd.getDeltaY() > 0.15 && pd.getLastDeltaY() > 0.5) {
 					pd.badPacketsE++;
 					if (pd.badPacketsE > 2) {
 						flag(pd, rate + " >= 0.2 while moving");

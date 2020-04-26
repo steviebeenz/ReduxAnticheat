@@ -30,7 +30,7 @@ public class Fly extends PacketCheck {
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 		if (p.isFlying() || pd.flyTicks > 0
-				|| System.currentTimeMillis() - pd.getLastOnSlime() < 1000 || pd.teleportTicks > 0) {
+				|| System.currentTimeMillis() - pd.getLastOnSlime() < 1000 || pd.teleportTicks > 0 || pd.changeGamemodeTicks > 0 || pd.velocTicks > 0) {
 			return;
 		}
 
@@ -41,14 +41,13 @@ public class Fly extends PacketCheck {
 		}
 
 
-		if (!locUtils.isOnSolidGround(pd.getNextLocation())) {
+		if (!locUtils.isOnSolidGround(pd.getNextLocation()) && !locUtils.isOnSolidGround(pd.getLastLocation())) {
 			if (pd.getDeltaY() >= -0.078 && !locUtils.isCollidedWeb(pd.getLastLocation(), pd.getNextLocation())) {
 				if (pd.offGroundTicks > 4) {
 					if (locUtils.getBlockUnder(pd.getNextLocation()).getType().equals(Material.AIR) && !locUtils.isCollidedWithWeirdBlock(pd.getLastLocation(), pd.getNextLocation())) {
 						pd.fly++;
-						p.sendMessage("bruh check done");
-						if (pd.fly > 2) {
-							flag(pd, "Moving, falling is not at a normal rate while off ground");
+						if (pd.fly > 3) {
+							flag(pd, "ofg: " + pd.offGroundTicks + ", y: " + pd.getDeltaY() + " > -0.078");
 						}
 						return;
 					}

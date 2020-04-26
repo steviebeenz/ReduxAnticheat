@@ -1,12 +1,9 @@
 package redux.anticheat.check.events;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.comphenix.protocol.PacketType;
@@ -14,9 +11,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.EnumWrappers.EntityUseAction;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import redux.anticheat.Main;
 import redux.anticheat.player.PlayerData;
@@ -47,6 +42,7 @@ public class UpdatePackets {
 							e.getPlayer().sendMessage(e.getPacketType().name());
 						}
 						
+						
 						pd.setLastMovement(System.currentTimeMillis());
 						pd.setLastLocation(p.getLocation());
 						pd.setNextLocation(new Location(p.getWorld(), packet.getDoubles().readSafely(0),
@@ -58,6 +54,23 @@ public class UpdatePackets {
 						pd.setPreviousDeltaY(pd.getDeltaY());
 						pd.setDeltaY(pd.getNextLocation().getY() - pd.getLastLocation().getY());
 
+						if(pd.getDeltaY() > 0) {
+							pd.isRising = true;
+							pd.risingTicks++;
+							pd.fallingTicks = 0;
+							pd.isFalling = false;
+						} else if(pd.getDeltaY() < 0) {
+							pd.isRising = false;
+							pd.fallingTicks++;
+							pd.risingTicks = 0;
+							pd.fallingTicks = 0;
+							pd.isFalling = true;
+						} else {
+							pd.risingTicks = 0;
+							pd.isRising = false;
+							pd.isFalling = false;
+						}
+						
 						if (p.isInsideVehicle() || p.getVehicle() != null) {
 							pd.vehicleTicks = 20;
 						} else {
@@ -131,7 +144,7 @@ public class UpdatePackets {
 
 					@Override
 					public void onPacketReceiving(PacketEvent event) {
-
+						Main.getInstance().getCheckManager().runCheck(event);
 					}
 
 				});
@@ -314,27 +327,27 @@ public class UpdatePackets {
 				// if(e.getPlayer().hasPermission("redux.bypass")) {
 				// return;
 				// } else {
-				e.setReadOnly(false);
-				final PacketContainer packet = e.getPacket().deepClone();
-				final Entity entity = packet.getEntityModifier(e).readSafely(0);
-				final StructureModifier<List<WrappedWatchableObject>> modifier = packet
-						.getWatchableCollectionModifier();
-				final List<WrappedWatchableObject> read = modifier.read(0);
+				//e.setReadOnly(false);
+				//final PacketContainer packet = e.getPacket().deepClone();
+				//final Entity entity = packet.getEntityModifier(e).readSafely(0);
+				//final StructureModifier<List<WrappedWatchableObject>> modifier = packet
+				//		.getWatchableCollectionModifier();
+				//final List<WrappedWatchableObject> read = modifier.read(0);
 
-				e.setPacket(packet);
+				//e.setPacket(packet);
 
-				if (!(entity instanceof LivingEntity) || entity == e.getPlayer()) {
-					return;
-				}
+				//if (!(entity instanceof LivingEntity) || entity == e.getPlayer()) {
+				//	return;
+				//}
 
-				for (final WrappedWatchableObject obj : read) {
-					if (obj.getIndex() == 6) {
-						final float value = (float) obj.getValue();
-						if (value > 0) {
-							obj.setValue(1f, false);
-						}
-					}
-				}
+				//for (final WrappedWatchableObject obj : read) {
+				//	if (obj.getIndex() == 6) {
+				//		final float value = (float) obj.getValue();
+				//		if (value > 0) {
+				//			obj.setValue(1f, false);
+				//		}
+				//	}
+				//}
 				// }
 			}
 		});

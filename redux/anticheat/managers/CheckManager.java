@@ -29,17 +29,21 @@ import redux.anticheat.check.packets.movement.FastClimb;
 import redux.anticheat.check.packets.movement.FastStairs;
 import redux.anticheat.check.packets.movement.Fly;
 import redux.anticheat.check.packets.movement.FlyB;
+import redux.anticheat.check.packets.movement.FlyC;
 import redux.anticheat.check.packets.movement.Glide;
 import redux.anticheat.check.packets.movement.Jesus;
 import redux.anticheat.check.packets.movement.NoSlow;
 import redux.anticheat.check.packets.movement.Nofall;
 import redux.anticheat.check.packets.movement.NofallB;
+import redux.anticheat.check.packets.movement.Prediction;
 import redux.anticheat.check.packets.packet.BadPacketsA;
 import redux.anticheat.check.packets.packet.BadPacketsB;
 import redux.anticheat.check.packets.packet.BadPacketsC;
 import redux.anticheat.check.packets.packet.BadPacketsD;
 import redux.anticheat.check.packets.packet.BadPacketsE;
 import redux.anticheat.check.packets.packet.BadPacketsF;
+import redux.anticheat.check.packets.packet.BadPacketsG;
+import redux.anticheat.check.packets.packet.BadPacketsH;
 import redux.anticheat.check.packets.player.AutoUse;
 import redux.anticheat.check.packets.player.Scaffold;
 import redux.anticheat.player.PlayerData;
@@ -83,6 +87,10 @@ public class CheckManager {
 		final Fly b = new Fly();
 		final Criticals h = new Criticals();
 		final MultiAura o = new MultiAura();
+		final BadPacketsG p = new BadPacketsG();
+		final BadPacketsH t = new BadPacketsH();
+		final FlyC w = new FlyC();
+		final Prediction x = new Prediction();
 		
 		checks.add(a);
 		checks.add(b);
@@ -107,12 +115,15 @@ public class CheckManager {
 		checks.add(ag);
 		checks.add(ah);
 		checks.add(ak);
-		checks.add(ah);
 		checks.add(an);
 		checks.add(ap);
 		checks.add(at);
 		checks.add(h);
 		checks.add(o);
+		checks.add(p);
+		checks.add(t);
+		checks.add(w);
+		checks.add(x);
 
 		loadCheckFiles();
 	}

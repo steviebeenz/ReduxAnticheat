@@ -21,8 +21,8 @@ public class Scaffold extends PacketCheck {
 		setDescription("Checks if a player is sending scaffold like packets.");
 		settings.put("diff", 9);
 		settings.put("total", 26);
-		settings.put("blocks", 3);
-		settings.put("without", 14);
+		settings.put("blocks", 5);
+		settings.put("without", 16);
 		settings.put("rate", 0.14);
 	}
 

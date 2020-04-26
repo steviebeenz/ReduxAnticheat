@@ -72,9 +72,9 @@ public class FlyB extends PacketCheck {
 
 		double highLimit = (0 + (pd.offGroundTicks / 150) + (pd.velocTicks / 15)) + times;
 		double lowLimit = (((-pd.offGroundTicks + 1) / 20) - 3) + -(pd.velocTicks / 15) / 15;
-
-		if (ReflectionUtils.getPing(p) > (int) settings.get("ping_factor")) {
-			final double max = ((int) settings.get("ping_factor"));
+		final double max = ((int) settings.get("ping_factor"));
+		
+		if (ReflectionUtils.getPing(p) > max) {
 			final double now = (ReflectionUtils.getPing(p) / max) * 0.08;
 
 			highLimit += now;

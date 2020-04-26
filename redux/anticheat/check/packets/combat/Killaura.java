@@ -1,6 +1,7 @@
 package redux.anticheat.check.packets.combat;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.comphenix.protocol.PacketType;
@@ -34,7 +35,7 @@ public class Killaura extends PacketCheck {
 			if (packet.getType().equals(PacketType.Play.Client.USE_ENTITY)) {
 				if (packet.getEntityUseActions().readSafely(0).equals(EntityUseAction.ATTACK)) {
 					final Entity ent = this.getEntityFromPacket(packet, p);
-					if (ent != null) {
+					if (ent != null && ent.getType() != EntityType.ARMOR_STAND) {
 						if (pd.nullEntity > 0) {
 							pd.nullEntity--;
 						}

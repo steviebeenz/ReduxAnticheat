@@ -45,7 +45,7 @@ public class PlayerData {
 	public double inventoryTicks;
 	public double sneakingTicks;
 	public int jesus;
-	public long join;
+	public long join, jumpEffectTimer, speedEffectTimer;
 	public int badPacketsC;
 	public int vehicleTicks;
 	public int flyTicks;
@@ -80,7 +80,7 @@ public class PlayerData {
 	public long lastBlockPlace;
 	public BlockPlaceData blockPlaceData, lastBlockPlaceData;
 	public int eatTicks;
-	public int ticksOnLadder;
+	public int ticksOnClimbable;
 	public int stairTicks;
 	public int jumpStairsTick;
 	public int antiCactus;
@@ -88,7 +88,7 @@ public class PlayerData {
 	public int blockPlace;
 	public int position;
 	public int positionLook;
-	public boolean wasSetBack;
+	public boolean wasSetBack = false;
 	public int fallingTicks;
 	public double lastDiff;
 	public double lastYDiff;
@@ -107,6 +107,9 @@ public class PlayerData {
 	public Entity lastEntity;
 	public long lastEntityTime;
 	public int fly;
+	public long lastKeepAlive = 0;
+	public long keepAliveFlag;
+	public int abilitiesFlag;
 
 	public void delete() {
 		hits.clear();
@@ -344,6 +347,7 @@ public class PlayerData {
 
 	public void setDown() {
 		if(!Main.getInstance().globalSetback) {
+			wasSetBack = false;
 			return;
 		}
 		wasSetBack = true;

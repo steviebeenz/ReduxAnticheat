@@ -23,7 +23,7 @@ public class Glide extends PacketCheck {
 		final Player p = e.getPlayer();
 		final PlayerData pd = Main.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
-		if (pd.teleportTicks > 0 || pd.flyTicks > 0 || p.isFlying() || pd.velocTicks > 0) {
+		if (pd.teleportTicks > 0 || pd.vehicleTicks > 0 || pd.flyTicks > 0 || p.isFlying() || pd.velocTicks > 0) {
 			return;
 		}
 

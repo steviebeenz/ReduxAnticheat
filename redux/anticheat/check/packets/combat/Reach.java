@@ -4,6 +4,8 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
@@ -23,6 +25,11 @@ public class Reach extends PacketCheck {
 				new PacketType[] { PacketType.Play.Client.USE_ENTITY }, false, 80);
 		settings.put("max_reach", 3.0);
 		setDescription("Checks if a player hits further than normal.");
+	}
+	
+	@EventHandler
+	public void onRegain(EntityRegainHealthEvent e) {
+		
 	}
 
 	@Override

@@ -59,6 +59,10 @@ public abstract class PacketCheck {
 
 	public abstract void listen(PacketEvent e);
 
+	public static double workPercentage(double total, double limit) {
+		return (total / limit) * 100;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -126,7 +130,7 @@ public abstract class PacketCheck {
 	public void flag(PlayerData pd, String info) {
 
 		if (pd.wasSetBack && this.shouldSetback()) {
-			pd.wasSetBack(false);
+			pd.wasSetBack = false;
 		}
 
 		pd.setViolations((int) (pd.getViolations() + (1 * ((severity / 5) / 5))));
@@ -187,12 +191,12 @@ public abstract class PacketCheck {
 		if (workoutSeverity(severity, pd).contains("§d")) {
 			final Player p = pd.getPlayer();
 			pd.isbeingpunished = true;
-			Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+			Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
 				pd.setViolations(0);
 				violations.remove(pd);
 				pd.isbeingpunished = false;
 				p.kickPlayer(Main.getInstance().removalMessage);
-			});
+			}, 1l);
 		}
 	}
 
